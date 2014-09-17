@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<title>fekit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="js/jsoneditor.css">
+<link href="style.css" rel="stylesheet">
+<style type="text/css">
+  .btn-group{padding: 10px;}
+  #jsoneditor{height: 100%;}
+</style>
+<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="js/jsoneditor.js"></script>
+<script type="text/javascript" src="js/avalon.js"></script>
+<script type="text/javascript" src="js/jsl.format.js"></script>
+<script type="text/javascript">
+  avalon.config({loader: false})
+</script>
+<script type="text/javascript">
+  var editor ,
+    fekitModel = avalon.define("fekit", function(vm) {
+    vm.files = [],
+    vm.paths = [];
+    vm.commands = [{
+      cmd: "install",
+    }];
+    vm.configJSON = {name:"",path:"",content:""};
+    vm.page = "explore";
+    vm.isFekitModules = false;
+
+    vm.save = function(e) {
+      e.preventDefault();
+      if(editor) {
+        var newJSON = JSON.stringify(editor.get());
+        try{
+          newJSON = jsl.format.formatJson(newJSON);
+        }catch(e) {
+          return alert(e)
+        }
+        fekitModel.$save(fekitModel.configJSON.path, newJSON);
+      }
+    }
+    vm.$save = function() {}
+    vm.cmd = function(e, cmd) {
+      e.preventDefault()
+      var paths = "";
+      fekitModel.paths.forEach(function(item) {
+        paths = item.path
+      })
+      fekitModel.$cmd(cmd, {
+        cwd: paths
+      })
+    }
+    vm.$cmd = function(cmd) {}
+  });
+</script>
+<script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+<div style="position: absolute; left: 10px; right: 10px; top: 10px; bottom: 10px;" ms-controller="fekit">
+  <div class="well" style="float: left; width: 160px; padding: 8px;">
+    <ul class="nav nav-list">
+      <li class="nav-header">Favorites</li>
+      <li class="active"><a href="#"><i class="icon-white icon-home"></i> Home</a></li>
+      <!--<li><a href="#"><i class="icon-picture"></i> Pictures</a></li>-->
+      <li><a href="#" onclick="location.reload()"><i class="icon-refresh"></i> Reload</a></li>
+    </ul>
+  </div>
+
+  <div id="view" style="float: left; position: absolute; left: 210px; right: 0; top: 0; bottom: 50px;">
+    <div class="row">
+      <ul id="addressbar" class="breadcrumb" ms-each-item="paths">
+        <li ms-if="!$last" ms-data-path="item.path">
+          <a href="#">{{item.name}}</a><span class="divider">/</span>
+        </li>
+        <li ms-if="$last" ms-data-path="item.path" class="active">
+          <span>{{item.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="row" style="background: #FFF; -webkit-border-radius: 2px; margin: -5px 1px 0 -19px;  height: 100%; overflow: auto">  
+      <!--fekit cmd-->
+      <div class="btn-group" ms-visible="page=='explore'&&isFekitModules">
+        <button 
+          ms-data-cmd="item.cmd" 
+          ms-click="cmd($event,item.cmd)" 
+          ms-repeat-item="commands" class="btn">fekit {{item.cmd}}</button>
+      </div>
+      <!--file list-->
+      <ul ms-visible="page=='explore'" style="margin: 5px;" id="files">
+        <li class="file" ms-data-path="file.path" ms-repeat-file="files">
+          <div class="icon">
+            <img src="about:blank" ms-attr-src="'icons/'+file._type+'.png'">
+          </div>
+          <div class="name" style="text-align:center;">{{file.name}}</div>
+        </li>
+      </ul>
+      <!--json edit menu-->
+      <div class="btn-group" ms-visible="page=='edit'">
+        <button class="btn btn-warning" ms-click="save($event)">save change</button>
+      </div>
+      <div ms-visible="page=='edit'" id="jsoneditor"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript" >
+  var container = document.getElementById('jsoneditor');
+
+  var options = {
+    mode: 'tree',
+    modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
+    error: function (err) {
+      alert(err.toString());
+    }
+  };
+
+  editor = new JSONEditor(container, options, fekitModel.configJSON);
+  fekitModel.$watch("configJSON", function(v) {
+    try{
+      editor.set(JSON.parse(v.content))
+    }catch(e) {
+      alert("fekit.config格式错误!")
+    }
+  })
+  </script>
+  <div id="log"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "fekit",
+  "description": "fekit with gui.",
+  "version": "0.1",
+  "main": "index.html",
+  "window": {
+    "toolbar": false,
+    "width": "100%",
+    "height": 500,
+    "top": 0
+  }
+}
