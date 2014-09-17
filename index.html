@@ -23,9 +23,7 @@
     fekitModel = avalon.define("fekit", function(vm) {
     vm.files = [],
     vm.paths = [];
-    vm.commands = [{
-      cmd: "install",
-    }];
+    vm.commands = [];
     vm.configJSON = {name:"",path:"",content:""};
     vm.page = "explore";
     vm.isFekitModules = false;
@@ -84,9 +82,10 @@
       <!--fekit cmd-->
       <div class="btn-group" ms-visible="page=='explore'&&isFekitModules">
         <button 
+          ms-attr-title="item.title" 
           ms-data-cmd="item.cmd" 
           ms-click="cmd($event,item.cmd)" 
-          ms-repeat-item="commands" class="btn">fekit {{item.cmd}}</button>
+          ms-repeat-item="commands" class="btn">fekit {{item.text}}</button>
       </div>
       <!--file list-->
       <ul ms-visible="page=='explore'" style="margin: 5px;" id="files">

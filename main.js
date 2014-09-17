@@ -4,24 +4,7 @@ global._log = function(a) {
   $("#log").append(a)
   $("#view").hide()
 }
-global.__msg = [];
-global.__log = [];
-var __console = console;
-// override console
-global.console = {
-  info: function(info) {
-    global.__msg.push(info)
-  },
-  log: function(info) {
-    global.__log.push(info)
-  }
-}
-global.__optimist = {
-  argv: {
-    $0: "node fekit",
-    _: [],
-  }
-}
+
 var fileFilter = function(state, isProject) {
   if (isProject) {
     return false
@@ -30,68 +13,91 @@ var fileFilter = function(state, isProject) {
   }
   return true
 }
-
+var events = require('events');
 var abar = require('address_bar');
 var folder_view = require('folder_view');
 var path = require('path');
 var fs = require('fs');
 var shell = require('nw.gui').Shell;
 var jade = require('jade');
+var util = require('util');
 var spawn = require('child_process').spawn;
 var isWindows = process.platform === "win32" ? ".cmd" : "";
 var cache = {
   canStartServer: {}
 };
 
-function getAllCMD() {
-  var cmd = fekit.help;
-  try{
-    global.__msg = [];
-    cmd();
-    var info = global.__msg;
-    global.__msg = [];
-  }catch(e) {
-    alert("error: " + e)
-  }
-}
-// get all cmd
-// getAllCMD();
-// recover console
-global.console = __console;
+$(document).ready(function() {
+  var folder = new folder_view.Folder($('#files'));
+  var addressbar = new abar.AddressBar($('#addressbar'));
+  var ec = (function() {
+    function ec() {
+      events.EventEmitter.call(this);
+    }
+    util.inherits(ec, events.EventEmitter);
+    return new ec()
+  })();
 
-// call fekit
-fekitModel.$cmd = function(cmd, args) {
-  try{
-    global.__optimist.argv._[0] = cmd;
+  ec.on("exit", function(data) {
+    if(data.code === 0){
+      // install update dir
+      if(data.cmd === "install") {
+        explore(data.cwd)
+      } else if(data.cmd === "") {
+        var arr= data.msg.split("\n"), cmds = [];
+        arr.forEach(function(ai) {
+          if(ai.match(/[a-z]+[^#]+#[\s\S]+/g)) {
+            var pos = ai.indexOf("#"),
+              c = ai.substring(0, pos).trim(),
+              des = ai.substring(pos + 1).trim();
+            cmds.push({
+              cmd: c.split(/[^a-z]+/)[0],
+              title: des,
+              text: c,
+            })
+          }
+        })
+        fekitModel.commands = cmds;
+        return
+      }
+      alert(data.msg)
+    }
+  });
+
+  // call fekit
+  fekitModel.$cmd = function(cmd, args) {
     try{
-      var run = spawn("fekit" + isWindows, [cmd.trim()], {
-        cwd: args.cwd
-      });
+      var cwd = args ? args.cwd : process.cwd(),
+        run = spawn("fekit" + isWindows, [cmd.trim()], {
+        cwd: cwd
+      }), msg = [];
       run.stderr.on('data', function (data) {
         run.kill('SIGHUP');
         alert('出错了: ' + data);
       });
       run.stdout.on('data', function (data) {
+        msg.push(data)
       });
       run.on('close', function (code) {
         run.kill('SIGHUP');
-        alert(code ? "" : "成功")
+        ec.emit("exit", {
+          code: code,
+          cmd: cmd,
+          cwd: cwd,
+          msg: msg.join("\n")
+        });
+        msg = [];
       });
     }catch(e) {
       alert(e)
     }
-  }catch(e) {
-    alert(e)
   }
-}
 
-fekitModel.$save = function(path, content) {
-  fs.writeFileSync(path, content)
-}
-
-$(document).ready(function() {
-  var folder = new folder_view.Folder($('#files'));
-  var addressbar = new abar.AddressBar($('#addressbar'));
+  fekitModel.$save = function(path, content) {
+    fs.writeFileSync(path, content)
+  }
+  // load all cmd
+  fekitModel.$cmd("");
 
   function explore(path) {
     fekitModel.page = "explore";
