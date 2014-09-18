@@ -10,6 +10,7 @@
 <style type="text/css">
   .btn-group{padding: 10px;}
   #jsoneditor{height: 100%;}
+  [ms-controller]{ display:none}
 </style>
 <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="js/jsoneditor.js"></script>
@@ -28,7 +29,7 @@
     vm.page = "explore";
     vm.isFekitModules = false;
 
-    vm.save = function(e) {
+    vm.save = function(e, exit) {
       e.preventDefault();
       if(editor) {
         var newJSON = JSON.stringify(editor.get());
@@ -37,7 +38,7 @@
         }catch(e) {
           return alert(e)
         }
-        fekitModel.$save(fekitModel.configJSON.path, newJSON);
+        fekitModel.$save(fekitModel.configJSON.path, newJSON, exit);
       }
     }
     vm.$save = function() {}
@@ -57,7 +58,7 @@
 <script type="text/javascript" src="main.js"></script>
 </head>
 <body>
-<div style="position: absolute; left: 10px; right: 10px; top: 10px; bottom: 10px;" ms-controller="fekit">
+<div id="ct" ms-skip="" style="position: absolute; left: 10px; right: 10px; top: 10px; bottom: 10px;" ms-controller="fekit">
   <div class="well" style="float: left; width: 160px; padding: 8px;">
     <ul class="nav nav-list">
       <li class="nav-header">Favorites</li>
@@ -89,7 +90,7 @@
       </div>
       <!--file list-->
       <ul ms-visible="page=='explore'" style="margin: 5px;" id="files">
-        <li class="file" ms-data-path="file.path" ms-repeat-file="files">
+        <li class="file" ms-data-path="file.path" ms-repeat-file="files" ms-class="config:file.name=='fekit.config'">
           <div class="icon">
             <img src="about:blank" ms-attr-src="'icons/'+file._type+'.png'">
           </div>
@@ -99,10 +100,12 @@
       <!--json edit menu-->
       <div class="btn-group" ms-visible="page=='edit'">
         <button class="btn btn-warning" ms-click="save($event)">save change</button>
+        <button class="btn btn-warning" ms-click="save($event, 'exit')">save & exit</button>
       </div>
       <div ms-visible="page=='edit'" id="jsoneditor"></div>
     </div>
   </div>
+  <div id="log"></div>
 
   <script type="text/javascript" >
   var container = document.getElementById('jsoneditor');
@@ -124,7 +127,6 @@
     }
   })
   </script>
-  <div id="log"></div>
 </div>
 </body>
 </html>

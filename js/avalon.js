@@ -1,123 +1,3879 @@
-(function(q){function A(){}function B(b){s.console&&avalon.config.debug&&console.log(v?b:b+"")}function T(b,c){"string"===typeof b&&(b=b.match(C)||[]);for(var d={},e=void 0!==c?c:1,f=0,g=b.length;f<g;f++)d[b[f]]=e;return d}function Wa(){return"avalon"+Math.random().toString(36).substring(2,15)+Math.random().toString(36).substring(2,15)}function Xa(b){return Lb.test(Ya.call(b))}function ra(b,c){b=Math.floor(b)||0;return 0>b?Math.max(c+b,0):Math.min(b,c)}function J(b,c,d){if(Array.isArray(b)){var e=
-b.concat();b.length=0;b=Mb(b);b.push.apply(b,e);return b}if("number"===typeof b.nodeType)return b;var f={};c=c||{};var g={},h={},e=[],k=d||{},l=b.$skipArray;d=0;for(var m;m=Nb[d++];)"string"!==typeof m&&B("warning:$skipArray["+m+"] must be a string"),delete b[m],h[m]=!0;if(Array.isArray(l))for(d=0;m=l[d++];)h[m]=!0;for(d in b)Ob(d,b[d],c,h,g,e,k);f=ia(f,Pb(g),h);for(m in h)f[m]=h[m];k.vmodel=f;f.$model=c;f.$events={};f.$id=Wa();f.$accessors=g;f[y]=[];for(d in K)b=K[d],v||(b=b.bind(f)),f[d]=b;f.hasOwnProperty=
-function(b){return b in f.$model};for(d=0;b=e[d++];)U[x]=b,b(),ja(b),delete U[x];return f}function Ob(b,c,d,e,f,g,h){d[b]=c;if(e[b]||c&&c.nodeType||"$"===b.charAt(0)&&!h[b])return e[b]=c;var k=avalon.type(c);if("function"===k)return e[b]=c;var l,m;if("object"===k&&"function"===typeof c.get&&2>=Object.keys(c).length){var n=c.set,p=c.get;l=function(c){var e=h.vmodel,f=d[b];if(arguments.length){if(!ma){if("function"===typeof n){var g=e.$events[b];e.$events[b]=[];n.call(e,c);e.$events[b]=g}if(!Z(m,c)){m=
-c;c=d[b]=p.call(e);if(na&&(g=V[e.$id])&&g[b])g[b].$val=c;D(l);e.$events&&K.$fire.call(e,b,c,f)}}}else return avalon.openComputedCollect&&ja(l),c=d[b]=p.call(e),Z(f,c)||(m=void 0,e.$events&&K.$fire.call(e,b,c,f)),c};g.push(l)}else sa.test(k)?(l=function(c){var e=l.$vmodel,f=e.$model;if(arguments.length){if(!ma&&!Z(f,c)){c=l.$vmodel=Rb(e,c,k);var g=ta[c.$id];g&&g();g=h.vmodel;d[b]=c.$model;D(e);g.$events&&K.$fire.call(g,b,d[b],f)}}else return ja(e),e},l.$vmodel=c.$model?c:J(c,c),d[b]=l.$vmodel.$model):
-(l=function(c){var e=d[b];if(arguments.length){if(!Z(e,c)){d[b]=c;var f=h.vmodel;if(na){var g=V[f.$id];g&&g[b]&&(g[b].$val=c)}D(l);f.$events&&K.$fire.call(f,b,c,e)}}else return ja(l),e},d[b]=c);l[y]=[];f[b]=l}function Rb(b,c,d){if("array"===d){if(!Array.isArray(c))return b;c=c.concat();b.clear();b.push.apply(b,c);return b}var e=b[y]||[];V[b.$id]&&(na--,delete V[b.$id]);var f=J(c);ta[f.$id]=function(b){for(;b=e.shift();)(function(b){b.type&&avalon.nextTick(function(){b.rollback&&b.rollback();E[b.type](b,
-b.vmodels)})})(b);delete ta[f.$id]};return f}function $(b,c,d){b="for(var "+b+"i=0,n = this.length; i < n; i++){"+c.replace("_","((i in this) && fn.call(scope,this[i],i,this))")+"}"+d;return Function("fn,scope",b)}function Za(b,c){if(c)for(;c=c.parentNode;)if(c===b)return!0;return!1}function $a(){return(new XMLSerializer).serializeToString(this)}function u(b){for(var c in b)if(P.call(b,c)){var d=b[c];if("function"===typeof u.plugins[c])u.plugins[c](d);else"object"===typeof u[c]?avalon.mix(u[c],d):
-u[c]=d}return this}function ab(b){return b.replace(/([a-z\d])([A-Z]+)/g,"$1-$2").toLowerCase()}function oa(b){return 0>b.indexOf("-")&&0>b.indexOf("_")?b:b.replace(/[-_][^-_]/g,function(b){return b.charAt(1).toUpperCase()})}function bb(b){if(!("classList"in b)){b.classList={node:b};for(var c in cb)b.classList[c.slice(1)]=cb[c]}return b.classList}function db(b){try{b="true"===b?!0:"false"===b?!1:"null"===b?null:+b+""===b?+b:Sb.test(b)?avalon.parseJSON(b):b}catch(c){}return b}function eb(b,c){if(0>=
-b.offsetWidth){if(Tb.test(w["@:get"](b,"display"))){var d={node:b},e;for(e in fb)d[e]=b.style[e],b.style[e]=fb[e];c.push(d)}(d=b.parentNode)&&1===d.nodeType&&eb(d,c)}}function ua(b,c){U[x]=b;avalon.openComputedCollect=!0;var d=b.evaluator;if(d)try{var e=Ub.test(b.type)?b:d.apply(0,b.args);b.handler(e,b.element,b)}catch(f){delete b.evaluator,3===b.nodeType&&(u.commentInterpolate?b.element.replaceChild(q.createComment(b.value),b.node):b.node.data=L+b.value+M),B("warning:evaluator of ["+b.value+"] throws error!")}else b();
-avalon.openComputedCollect=!1;delete U[x]}function ja(b){if(U[x]){var c=b[y];c&&(avalon.Array.ensure(c,U[x]),setTimeout(function(){D(b,!0)}))}}function D(b,c){var d=b[y];if(d&&d.length)for(var e=aa.call(arguments,1),f=d.length,g;g=d[--f];){var h=g.element;if(h){var k=avalon.contains(z,h),l=!W.contains(h)&&!k,m=g.placehoder;if("if"===g.type&&m&&(g.msInDocument?!k:!avalon.contains(z,m)))!g.msInDocument&&m.elem&&W.removeChild(m.elem),g.placehoder=g.msInDocument=m.elem=null,l=!0}else"if"===g.type&&(l=
-!0);l?(d.splice(f,1),g.proxies&&(va(g.proxies),g.proxies=g.callbackElement=g.template=g.startRepeat=g.endRepeat=null),B("debug: remove "+g.type),g.element=g.node=g.evaluator=null):!0!==c&&("function"===typeof g?g.apply(0,e):g.getter?g.handler.apply(g,e):g.handler((g.evaluator||A).apply(0,g.args||[]),h,g))}}function gb(b,c){var d=NaN,e=setInterval(function(){var f=b.innerHTML;f===d?(clearInterval(e),c()):d=f},Vb)}function pa(b,c,d){d=b.getAttribute(wa+"skip");if(!b.getAttributeNode)return B("warning "+
-b.tagName+" no getAttributeNode method");var e=b.getAttributeNode(wa+"important"),f=b.getAttributeNode(wa+"controller");if("string"!==typeof d){if(d=e||f){f=X[d.value];if(!f)return;c=d===e?[f]:[f].concat(c);b.removeAttribute(d.name);e=setTimeout("1");b.setAttribute("avalonctrl",e+"");f.$events.expr=b.tagName+'[avalonctrl="'+e+'"]';avalon(b).removeClass(d.name)}hb(b,c)}}function xa(b,c){for(var d=b.firstChild;d;){var e=d.nextSibling,f=d.nodeType;1===f?pa(d,c):3===f&&ba.test(d.data)?ib(d,c):u.commentInterpolate&&
-(8===f&&!ba.test(d.nodeValue))&&ib(d,c);d=e}}function ib(b,c){var d=[];if(8===b.nodeType){var e=[],f={expr:!0,value:jb(b.nodeValue,e)};e.length&&(f.filters=e);e=[f]}else e=ya(b.data);if(e.length){for(var g=0;f=e[g++];){var h=q.createTextNode(f.value);if(f.expr){var k=f.filters,f={type:"text",node:h,nodeType:3,value:f.value,filters:k};k&&-1!==k.indexOf("html")&&(avalon.Array.remove(k,"html"),f.type="html",f.replaceNodes=[h],k.length||delete d.filters);d.push(f)}Q.appendChild(h)}b.parentNode.replaceChild(Q,
-b);d.length&&za(d,c)}}function hb(b,c){for(var d=kb?kb(b):avalon.slice(b.attributes),e=[],f={},g,h=0,k;k=d[h++];)if(k.specified&&(g=k.name.match(lb))){var l=g[1],m=g[2]||"",n=k.value;k=k.name;f[k]=n;Wb[l]?(m=l,l="on"):"enabled"===l&&(l="disabled",n="!("+n+")");if("checked"===l||"selected"===l||"disabled"===l||"readonly"===l)m=l,l="attr",b.removeAttribute(k),k="ms-attr-"+m,b.setAttribute(k,n),g=[k],f[k]=n;"function"===typeof E[l]&&(n={type:l,param:m,element:b,name:g[0],value:n,priority:l in mb?mb[l]:
-10*l.charCodeAt(0)+(Number(m)||0)},"if"===l&&-1<m.indexOf("loop")&&(n.priority+=100),c.length&&(e.push(n),"widget"===l&&(b.msData=b.msData||f)))}e.sort(function(b,c){return b.priority-c.priority});f["ms-checked"]&&f["ms-duplex"]&&B("warning!\u4e00\u4e2a\u5143\u7d20\u4e0a\u4e0d\u80fd\u540c\u65f6\u5b9a\u4e49ms-checked\u4e0ems-duplex");d=e[0]||{};switch(d.type){case "if":case "repeat":case "widget":za([d],c);break;default:za(e,c),!Xb[b.tagName]&&Aa.test(b.innerHTML.replace(nb,"<").replace(ob,">"))&&
-xa(b,c)}if(b.patchRepeat){b.patchRepeat();try{b.patchRepeat="",b.removeAttribute("patchRepeat")}catch(p){}}}function za(b,c){for(var d=0,e;e=b[d++];)e.vmodels=c,E[e.type](e,c),e.evaluator&&e.name&&e.element.removeAttribute(e.name);b.length=0}function jb(b,c){0<b.indexOf("|")&&(b=b.replace(Yb,"U2hvcnRDaXJjdWl0"),b=b.replace(Zb,function(b,e,f){c.push(e+(f||""));return""}),b=b.replace($b,"||"));return b}function ya(b){var c=[],d;d=0;var e;do{e=b.indexOf(L,d);if(-1===e)break;(d=b.slice(d,e))&&c.push({value:d,
-expr:!1});d=e+L.length;e=b.indexOf(M,d);if(-1===e)break;if(d=b.slice(d,e)){var f=[];d=jb(d,f);c.push({value:d,expr:!0,filters:f.length?f:void 0})}d=e+M.length}while(1);(d=b.slice(d))&&c.push({value:d,expr:!1});return c}function ac(b,c,d,e){for(var f=[],g=" = "+d+".",h=b.length,k;k=b[--h];)c.hasOwnProperty&&c.hasOwnProperty(k)&&(f.push(k+g+k),"duplex"===e&&(b.get=d+"."+k),b.splice(h,1));return f}function pb(b){for(var c=[],d={},e=0;e<b.length;e++){var f=b[e],g=f&&"string"===typeof f.$id?f.$id:f;d[g]||
-(d[g]=c.push(f))}return c}function Ba(b){function c(e,f){d.push(e)>b&&delete c[d.shift()];return c[e]=f}var d=[];return c}function qa(b,c,d){var e=d.type,f="html"===e||"text"===e?d.filters:"",g=c.map(function(b){return b.$id.replace(bc,"$1")})+b+e+f,h=cc(b).concat(),k=[],l=[],m=[],n="";c=pb(c);for(var p=0,n=c.length;p<n;p++)if(h.length){var r="vm"+x+"_"+p;l.push(r);m.push(c[p]);k.push.apply(k,ac(h,c[p],r,e))}if(k.length||"duplex"!==e)if(f&&m.push(avalon.filters),d.args=m,c=Ca[g])d.evaluator=c;else{(n=
-k.join(", "))&&(n="var "+n);if(f){b="\nvar ret"+x+" = "+b;e=[];e.push(b,"\r\n");for(p=0;f=d.filters[p++];)h=f.indexOf("("),-1!==h?(b=f.slice(h+1,f.lastIndexOf(")")).trim(),b=","+b,f=f.slice(0,h).trim()):b="",e.push(" if(filters",x,".",f,"){\n\ttry{\nret",x," = filters",x,".",f,"(ret",x,b,")\n\t}catch(e){} \n}\n");b=e.join("");b+="\nreturn ret"+x;l.push("filters"+x)}else{if("duplex"===e){n="'use strict';\nreturn function(vvv){\n\t"+n+";\n\tif(!arguments.length){\n\t\treturn "+b+"\n\t}\n\t"+(!dc.test(b)?
-h.get:b)+"= vvv;\n} ";try{c=Function.apply(A,l.concat(n)),d.evaluator=Ca(g,c)}catch(ka){B("debug: parse error,"+ka.message)}return}"on"===e?(b=-1===b.indexOf("(")?b+".call(this, $event)":b.replace("(",".call(this,"),l.push("$event"),b="\nreturn "+b+";",e=b.lastIndexOf("\nreturn"),p=b.slice(0,e),b=b.slice(e),b=p+"\n"+b):b="\nreturn "+b+";"}try{c=Function.apply(A,l.concat("'use strict';\n"+n+b)),d.evaluator=Ca(g,c)}catch(la){B("debug: parse error,"+la.message)}finally{h=e=l=null}}}function N(b,c,d,
-e){Array.isArray(e)&&(b=e.map(function(b){return b.expr?"("+b.value+")":ec(b.value)}).join(" + "));qa(b,c,d);d.evaluator&&(d.handler=Da[d.handlerName||d.type],d.evaluator.toString=function(){return d.type+" binding to eval("+b+")"},ua(d))}function ca(b,c){var d="_"+b;if(!ca[d]){var e=q.createElement(b);z.appendChild(e);c=v?getComputedStyle(e,null).display:e.currentStyle.display;z.removeChild(e);ca[d]=c}return ca[d]}function qb(b,c,d){var e=q.createEvent("Events");e.initEvent(c,!0,!0);d&&(e.detail=
-d);b.dispatchEvent(e)}function fc(){!this.disabled&&this.oldValue!==this.value&&(v?qb(this,"input"):this.fireEvent("onchange"))}function gc(){for(var b=da.length-1;0<=b;b--)!1===(0,da[b])()&&da.splice(b,1);da.length||clearInterval(rb)}function hc(b){ic.call(this,b);b!==this.oldValue&&qb(this,"input")}function jc(b){var c={},d;for(d in b)c[d]=b[d];d=c.target=b.srcElement;0===b.type.indexOf("key")?c.which=null!=b.charCode?b.charCode:b.keyCode:/mouse|click/.test(b.type)&&(d=d.ownerDocument||q,d="BackCompat"===
-d.compatMode?d.body:d.documentElement,c.pageX=b.clientX+(d.scrollLeft>>0)-(d.clientLeft>>0),c.pageY=b.clientY+(d.scrollTop>>0)-(d.clientTop>>0),c.wheelDeltaY=c.wheelDelta,c.wheelDeltaX=0);c.timeStamp=new Date-0;c.originalEvent=b;c.preventDefault=function(){b.returnValue=!1};c.stopPropagation=function(){b.cancelBubble=!0};return c}function Mb(b){var c=[];c.$id=Wa();c[y]=[];c.$model=b;c.$events={};c._=J({length:b.length});c._.$watch("length",function(b,d){c.$fire("length",b,d)});for(var d in K)c[d]=
-K[d];avalon.mix(c,sb);return c}function Ea(b){for(var c=kc(b),d=0,e;e=c[d++];)"ms-if"===e.nodeValue&&O.appendChild(e.elem);for(;e=b.firstChild;)O.appendChild(e);O.innerHTML=""}function lc(b,c){var d=ea(this.callbackElement,this.callbackName,this.vmodels);d&&gb(c,function(){d.apply(c,b)})}function tb(b){function c(b,e){for(var f=b.childNodes,g=0,h;h=f[g++];)1===h.nodeType&&(e.push(h),c(h,e));return e}return c(b,[])}function ub(b){var c=b.nodeName;return c.toLowerCase()===c&&b.scopeName&&""===b.outerText}
-function mc(b){var c=b.cloneNode(!0);if(s.VBArray)for(var d=tb(b),e=tb(c),f=0;b=d[f];f++)if(1===b.nodeType){var g=b.nodeName,h=e[f];if("INPUT"===g&&/radio|checkbox/.test(b.type))h.defaultChecked=h.checked=b.checked,h.value!==b.value&&(h.value=b.value);else if("OBJECT"===g)h.parentNode&&(h.outerHTML=b.outerHTML);else if("OPTION"===g)h.defaultSelected=h.selected=b.defaultSelected;else if("INPUT"===g||"TEXTAREA"===g)h.defaultValue=b.defaultValue;else if(ub(b)){var k={};b.outerHTML.replace(/\s*=\s*/g,
-"=").replace(/(\w+)="([^"]+)"/g,function(b,c,d){k[c]=d}).replace(/(\w+)='([^']+)'/g,function(b,c,d){k[c]=d});h.outerHTML.replace(/\s*=\s*/g,"=").replace(/(\w+)="/g,function(b,c){delete k[c]}).replace(/(\w+)='/g,function(b,c){delete k[c]});delete k.urn;delete k.implementation;for(var l in k)h.setAttribute(l,k[l]);nc(h)}}return c}function nc(b){"url(#default#VML)"!==b.currentStyle.behavior&&(b.style.behavior="url(#default#VML)",b.style.display="inline-block",b.style.zoom=1)}function vb(b,c,d,e){function f(){delete X[h];
-b.group=1;if(!b.fastRepeat){b.group=k.childNodes.length;for(k.parentNode.removeChild(k);k.firstChild;)c.appendChild(k.firstChild);void 0!==f.node&&f.parent.insertBefore(c,f.node)}}var g=mc(b.template),h=e.$id,k=g.firstChild;b.fastRepeat||(k=q.createElement("msloop"),k.style.display="none",k.appendChild(g));k.setAttribute("ms-controller",h);k.removeAttribute(b.callbackName);k.removeAttribute("data-with-sorted");d.push(k);c.appendChild(k);e.$outer=b.$outer;X[h]=e;return k.patchRepeat=f}function Fa(b,
-c,d){if(c.startRepeat){b=c.startRepeat;c=c.endRepeat;d+=1;for(var e=0;e<d;e++)if(b=b.nextSibling,b===c)return c;return b}return b.childNodes[c.group*d]||null}function wb(b,c,d){c*=d||1;for(d=Q;0<=--c;){var e=b.nextSibling;d.appendChild(b);b=e;if(!b)break}return d}function oc(b,c,d){b=J({$key:b,$outer:d,$val:c},0,{$val:1,$key:1});b.$id="$proxy$with"+Math.random();return b}function pc(b,c,d,e){var f=d.param||"el",g;b={$remove:function(){return d.getter().removeAt(g.$index)},$itemName:f,$index:b,$outer:d.$outer,
-$first:0===b,$last:b===e};b[f]=c;e=0;for(var h=fa.length;e<h;e++)if(g=fa[e],g.hasOwnProperty(f)){for(var k in b)g[k]=b[k];fa.splice(e,1);return g}sa.test(avalon.type(c))&&(b.$skipArray=[f]);g=J(b,0,qc);g.$id="$proxy$"+d.type+Math.random();return g}function va(b){for(var c=0,d;d=b[c++];)rc(d);b.length=0}function rc(b){var c=b.$accessors,d=b.$itemName;["$index","$last","$first"].forEach(function(b){c[b][y].length=0});b[d][y]&&(b[d][y].length=0);fa.unshift(b)>u.maxRepeatSize&&fa.pop()}function R(){q.body&&
-(F?(t["ready!"].state=2,F.checkDeps()):xb.forEach(function(b){b(avalon)}),R=A)}function yb(){try{z.doScroll("left"),R()}catch(b){setTimeout(yb)}}var wa="ms-",x=new Date-0,y="$"+x,s=this||(0,eval)("this"),sc=s.require,tc=s.define,ma=!1,C=/[^, ]+/g,zb=/\[native code\]/,sa=/^(?:object|array)$/,Lb=/^\[object (Window|DOMWindow|global)\]$/,Ga=Object.prototype,P=Ga.hasOwnProperty,Ya=Ga.toString,I=Array.prototype,aa=I.slice,U={},v=s.dispatchEvent,z=q.documentElement,H=q.getElementsByTagName("head")[0],Q=
-q.createDocumentFragment(),O=q.createElement("div"),Ab={};"Boolean Number String Function Array Date RegExp Object Error".replace(C,function(b){Ab["[object "+b+"]"]=b.toLowerCase()});avalon=function(b){return new avalon.init(b)};avalon.init=function(b){this[0]=this.element=b};avalon.fn=avalon.prototype=avalon.init.prototype;avalon.type=function(b){return null==b?String(b):"object"===typeof b||"function"===typeof b?Ab[Ya.call(b)]||"object":typeof b};avalon.isWindow=function(b){return!b?!1:b==b.document&&
-b.document!=b};Xa(s)&&(avalon.isWindow=Xa);avalon.isPlainObject=function(b,c){if(!b||"object"!==avalon.type(b)||b.nodeType||avalon.isWindow(b))return!1;try{if(b.constructor&&!P.call(b,"constructor")&&!P.call(b.constructor.prototype,"isPrototypeOf"))return!1}catch(d){return!1}for(c in b);return void 0===c||P.call(b,c)};zb.test(Object.getPrototypeOf)&&(avalon.isPlainObject=function(b){return!!b&&"object"===typeof b&&Object.getPrototypeOf(b)===Ga});avalon.mix=avalon.fn.mix=function(){var b,c,d,e,f,g=
-arguments[0]||{},h=1,k=arguments.length,l=!1;"boolean"===typeof g&&(l=g,g=arguments[1]||{},h++);"object"!==typeof g&&"function"!==avalon.type(g)&&(g={});h===k&&(g=this,h--);for(;h<k;h++)if(null!=(b=arguments[h]))for(c in b)d=g[c],e=b[c],g!==e&&(l&&e&&(avalon.isPlainObject(e)||(f=Array.isArray(e)))?(f?(f=!1,d=d&&Array.isArray(d)?d:[]):d=d&&avalon.isPlainObject(d)?d:{},g[c]=avalon.mix(l,d,e)):void 0!==e&&(g[c]=e));return g};avalon.mix({rword:C,subscribers:y,version:1.35,ui:{},log:B,slice:v?function(b,
-c,d){return aa.call(b,c,d)}:function(b,c,d){var e=[],f=b.length;void 0===d&&(d=f);if("number"===typeof d&&isFinite(d)){c=ra(c,f);d=ra(d,f);for(f=c;f<d;++f)e[f-c]=b[f]}return e},noop:A,error:function(b,c){throw new (c||Error)(b);},oneObject:T,range:function(b,c,d){d||(d=1);null==c&&(c=b||0,b=0);var e=-1;c=Math.max(0,Math.ceil((c-b)/d));for(var f=Array(c);++e<c;)f[e]=b,b+=d;return f},eventHooks:{},bind:function(b,c,d,e){var f=avalon.eventHooks[c];"object"===typeof f&&(c=f.type,f.deel&&(d=f.deel(b,d)));
-f=v?d:function(c){d.call(b,jc(c))};v?b.addEventListener(c,f,!!e):b.attachEvent("on"+c,f);return f},unbind:function(b,c,d,e){var f=avalon.eventHooks[c];d=d||A;"object"===typeof f&&(c=f.type);v?b.removeEventListener(c,d,!!e):b.detachEvent("on"+c,d)},css:function(b,c,d){b instanceof avalon&&(b=b[0]);var e=/[_-]/.test(c)?oa(c):c;c=avalon.cssName(e)||e;if(void 0===d||"boolean"===typeof d)return e=w[e+":get"]||w["@:get"],b=e(b,c),!0===d?parseFloat(b)||0:b;""===d?b.style[c]="":null==d||d!==d||(isFinite(d)&&
-!avalon.cssNumber[e]&&(d+="px"),e=w[e+":set"]||w["@:set"],e(b,c,d))},each:function(b,c){if(b){var d=0,e;a:{if(b&&"object"===typeof b&&!avalon.isWindow(b)){var f=b.length;if(+f===f&&!(f%1)&&0<=f)try{e=!1==={}.propertyIsEnumerable.call(b,"length")?Array.isArray(b)||/^\s?function/.test(b.item||b.callee):!0;break a}catch(g){e=!0;break a}}e=!1}if(e)for(e=b.length;d<e;d++)c(d,b[d]);else for(d in b)b.hasOwnProperty(d)&&c(d,b[d])}},getWidgetData:function(b,c){var d=avalon(b).data(),e={},f;for(f in d)0===
-f.indexOf(c)&&(e[f.replace(c,"").replace(/\w/,function(b){return b.toLowerCase()})]=d[f]);return e},Array:{ensure:function(b,c){-1===b.indexOf(c)&&b.push(c);return b},removeAt:function(b,c){return!!b.splice(c,1).length},remove:function(b,c){var d=b.indexOf(c);return~d?avalon.Array.removeAt(b,d):!1}}});avalon.nextTick=s.setImmediate?setImmediate.bind(s):function(b){setTimeout(b,0)};var X=avalon.vmodels={};avalon.define=function(b,c){var d=b.$id||b;d||B("warning: \u5fc5\u987b\u6307\u5b9a$id");X[b]&&
-B("warning: "+d+" \u5df2\u7ecf\u5b58\u5728\u4e8eavalon.vmodels\u4e2d");if("object"===typeof b)var e=J(b);else e={$watch:A},c(e),e=J(e),ma=!0,c(e),ma=!1;e.$id=d;return X[d]=e};var Nb=String("$id,$watch,$unwatch,$fire,$events,$model,$skipArray,$accessors,"+y).match(C),Z=Object.is||function(b,c){return 0===b&&0===c?1/b===1/c:b!==b?c!==c:b===c},Pb=v?function(b){var c={},d;for(d in b)c[d]={get:b[d],set:b[d],enumerable:!0,configurable:!0};return c}:function(b){return b},V={},na=0,ta={},Ha=Object.defineProperty;
-try{Ha({},"_",{value:"x"});var ia=Object.defineProperties}catch(hd){"__defineGetter__"in avalon&&(Ha=function(b,c,d){"value"in d&&(b[c]=d.value);"get"in d&&b.__defineGetter__(c,d.get);"set"in d&&b.__defineSetter__(c,d.set);return b},ia=function(b,c){for(var d in c)c.hasOwnProperty(d)&&Ha(b,d,c[d]);return b})}if(!ia&&s.VBArray){s.execScript('Function parseVB(code)\n\tExecuteGlobal(code)\nEnd Function\nDim VBClassBodies\nSet VBClassBodies=CreateObject("Scripting.Dictionary")\nFunction findOrDefineVBClass(name,body)\n\tDim found\n\tfound=""\n\tFor Each key in VBClassBodies\n\t\tIf body=VBClassBodies.Item(key) Then\n\t\t\tfound=key\n\t\t\tExit For\n\t\tEnd If\n\tnext\n\tIf found="" Then\n\t\tparseVB("Class " + name + body)\n\t\tVBClassBodies.Add name, body\n\t\tfound=name\n\tEnd If\n\tfindOrDefineVBClass=found\nEnd Function',
-"VBScript");var uc=function(b,c,d){var e=b[c];if("function"===typeof e)if(3===arguments.length)e(d);else return e()},ia=function(b,c,d){var e="VBClass"+setTimeout("1"),f=[];f.push("\r\n\tPrivate [__data__], [__proxy__]","\tPublic Default Function [__const__](d, p)","\t\tSet [__data__] = d: set [__proxy__] = p","\t\tSet [__const__] = Me","\tEnd Function");for(b in d)f.push("\tPublic ["+b+"]");f.push("\tPublic [hasOwnProperty]");for(b in c)b in d||f.push("\tPublic Property Let ["+b+"](val"+x+")",'\t\tCall [__proxy__]([__data__], "'+
-b+'", val'+x+")","\tEnd Property","\tPublic Property Set ["+b+"](val"+x+")",'\t\tCall [__proxy__]([__data__], "'+b+'", val'+x+")","\tEnd Property","\tPublic Property Get ["+b+"]","\tOn Error Resume Next","\t\tSet["+b+'] = [__proxy__]([__data__],"'+b+'")',"\tIf Err.Number <> 0 Then","\t\t["+b+'] = [__proxy__]([__data__],"'+b+'")',"\tEnd If","\tOn Error Goto 0","\tEnd Property");f.push("End Class");b=f.join("\r\n");b=s.findOrDefineVBClass(e,b);b===e&&s.parseVB(["Function "+e+"Factory(a, b)","\tDim o",
-"\tSet o = (New "+e+")(a, b)","\tSet "+e+"Factory = o","End Function"].join("\r\n"));return s[b+"Factory"](c,uc)}}if(!"\u53f8\u5f92\u6b63\u7f8e".trim){var vc=/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;String.prototype.trim=function(){return this.replace(vc,"")}}var wc=!{toString:null}.propertyIsEnumerable("toString"),xc=function(){}.propertyIsEnumerable("prototype"),Bb="toString toLocaleString valueOf hasOwnProperty isPrototypeOf propertyIsEnumerable constructor".split(" "),yc=Bb.length;Object.keys||(Object.keys=
-function(b){var c=[],d=xc&&"function"===typeof b;if("string"===typeof b||b&&b.callee)for(d=0;d<b.length;++d)c.push(String(d));else for(var e in b)!(d&&"prototype"===e)&&P.call(b,e)&&c.push(String(e));if(wc){d=(d=b.constructor)&&d.prototype===b;for(e=0;e<yc;e++){var f=Bb[e];!(d&&"constructor"===f)&&P.call(b,f)&&c.push(f)}}return c});Array.isArray||(Array.isArray=function(b){return b&&"array"===avalon.type(b)});A.bind||(Function.prototype.bind=function(b){if(2>arguments.length&&void 0===b)return this;
-var c=this,d=arguments;return function(){var e=[],f;for(f=1;f<d.length;f++)e.push(d[f]);for(f=0;f<arguments.length;f++)e.push(arguments[f]);return c.apply(b,e)}});zb.test([].map)||avalon.mix(I,{indexOf:function(b,c){var d=this.length,e=~~c;for(0>e&&(e+=d);e<d;e++)if(this[e]===b)return e;return-1},lastIndexOf:function(b,c){var d=this.length,e=null==c?d-1:c;for(0>e&&(e=Math.max(0,d+e));0<=e;e--)if(this[e]===b)return e;return-1},forEach:$("","_",""),filter:$("r=[],j=0,","if(_)r[j++]=this[i]","return r"),
-map:$("r=[],","r[i]=_","return r"),some:$("","if(_)return true","return false"),every:$("","if(!_)return false","return true")});z.contains||(Node.prototype.contains=function(b){return!!(this.compareDocumentPosition(b)&16)});q.contains||(q.contains=function(b){return Za(this,b)});if(s.SVGElement){var Cb=document.createElementNS("http://www.w3.org/2000/svg","svg");Cb.innerHTML='<circle cx="50" cy="50" r="40" fill="yellow" />';if("[object SVGCircleElement]"!==Cb.firstChild){var Ia=function(b,c){if(b&&
-b.childNodes)for(var d=b.childNodes,e=0,f;f=d[e++];)if(f.tagName){var g=document.createElementNS("http://www.w3.org/2000/svg",f.tagName.toLowerCase());I.forEach.call(f.attributes,function(b){g.setAttribute(b.name,b.value)});Ia(f,g);c.appendChild(g)}};Object.defineProperties(SVGElement.prototype,{outerHTML:{enumerable:!0,configurable:!0,get:$a,set:function(b){var c=this.tagName.toLowerCase(),d=this.parentNode;b=avalon.parseHTML(b);"svg"===c?d.insertBefore(b,this):(c=document.createDocumentFragment(),
-Ia(b,c),d.insertBefore(c,this));d.removeChild(this)}},innerHTML:{enumerable:!0,configurable:!0,get:function(){var b=RegExp("</"+this.nodeName+">$","i");return this.outerHTML.replace(RegExp("<"+this.nodeName+'\\b(?:(["\'])[^"]*?(\\1)|[^>])*>',"i"),"").replace(b,"")},set:function(b){avalon.clearHTM&&(avalon.clearHTML(this),b=avalon.parseHTML(b),Ia(b,this))}}})}}!z.outerHTML&&s.HTMLElement&&HTMLElement.prototype.__defineGetter__("outerHTML",$a);var L,M,ba,Db,Aa,Eb=/[-.*+?^${}()|[\]\/\\]/g,S={loader:function(b){s.define=
-b?F.define:tc;s.require=b?F:sc},interpolate:function(b){L=b[0];M=b[1];if(L===M)throw new SyntaxError("openTag!==closeTag");if("\x3c!--,--\x3e"===b+"")u.commentInterpolate=!0;else{b=L+"test"+M;O.innerHTML=b;if(O.innerHTML!==b&&0<=O.innerHTML.indexOf("&lt;"))throw new SyntaxError("\u6b64\u5b9a\u754c\u7b26\u4e0d\u5408\u6cd5");O.innerHTML=""}b=(L+"").replace(Eb,"\\$&");var c=(M+"").replace(Eb,"\\$&");ba=RegExp(b+"(.*?)"+c);Db=RegExp(b+"(.*?)"+c,"g");Aa=RegExp(b+".*?"+c+"|\\sms-")}};u.dettachVModels=u.debug=
-!0;u.plugins=S;u.plugins.interpolate(["{{","}}"]);u.paths={};u.shim={};u.maxRepeatSize=100;avalon.config=u;var cb={_toString:function(){var b=this.node.className;return("string"===typeof b?b:b.baseVal).split(/\s+/).join(" ")},_contains:function(b){return-1<(" "+this+" ").indexOf(" "+b+" ")},_add:function(b){this.contains(b)||this._set(this+" "+b)},_remove:function(b){this._set((" "+this+" ").replace(" "+b+" "," ").trim())},__set:function(b){var c=this.node;"string"===typeof c.className?c.className=
-b:c.setAttribute("class",b)}};"add,remove".replace(C,function(b){avalon.fn[b+"Class"]=function(c){var d=this[0];c&&("string"===typeof c&&d&&1===d.nodeType)&&c.replace(/\S+/g,function(c){bb(d)[b](c)});return this}});avalon.fn.mix({hasClass:function(b){var c=this[0]||{};return 1===c.nodeType&&bb(c).contains(b)},toggleClass:function(b,c){for(var d,e=0,f=b.split(/\s+/),g="boolean"===typeof c;d=f[e++];)this[(g?c:!this.hasClass(d))?"addClass":"removeClass"](d);return this},attr:function(b,c){return 2===
-arguments.length?(this[0].setAttribute(b,c),this):this[0].getAttribute(b)},data:function(b,c){b="data-"+ab(b||"");switch(arguments.length){case 2:return this.attr(b,c),this;case 1:var d=this.attr(b);return db(d);case 0:var e={};I.forEach.call(this[0].attributes,function(c){c&&(b=c.name,b.indexOf("data-")||(b=oa(b.slice(5)),e[b]=db(c.value)))});return e}},removeData:function(b){b="data-"+ab(b);this[0].removeAttribute(b);return this},css:function(b,c){if(avalon.isPlainObject(b))for(var d in b)avalon.css(this,
-d,b[d]);else var e=avalon.css(this,b,c);return void 0!==e?e:this},position:function(){var b,c,d=this[0],e={top:0,left:0};if(d)return"fixed"===this.css("position")?c=d.getBoundingClientRect():(b=this.offsetParent(),c=this.offset(),"HTML"!==b[0].tagName&&(e=b.offset()),e.top+=avalon.css(b[0],"borderTopWidth",!0),e.left+=avalon.css(b[0],"borderLeftWidth",!0)),{top:c.top-e.top-avalon.css(d,"marginTop",!0),left:c.left-e.left-avalon.css(d,"marginLeft",!0)}},offsetParent:function(){for(var b=this[0].offsetParent||
-z;b&&"HTML"!==b.tagName&&"static"===avalon.css(b,"position");)b=b.offsetParent;return avalon(b||z)},bind:function(b,c,d){if(this[0])return avalon.bind(this[0],b,c,d)},unbind:function(b,c,d){this[0]&&avalon.unbind(this[0],b,c,d);return this},val:function(b){var c=this[0];if(c&&1===c.nodeType){var d=0===arguments.length,e=d?":get":":set",f=Ja,g;g=c.tagName.toLowerCase();g="input"===g&&/checkbox|radio/.test(c.type)?"checked":g;if(e=f[g+e])var h=e(c,b);else{if(d)return(c.value||"").replace(/\r/g,"");
-c.value=b}}return d?h:this}});var Sb=/(?:\{[\s\S]*\}|\[[\s\S]*\])$/,zc=/^[\],:{}\s]*$/,Ac=/(?:^|:|,)(?:\s*\[)+/g,Bc=/\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g,Cc=/"[^"\\\r\n]*"|true|false|null|-?(?:\d+\.|)\d+(?:[eE][+-]?\d+|)/g;avalon.parseJSON=s.JSON?JSON.parse:function(b){if("string"===typeof b){if((b=b.trim())&&zc.test(b.replace(Bc,"@").replace(Cc,"]").replace(Ac,"")))return(new Function("return "+b))();avalon.error("Invalid JSON: "+b)}};avalon.each({scrollLeft:"pageXOffset",scrollTop:"pageYOffset"},
-function(b,c){avalon.fn[b]=function(d){var e=this[0]||{},f=e.window&&e.document?e:9===e.nodeType?e.defaultView||e.parentWindow:!1,g="scrollTop"===b;if(arguments.length)f?f.scrollTo(!g?d:avalon(f).scrollLeft(),g?d:avalon(f).scrollTop()):e[b]=d;else return f?c in f?f[c]:z[b]:e[b]}});var w=avalon.cssHooks={},Fb=["","-webkit-","-o-","-moz-","-ms-"],Ka={"float":"cssFloat",background:"backgroundColor"};avalon.cssNumber=T("columnCount,order,fillOpacity,fontWeight,lineHeight,opacity,orphans,widows,zIndex,zoom");
-avalon.cssName=function(b,c,d){if(Ka[b])return Ka[b];c=c||z.style;for(var e=0,f=Fb.length;e<f;e++)if(d=oa(Fb[e]+b),d in c)return Ka[b]=d;return null};w["@:set"]=function(b,c,d){try{b.style[c]=d}catch(e){}};if(s.getComputedStyle)w["@:get"]=function(b,c){if(!b||!b.style)throw Error("getComputedStyle\u8981\u6c42\u4f20\u5165\u4e00\u4e2a\u8282\u70b9 "+b);var d,e=getComputedStyle(b,null);e&&(d="filter"===c?e.getPropertyValue(c):e[c],""===d&&(d=b.style[c]));return d},w["opacity:get"]=function(b){b=w["@:get"](b,
-"opacity");return""===b?"1":b};else{var Dc=/^-?(?:\d*\.)?\d+(?!px)[^\d\s]+$/i,Ec=/^(top|right|bottom|left)$/,La=!!s.XDomainRequest,Fc={thin:La?"1px":"2px",medium:La?"3px":"4px",thick:La?"5px":"6px"};w["@:get"]=function(b,c){var d=b.currentStyle,e=d[c];if(Dc.test(e)&&!Ec.test(e)){var f=b.style,g=f.left,h=b.runtimeStyle.left;b.runtimeStyle.left=d.left;f.left="fontSize"===c?"1em":e||0;e=f.pixelLeft+"px";f.left=g;b.runtimeStyle.left=h}"medium"===e&&(c=c.replace("Width","Style"),"none"===d[c]&&(e="0px"));
-return""===e?"auto":Fc[e]||e};w["opacity:set"]=function(b,c,d){b.style.filter="alpha(opacity="+100*d+")";b.style.zoom=1};w["opacity:get"]=function(b){b=b.filters.alpha||b.filters["DXImageTransform.Microsoft.Alpha"];return(b?b.opacity:100)/100+""}}"top,left".replace(C,function(b){w[b+":get"]=function(c){var d=w["@:get"](c,b);return/px$/.test(d)?d:avalon(c).position()[b]+"px"}});var fb={position:"absolute",visibility:"hidden",display:"block"},Tb=/^(none|table(?!-c[ea]).+)/;"Width,Height".replace(C,
-function(b){var c=b.toLowerCase(),d="client"+b,e="scroll"+b,f="offset"+b;w[c+":get"]=function(c,d,e){var l=-4;"number"===typeof e&&(l=e);d="Width"===b?["Left","Right"]:["Top","Bottom"];e=c[f];if(2===l)return e+avalon.css(c,"margin"+d[0],!0)+avalon.css(c,"margin"+d[1],!0);0>l&&(e=e-avalon.css(c,"border"+d[0]+"Width",!0)-avalon.css(c,"border"+d[1]+"Width",!0));-4===l&&(e=e-avalon.css(c,"padding"+d[0],!0)-avalon.css(c,"padding"+d[1],!0));return e};w[c+"&get"]=function(b){var d=[];eb(b,d);for(var e=w[c+
-":get"](b),f=0,m;m=d[f++];){b=m.node;for(var n in m)"string"===typeof m[n]&&(b.style[n]=m[n])}return e};avalon.fn[c]=function(g){var h=this[0];if(0===arguments.length){if(h.setTimeout)return h["inner"+b]||h.document.documentElement[d];if(9===h.nodeType){var k=h.documentElement;return Math.max(h.body[e],k[e],h.body[f],k[f],k[d])}return w[c+"&get"](h)}return this.css(c,g)};avalon.fn["inner"+b]=function(){return w[c+":get"](this[0],void 0,-2)};avalon.fn["outer"+b]=function(b){return w[c+":get"](this[0],
-void 0,!0===b?2:0)}});avalon.fn.offset=function(){var b=this[0],c={left:0,top:0};if(!b||!b.tagName||!b.ownerDocument)return c;var d=b.ownerDocument,e=d.body,f=d.documentElement,d=d.defaultView||d.parentWindow;if(!avalon.contains(f,b))return c;b.getBoundingClientRect&&(c=b.getBoundingClientRect());var b=f.clientTop||e.clientTop,g=f.clientLeft||e.clientLeft,h=Math.max(d.pageYOffset||0,f.scrollTop,e.scrollTop),e=Math.max(d.pageXOffset||0,f.scrollLeft,e.scrollLeft);return{top:c.top+h-b,left:c.left+e-
-g}};var Gc=/^<option(?:\s+\w+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?)*\s+value[\s=]/i,Ja={"option:get":function(b){return b.hasAttribute?b.hasAttribute("value")?b.value:b.text.trim():Gc.test(b.outerHTML)?b.value:b.text},"select:get":function(b,c){for(var d,e=b.options,f=b.selectedIndex,g=Ja["option:get"],h="select-one"===b.type||0>f,k=h?null:[],l=h?f+1:e.length,m=0>f?l:h?f:0;m<l;m++)if(d=e[m],(d.selected||m===f)&&!d.disabled){c=g(d);if(h)return c;k.push(c)}return k},"select:set":function(b,c,d){c=
-[].concat(c);for(var e=Ja["option:get"],f=0,g;g=b.options[f++];)if(g.selected=0<=c.indexOf(e(g)))d=!0;d||(b.selectedIndex=-1)}},Hc=/<([\w:]+)/,Ic=/<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,Gb=v?/[^\d\D]/:/(<(?:script|link|style|meta|noscript))/ig,Jc=T("text/javascript","text/ecmascript","application/ecmascript","application/javascript","text/vbscript"),Kc=/<(?:tb|td|tf|th|tr|col|opt|leg|cap|area)/,G={area:[1,"<map>"],param:[1,"<object>"],col:[2,"<table><tbody></tbody><colgroup>",
-"</table>"],legend:[1,"<fieldset>"],option:[1,"<select multiple='multiple'>"],thead:[1,"<table>","</table>"],tr:[2,"<table><tbody>"],td:[3,"<table><tbody><tr>"],_default:v?[0,""]:[1,"X<div>"]};G.optgroup=G.option;G.tbody=G.tfoot=G.colgroup=G.caption=G.thead;G.th=G.td;var Lc=q.createElement("script");avalon.parseHTML=function(b){"string"!==typeof b&&(b+="");b=b.replace(Ic,"<$1></$2>").trim();var c=(Hc.exec(b)||["",""])[1].toLowerCase(),d=G[c]||G._default,c=Q.cloneNode(!1),e=O,f;v||(b=b.replace(Gb,
-"<br class=msNoScope>$1"));e.innerHTML=d[1]+b+(d[2]||"");b=e.getElementsByTagName("script");if(b.length)for(var g=0,h;h=b[g++];)if(!h.type||Jc[h.type])f=Lc.cloneNode(!1),I.forEach.call(h.attributes,function(b){b&&b.specified&&(f[b.name]=b.value)}),f.text=h.text,h.parentNode.replaceChild(f,h);for(g=d[0];g--;e=e.lastChild);if(!v){b=e.getElementsByTagName("br");for(g=0;h=b[g++];)h.className&&"msNoScope"===h.className&&h.parentNode.removeChild(h)}for(;d=e.firstChild;)c.appendChild(d);return c};avalon.innerHTML=
-function(b,c){if(!v&&!Gb.test(c)&&!Kc.test(c))try{b.innerHTML=c;return}catch(d){}var e=this.parseHTML(c);this.clearHTML(b).appendChild(e)};avalon.clearHTML=function(b){Ea(b);return b};var K={$watch:function(b,c){if("function"===typeof c){var d=this.$events[b];d?d.push(c):this.$events[b]=[c]}else this.$events=this.$watch.backup;return this},$unwatch:function(b,c){var d=arguments.length;if(0===d)this.$watch.backup=this.$events,this.$events={};else if(1===d)this.$events[b]=[];else for(var d=this.$events[b]||
-[],e=d.length;0>~--e;)if(d[e]===c)return d.splice(e,1);return this},$fire:function(b){var c;/^(\w+)!(\S+)$/.test(b)&&(c=RegExp.$1,b=RegExp.$2);for(var d=this.$events,e=d[b]||[],f=d.$all||[],g=aa.call(arguments,1),h=0,k;k=e[h++];)k.apply(this,g);for(h=0;k=f[h++];)k.apply(this,arguments);if(d=d.expr&&Hb(d.expr)){var l=[b].concat(g);if("up"===c||"down"===c||"all"===c){for(h in avalon.vmodels)if((g=avalon.vmodels[h])&&(g.$events&&g.$events.expr)&&g!==this)if((e=Hb(g.$events.expr))&&("all"===c||("down"===
-c?d.contains(e):e.contains(d))))e._avalon=g;var h=document.getElementsByTagName("*"),m=[];Array.prototype.forEach.call(h,function(b){b._avalon&&(m.push(b._avalon),b._avalon="",b.removeAttribute("_avalon"))});"up"===c&&m.reverse();m.forEach(function(b){b.$fire.apply(b,l)})}}}},Mc=/(\w+)\[(avalonctrl)="(\d+)"\]/,Hb=document.querySelector?function(b){return document.querySelector(b)}:function(b){b=b.match(Mc);for(var c=document.getElementsByTagName(b[1]),d=0,e;e=c[d++];)if(e.getAttribute(b[2])===b[3])return e},
-Ub=/^(duplex|on)$/;avalon.scan=function(b,c){b=b||z;var d=c?[].concat(c):[];pa(b,d)};var Xb=T("AREA,BASE,BASEFONT,BR,COL,COMMAND,EMBED,HR,IMG,INPUT,LINK,META,PARAM,SOURCE,TRACK,WBR,NOSCRIPT,SCRIPT,STYLE,TEXTAREA"),Vb=v?15:50,lb=/ms-(\w+)-?(.*)/,mb={"if":10,repeat:90,widget:110,each:1400,"with":1500,duplex:2E3,on:3E3},Wb=T("animationend,blur,change,input,click,dblclick,focus,keydown,keypress,keyup,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup,scan,scroll,submit");if(!"1"[0])var Ma=
-Ba(512),Nc=/\s+(ms-[^=\s]+)(?:=("[^"]*"|'[^']*'|[^\s>]+))?/g,Oc=/^['"]/,Pc=/<\w+\b(?:(["'])[^"]*?(\1)|[^>])*>/i,Qc=/&amp;/g,kb=function(b){b=b.outerHTML;if("</"===b.slice(0,2)||!b.trim())return[];b=b.match(Pc)[0];var c=[],d,e;if(Ma[b])return Ma[b];for(;d=Nc.exec(b);)(e=d[2])&&(e=(Oc.test(e)?e.slice(1,-1):e).replace(Qc,"&")),d=d[1].toLowerCase(),d.match(lb),c.push({name:d,specified:!0,value:e||""});return Ma(b,c)};var Zb=/\|\s*(\w+)\s*(\([^)]*\))?/g,Yb=/\|\|/g,$b=/U2hvcnRDaXJjdWl0/g,nb=/&lt;/g,ob=
-/&gt;/g,Rc=/\/\*[\w\W]*?\*\/|\/\/[^\n]*\n|\/\/[^\n]*$|"(?:[^"\\]|\\[\w\W])*"|'(?:[^'\\]|\\[\w\W])*'|[\s\t\n]*\.[\s\t\n]*[$\w\.]+/g,Sc=/[^\w$]+/g,Tc=RegExp(""+("\\b"+"break,case,catch,continue,debugger,default,delete,do,else,false,finally,for,function,if,in,instanceof,new,null,return,switch,this,throw,true,try,typeof,var,void,while,with,abstract,boolean,byte,char,class,const,double,enum,export,extends,final,float,goto,implements,import,int,interface,long,native,package,private,protected,public,short,static,super,synchronized,throws,transient,volatile,arguments,let,yield,undefined".replace(/,/g,
-"\\b|\\b")+"\\b"),"g"),Uc=/\b\d[^,]*/g,Vc=/^,+|,+$/g,Na=Ba(512),cc=function(b){var c=","+b.trim();if(Na[c])return Na[c];b=b.replace(Rc,"").replace(Sc,",").replace(Tc,"").replace(Uc,"").replace(Vc,"").split(/^$|,+/);return Na(c,pb(b))},Ca=Ba(256),dc=/\w\[.*\]|\w\.\w/,bc=/(\$proxy\$[a-z]+)\d+$/,Wc={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},ec=s.JSON&&JSON.stringify||function(b){return'"'+b.replace(/[\\\"\x00-\x1f]/g,function(b){var d=Wc[b];return"string"===typeof d?
-d:"\\u"+("0000"+b.charCodeAt(0).toString(16)).slice(-4)})+'"'};avalon.parseExprProxy=N;var Oa={"accept-charset":"acceptCharset","char":"ch",charoff:"chOff","class":"className","for":"htmlFor","http-equiv":"httpEquiv"};"accessKey,bgColor,cellPadding,cellSpacing,codeBase,codeType,colSpan,dateTime,defaultValue,frameBorder,longDesc,maxLength,marginWidth,marginHeight,rowSpan,tabIndex,useMap,vSpace,valueType,vAlign".replace(C,function(b){Oa[b.toLowerCase()]=b});H.insertBefore(avalon.parseHTML("<style id='avalonStyle'>.avalonHide{ display: none!important }</style>"),
-H.firstChild);var Xc=/<noscript.*?>(?:[\s\S]+?)<\/noscript>/img,Yc=/<noscript.*?>([\s\S]+?)<\/noscript>/im,Pa=function(){return new (s.XMLHttpRequest||ActiveXObject)("Microsoft.XMLHTTP")},ea=function(b,c,d){if(b=b.getAttribute(c)){c=0;for(var e;e=d[c++];)if(e.hasOwnProperty(b)&&"function"===typeof e[b])return e[b]}},Qa=avalon.templateCache={},W=q.createElement("div");W.innerHTML="a";try{W.contains(W.firstChild),avalon.contains=function(b,c){return b.contains(c)}}catch(id){avalon.contains=Za}var Ra=
-{};"autofocus,autoplay,async,allowTransparency,checked,controls,declare,disabled,defer,defaultChecked,defaultSelectedcontentEditable,isMap,loop,multiple,noHref,noResize,noShade,open,readOnly,selected".replace(C,function(b){Ra[b.toLowerCase()]=b});var Da=avalon.bindingExecutors={attr:function(b,c,d){var e=d.type,f=d.param;if("css"===e)avalon(c).css(f,b);else if("attr"===e){if(Ra[f]&&(d=Ra[f],"boolean"===typeof c[d]))return c[d]=!!b;if(!v&&Oa[f])var f=Oa[f],g=!0;if(!1===b||null===b||void 0===b)return c.removeAttribute(f);
-s.VBArray&&!g&&(ub(c)?g=!0:s.SVGElement&&!(c instanceof SVGElement)&&(g=(g=(c.attributes||{})[f])?!1===g.expando:null===g));g?c[f]=b:c.setAttribute(f,b)}else if("include"===e&&b){var h=d.vmodels,k=ea(c,"data-include-rendered",h),l=ea(c,"data-include-loaded",h),m=function(b){l&&(b=l.apply(c,[b].concat(h)));avalon.innerHTML(c,b);xa(c,h);k&&gb(c,function(){k.call(c)})};if("src"===d.param)if(Qa[b])avalon.nextTick(function(){m(Qa[b])});else{var n=Pa();n.onreadystatechange=function(){if(4===n.readyState){var c=
-n.status;if(200<=c&&300>c||304===c||1223===c)m(Qa[b]=n.responseText)}};n.open("GET",b,!0);"withCredentials"in n&&(n.withCredentials=!0);n.setRequestHeader("X-Requested-With","XMLHttpRequest");n.send(null)}else{var p=b&&1===b.nodeType?b:q.getElementById(b);if(p){if("NOSCRIPT"===p.tagName&&!p.innerHTML&&!p.fixIE78){n=Pa();n.open("GET",location,!1);n.send(null);f=q.getElementsByTagName("noscript");g=(n.responseText||"").match(Xc)||[];d=g.length;for(e=0;e<d;e++){var r=f[e];r&&(r.style.display="none",
-r.fixIE78=(g[e].match(Yc)||["","&nbsp;"])[1])}}avalon.nextTick(function(){m(p.fixIE78||p.value||p.innerText||p.innerHTML)})}}}else{if(!z.hasAttribute&&"string"===typeof b&&("src"===e||"href"===e))b=b.replace(/&amp;/g,"&");c[e]=b}},"class":function(b,c,d){var e=avalon(c),f=d.type;if("class"===f&&d.oldStyle)e.toggleClass(d.oldStyle,!!b);else switch(d.toggleClass=d._evaluator?!!d._evaluator.apply(c,d._args):!0,d.newClass=d.immobileClass||b,d.oldClass&&d.newClass!==d.oldClass&&e.removeClass(d.oldClass),
-d.oldClass=d.newClass,f){case "class":e.toggleClass(d.newClass,d.toggleClass);break;case "hover":case "active":if(!d.hasBindEvent){b="mouseenter";var g="mouseleave";"active"===f&&(c.tabIndex=c.tabIndex||-1,b="mousedown",g="mouseup",e.bind("mouseleave",function(){d.toggleClass&&e.removeClass(d.newClass)}));e.bind(b,function(){d.toggleClass&&e.addClass(d.newClass)});e.bind(g,function(){d.toggleClass&&e.removeClass(d.newClass)});d.hasBindEvent=!0}}},data:function(b,c,d){d="data-"+d.param;b&&"object"===
-typeof b?c[d]=b:c.setAttribute(d,String(b))},repeat:function(b,c,d){if(b){var e=this.group,f=this.startRepeat?this.startRepeat.parentNode:this.callbackElement,g=this.proxies,h=Q.cloneNode(!1);if("del"===b||"move"===b)var k=Fa(f,this,c);switch(b){case "add":for(var l=d,m=this.getter().length-1,e=[],n={},k=0,p=l.length;k<p;k++){var n=k+c,r=pc(n,l[k],this,m);g.splice(n,0,r);n=vb(this,h,e,r)}k=Fa(f,this,c);n.node=k;n.parent=f;f.insertBefore(h,k);for(k=0;n=e[k++];)pa(n,this.vmodels);break;case "del":h=
-g.splice(c,d);va(h);Ea(wb(k,e,d));break;case "index":for(m=g.length-1;d=g[c];c++)d.$index=c,d.$first=0===c,d.$last=c===m;break;case "clear":if(this.startRepeat)for(;;)if((n=this.startRepeat.nextSibling)&&n!==this.endRepeat)h.appendChild(n);else break;else h=f;va(g);Ea(h);break;case "move":if(h=g.splice(c,1)[0])g.splice(d,0,h),h=wb(k,e),k=Fa(f,this,d),f.insertBefore(h,k);break;case "set":(r=g[c])&&(r[r.$itemName]=d);break;case "append":g=d;k=ea(this.callbackElement,"data-with-sorted",this.vmodels);
-m=[];e=[];n={};for(l in c)c.hasOwnProperty(l)&&"hasOwnProperty"!==l&&m.push(l);k&&(k=k.call(f,m))&&(Array.isArray(k)&&k.length)&&(m=k);for(k=0;l=m[k++];)"hasOwnProperty"!==l&&(n=vb(this,h,e,g[l]));n.parent=f;n.node=this.endRepeat||null;f.insertBefore(h,n.node);for(k=0;d=e[k++];)pa(d,this.vmodels)}lc.call(this,arguments,f)}},html:function(b,c,d){b=null==b?"":b;c||(c=d.element=d.node.parentNode);if(d.replaceNodes){var e;if(11===b.nodeType)e=b;else if(1===b.nodeType||b.item){b=1===b.nodeType?b.childNodes:
-b.item?b:[];for(e=Q.cloneNode(!0);b[0];)e.appendChild(b[0])}else e=avalon.parseHTML(b);b=avalon.slice(e.childNodes);c.insertBefore(e,d.replaceNodes[0]||null);e=0;for(var f;f=d.replaceNodes[e++];)c.removeChild(f);d.replaceNodes=b}else avalon.innerHTML(c,b);avalon.nextTick(function(){xa(c,d.vmodels)})},"if":function(b,c,d){var e=d.placehoder;b?(d.msInDocument||(d.msInDocument=!0,e.parentNode&&e.parentNode.replaceChild(c,e)),Aa.test(c.outerHTML.replace(nb,"<").replace(ob,">"))&&hb(c,d.vmodels)):d.msInDocument&&
-(d.msInDocument=!1,c.parentNode&&c.parentNode.replaceChild(e,c),e.elem=c,W.appendChild(c))},on:function(b,c,d){var e=d.vmodels,f=d.evaluator;b=function(b){return f.apply(this,d.args.concat(b))};try{avalon.config.dettachVModels||(c.$vmodel=e[0],c.$vmodels=e)}catch(g){}var h=d.param.replace(/-\d+$/,"");if("scan"===h)b.call(c,{type:h});else if("function"===typeof d.specialBind)d.specialBind(c,b);else var k=avalon.bind(c,h,b);d.rollback=function(){"function"===typeof d.specialUnbind?d.specialUnbind():
-avalon.unbind(c,h,k)};d.evaluator=d.handler=A},text:function(b,c,d){b=null==b?"":b;var e=d.node;if(3===d.nodeType){d.element=e.parentNode;try{e.data=b}catch(f){}}else"textContent"in c?c.textContent=b:c.innerText=b},visible:function(b,c,d){c.style.display=b?d.display:"none"},widget:A},Ib=/\(([^)]*)\)/,Zc=/^\s+$/;avalon.parseDisplay=ca;var E=avalon.bindingHandlers={attr:function(b,c){var d=b.value.trim(),e=!0;-1<d.indexOf(L)&&2<d.indexOf(M)&&(e=!1,ba.test(d)&&(""===RegExp.rightContext&&""===RegExp.leftContext)&&
-(e=!0,d=RegExp.$1));b.handlerName="attr";N(d,c,b,e?null:ya(b.value))},"class":function(b,c){var d=b.param,e=b.value;b.handlerName="class";if(!d||isFinite(d)){b.param="";var f=e.replace(Db,function(b){return Math.pow(10,b.length-1)}).indexOf(":");if(-1===f)d=e;else if(d=e.slice(0,f),e=e.slice(f+1),qa(e,c,b),b.evaluator)b._evaluator=b.evaluator,b._args=b.args;else return B("debug: ms-class '"+(e||"").trim()+"' \u4e0d\u5b58\u5728\u4e8eVM\u4e2d"),!1;e=ba.test(d);e||(b.immobileClass=d);N("",c,b,e?ya(d):
-null)}else b.immobileClass=b.oldStyle=b.param,N(e,c,b)},duplex:function(b,c){var d=b.element;if("function"===typeof Y[d.tagName]&&(b.changed=ea(d,"data-duplex-changed",c)||A,qa(b.value,c,b,"duplex"),b.evaluator&&b.args)){var e=d.form;e&&e.msValidate&&e.msValidate(d);b.bound=function(c,e){d.addEventListener?d.addEventListener(c,e,!1):d.attachEvent("on"+c,e);var h=b.rollback;b.rollback=function(){avalon.unbind(d,c,e);h&&h()}};Y[d.tagName](d,b.evaluator.apply(null,b.args),b)}},repeat:function(b,c){var d=
-b.type,e;qa(b.value,c,b);"repeat"!==d&&B("warning:\u5efa\u8bae\u4f7f\u7528ms-repeat\u4ee3\u66ffms-each, ms-with, ms-repeat\u53ea\u5360\u7528\u4e00\u4e2a\u6807\u7b7e\u5e76\u4e14\u6027\u80fd\u66f4\u597d");var f=b.callbackElement=b.element;b.getter=function(){return this.evaluator.apply(0,this.args||[])};b.proxies=[];var g=!0;try{e=b.getter();var h=avalon.type(e);if("object"===h||"array"===h)g=!1}catch(k){}h=Q.cloneNode(!1);if("repeat"===d){var l=q.createComment("ms-repeat-start"),m=q.createComment("ms-repeat-end");
-b.startRepeat=l;b.endRepeat=m;f.removeAttribute(b.name);var n=b.element=f.parentNode;n.replaceChild(m,f);n.insertBefore(l,m);h.appendChild(f)}else for(;l=f.firstChild;)3===l.nodeType&&Zc.test(l.data)?f.removeChild(l):h.appendChild(l);b.template=h;b.rollback=function(){Da.repeat.call(b,"clear");var c=b.endRepeat,d=b.element;d.insertBefore(b.template,c||null);c&&(d.removeChild(c),d.removeChild(b.startRepeat),b.element=b.callbackElement)};f=b.value.split(".")||[];if(1<f.length){f.pop();l=f[0];for(f=
-0;m=c[f++];)if(m&&m.hasOwnProperty(l)&&m[l][y]){m[l][y].push(b);break}}if(!g){b.callbackName="data-"+d+"-rendered";b.handler=Da.repeat;b.$outer={};g="$key";l="$val";Array.isArray(e)&&(g="$first",l="$last");for(f=0;m=c[f++];)if(m.hasOwnProperty(g)&&m.hasOwnProperty(l)){b.$outer=m;break}l=h.firstChild;b.fastRepeat=!!l&&1===l.nodeType&&h.lastChild===l&&!l.attributes["ms-controller"]&&!l.attributes["ms-important"];e[y]&&e[y].push(b);D(e);if(!Array.isArray(e)&&"each"!==d){var p=V[e.$id];if(!p){na++;var p=
-V[e.$id]={},r;for(r in e)e.hasOwnProperty(r)&&"hasOwnProperty"!==r&&function(b,c){p[b]=oc(b,c,{});p[b].$watch("$val",function(c){e[b]=c})}(r,e[r])}b.handler("append",e,p)}else b.handler("add",0,e)}},html:function(b,c){N(b.value,c,b)},"if":function(b,c){b.element.removeAttribute(b.name);b.placehoder||(b.msInDocument=b.placehoder=q.createComment("ms-if"));b.vmodels=c;N(b.value,c,b)},on:function(b,c){var d=b.value,e=b.param.replace(/-\d+$/,"");if("function"===typeof E.on[e+"Hook"])E.on[e+"Hook"](b);
-if(0<d.indexOf("(")&&-1<d.indexOf(")")&&(e=(d.match(Ib)||["",""])[1].trim(),""===e||"$event"===e))d=d.replace(Ib,"");N(d,c,b)},visible:function(b,c){var d=avalon(b.element),e=d.css("display");if("none"===e){var f=d[0].style,g=/visibility/i.test(f.cssText),h=d.css("visibility");f.display="";f.visibility="hidden";e=d.css("display");"none"===e&&(e=ca(d[0].nodeName));f.visibility=g?h:""}b.display=e;N(b.value,c,b)},widget:function(b,c){var d=b.value.match(C),e=b.element,f=d[0];if("$"===d[1]||!d[1])d[1]=
-f+setTimeout("1");b.value=d.join(",");var g=avalon.ui[f];if("function"===typeof g){c=e.vmodels||c;for(var h=d[2]||f,k=0,l;l=c[k++];)if(l.hasOwnProperty(h)&&"object"===typeof l[h]){var m=l;break}if(m){var n=m[h],n=n.$model||n,h=n[f+"Id"];"string"===typeof h&&(d[1]=h)}h=avalon.getWidgetData(e,d[0]);b[f+"Id"]=d[1];b[f+"Options"]=avalon.mix({},g.defaults,n||{},h);e.removeAttribute("ms-widget");var p=g(e,b,c)||{};b.evaluator=A;e.msData["ms-widget-id"]=p.$id||"";p.hasOwnProperty("$init")&&p.$init();if(p.hasOwnProperty("$remove")){var r=
-function(){if(!e.msRetain&&!z.contains(e))return p.$remove(),e.msData={},delete X[p.$id],!1};s.chrome?e.addEventListener("DOMNodeRemovedFromDocument",function(){setTimeout(r)}):avalon.tick(r)}}else c.length&&(e.vmodels=c)}};"hover,active".replace(C,function(b){E[b]=E["class"]});"with,each".replace(C,function(b){E[b]=E.repeat});E.data=E.text=E.html;"title,alt,src,value,css,include,href".replace(C,function(b){E[b]=E.attr});var Y=E.duplex;Y.INPUT=function(b,c,d){var e=d.param,f=b.type,g=d.bound,h=avalon(b),
-k=!1,l=!1,m=function(b){k=!0;d.changed.call(this,b)},n=function(){l=!0},p=function(){l=!1},r=function(){if(!l){var d=b.oldValue=b.value;!1!==h.data("duplex-observe")&&(c(d),m.call(b,d))}};d.handler=function(){var d=c(),d=null==d?"":d+"";d!==b.value&&(b.value=d)};"checkbox"===f&&"radio"===e&&(f="radio");if("radio"===f)d.handler=function(){b.defaultChecked=b.checked=/bool|text/.test(e)?c()+""===b.value:!!c()},r=function(){if(!1!==h.data("duplex-observe")){var d=b.value;"text"===e?c(d):"bool"===e?(d=
-"true"===d,c(d)):(d=!b.defaultChecked,c(d),b.checked=d);m.call(b,d)}},g(e?"click":"mousedown",r);else if("checkbox"===f)r=function(){if(!1!==h.data("duplex-observe")){var d=b.checked?"ensure":"remove",e=c();if(Array.isArray(e))avalon.Array[d](e,b.value);else avalon.error("ms-duplex\u4f4d\u4e8echeckbox\u65f6\u8981\u6c42\u5bf9\u5e94\u4e00\u4e2a\u6570\u7ec4");m.call(b,e)}},d.handler=function(){var d=[].concat(c());b.checked=0<=d.indexOf(b.value)},g(v?"change":"click",r);else if(f=b.attributes["data-duplex-event"]||
-b.attributes["data-event"]||{},f=f.value,"change"===f)g("change",r);else if(v&&9!==q.documentMode)g("input",r),g("compositionstart",n),g("compositionend",p);else{var ka=["keyup","paste","cut","change"],la=function(b){var c=b.keyCode;91===c||(15<c&&19>c||37<=c&&40>=c)||("cut"===b.type?avalon.nextTick(r):r())};ka.forEach(function(c){b.attachEvent("on"+c,la)});d.rollback=function(){ka.forEach(function(c){b.detachEvent("on"+c,la)})}}b.oldValue=b.value;Jb(function(){if(avalon.contains(z,b))fc.call(b);
-else if(!b.msRetain)return!1});ua(d);var Qb=setTimeout(function(){k||m.call(b,b.value);clearTimeout(Qb)},31)};var rb,da=[],Jb=A;avalon.tick=function(b){1===da.push(b)&&(rb=setInterval(gc,30))};try{var Ta=HTMLInputElement.prototype;Object.getOwnPropertyNames(Ta);var ic=Object.getOwnPropertyDescriptor(Ta,"value").set;Object.defineProperty(Ta,"value",{set:hc})}catch(jd){Jb=avalon.tick}Y.SELECT=function(b,c,d){var e=avalon(b);d.handler=function(){var d=c(),d=d&&d.$model||d,d=Array.isArray(d)?d.map(String):
-d+"";d+""!==b.oldValue&&(e.val(d),b.oldValue=d+"")};d.bound("change",function(){if(!1!==e.data("duplex-observe")){var f=e.val();f+""!==b.oldValue&&(c(f),b.oldValue=f+"");d.changed.call(b,f)}});var f=NaN,g=setInterval(function(){var e=b.innerHTML;e===f?(clearInterval(g),ua(d),d.changed.call(b,c())):f=e},20)};Y.TEXTAREA=Y.INPUT;var ha=avalon.eventHooks;"onmouseenter"in z||avalon.each({mouseenter:"mouseover",mouseleave:"mouseout"},function(b,c){ha[b]={type:c,deel:function(c,e){return function(f){var g=
-f.relatedTarget;if(!g||g!==c&&!(c.compareDocumentPosition(g)&16))return delete f.type,f.type=b,e.call(c,f)}}}});avalon.each({AnimationEvent:"animationend",WebKitAnimationEvent:"webkitAnimationEnd"},function(b,c){s[b]&&!ha.animationend&&(ha.animationend={type:c})});"oninput"in document.createElement("input")||(ha.input={type:"propertychange",deel:function(b,c){return function(d){if("value"===d.propertyName)return d.type="input",c.call(b,d)}}});if(void 0===document.onmousewheel){var Kb=void 0!==document.onwheel?
-"wheel":"DOMMouseScroll",$c="wheel"===Kb?"deltaY":"detail";ha.mousewheel={type:Kb,deel:function(b,c){return function(d){d.wheelDeltaY=d.wheelDelta=0<d[$c]?-120:120;d.wheelDeltaX=0;Object.defineProperty&&Object.defineProperty(d,"type",{value:"mousewheel"});c.call(b,d)}}}}var Ua=I.splice,sb={_splice:Ua,_add:function(b,c){var d=this.length;c="number"===typeof c?c:d;for(var d=[],e=0,f=b.length;e<f;e++){var g=d,h=e,k=b[e];sa.test(avalon.type(k))&&(k=k.$id?k:J(k,k));g[h]=k}Ua.apply(this,[c,0].concat(d));
-D(this,"add",c,d);if(!this._stopFireLength)return this._.length=this.length},_del:function(b,c){var d=this._splice(b,c);d.length&&(D(this,"del",b,c),this._stopFireLength||(this._.length=this.length));return d},push:function(){I.push.apply(this.$model,arguments);var b=this._add(arguments);D(this,"index",2<b?b-2:0);return b},pushArray:function(b){return this.push.apply(this,b)},unshift:function(){I.unshift.apply(this.$model,arguments);this._add(arguments,0);D(this,"index",arguments.length);return this.$model.length},
-shift:function(){var b=this.$model.shift();this._del(0,1);D(this,"index",0);return b},pop:function(){var b=this.$model.pop();this._del(this.length-1,1);return b},splice:function(b,c){b=ra(b,this.length);var d=Ua.apply(this.$model,arguments),e=[],f;this._stopFireLength=!0;d.length&&(e=this._del(b,d.length),f=!0);2<arguments.length&&(this._add(aa.call(arguments,2),b),f=!0);this._stopFireLength=!1;this._.length=this.length;f&&D(this,"index",0);return e},contains:function(b){return-1!==this.indexOf(b)},
-size:function(){return this._.length},remove:function(b){return this.removeAt(this.indexOf(b))},removeAt:function(b){return 0<=b?this.splice(b,1):[]},clear:function(){this.$model.length=this.length=this._.length=0;D(this,"clear",0);return this},removeAll:function(b){if(Array.isArray(b))b.forEach(function(b){this.remove(b)},this);else if("function"===typeof b)for(var c=this.length-1;0<=c;c--)b(this[c],c)&&this.splice(c,1);else this.clear()},ensure:function(b){this.contains(b)||this.push(b);return this},
-set:function(b,c){if(0<=b){var d=avalon.type(c);c&&c.$model&&(c=c.$model);var e=this[b];if("object"===d)for(var f in c)e.hasOwnProperty(f)&&(e[f]=c[f]);else"array"===d?e.clear().push.apply(e,c):e!==c&&(this[b]=c,this.$model[b]=c,D(this,"set",b,c))}return this}};"sort,reverse".replace(C,function(b){sb[b]=function(){var c=this.$model,d=c.slice(0),e=!1;I[b].apply(c,arguments);for(var f=0,g=d.length;f<g;f++){var h=c[f];if(!Z(h,d[f])){var e=!0,h=d.indexOf(h,f),k=this._splice(h,1)[0],l=d.splice(h,1)[0];
-this._splice(f,0,k);d.splice(f,0,l);D(this,"move",h,f)}}e&&D(this,"index",0);return this}});var kc=q.createTreeWalker?function(b){b=q.createTreeWalker(b,NodeFilter.SHOW_COMMENT,null,null);for(var c,d=[];c=b.nextNode();)d.push(c);return d}:function(b){return b.getElementsByTagName("!")},qc=T("$index,$first,$last"),fa=[],ad=/<script[^>]*>([\S\s]*?)<\/script\s*>/gim,bd=/^<(a|img)\s/i,cd=/\s+(on[^=\s]+)(?:=("[^"]*"|'[^']*'|[^\s>]+))?/g,dd=/<\w+\b(?:(["'])[^"]*?(\1)|[^>])*>/ig,ed=/\s+(src|href)(?:=("javascript[^"]*"|'javascript[^']*'))?/ig,
-fd=/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,gd=/([^\#-~| |!])/g,Va=avalon.filters={uppercase:function(b){return b.toUpperCase()},lowercase:function(b){return b.toLowerCase()},truncate:function(b,c,d){c=c||30;d=void 0===d?"...":d;return b.length>c?b.slice(0,c-d.length)+d:String(b)},camelize:oa,sanitize:function(b){return b.replace(ad,"").replace(dd,function(b,d){bd.test(b)&&(b=b.replace(ed," $1=''"));return b.replace(cd," ").replace(/\s+/g," ")})},escape:function(b){return String(b).replace(/&/g,"&amp;").replace(fd,
-function(b){var d=b.charCodeAt(0);b=b.charCodeAt(1);return"&#"+(1024*(d-55296)+(b-56320)+65536)+";"}).replace(gd,function(b){return"&#"+b.charCodeAt(0)+";"}).replace(/</g,"&lt;").replace(/>/g,"&gt;")},currency:function(b,c){return(c||"\uffe5")+avalon.filters.number(b)},number:function(b,c,d,e){b=(b+"").replace(/[^0-9+\-Ee.]/g,"");b=!isFinite(+b)?0:+b;c=!isFinite(+c)?0:Math.abs(c);e=e||",";d=d||".";var f="",f=function(b,c){var d=Math.pow(10,c);return""+Math.round(b*d)/d},f=(c?f(b,c):""+Math.round(b)).split(".");
-3<f[0].length&&(f[0]=f[0].replace(/\B(?=(?:\d{3})+(?!\d))/g,e));if((f[1]||"").length<c)f[1]=f[1]||"",f[1]+=Array(c-f[1].length+1).join("0");return f.join(d)}};new function(){function b(b,c,d){var e="";0>b&&(e="-",b=-b);for(b=""+b;b.length<c;)b="0"+b;d&&(b=b.substr(b.length-c));return e+b}function c(c,d,e,f){return function(g){g=g["get"+c]();if(0<e||g>-e)g+=e;0===g&&-12===e&&(g=12);return b(g,d,f)}}function d(b,c){return function(d,e){var f=d["get"+b](),g=(c?"SHORT"+b:b).toUpperCase();return e[g][f]}}
-function e(b){var c;if(c=b.match(k)){b=new Date(0);var d=0,e=0,f=c[8]?b.setUTCFullYear:b.setFullYear,g=c[8]?b.setUTCHours:b.setHours;c[9]&&(d=parseInt(c[9]+c[10],10),e=parseInt(c[9]+c[11],10));f.call(b,parseInt(c[1],10),parseInt(c[2],10)-1,parseInt(c[3],10));d=parseInt(c[4]||0,10)-d;e=parseInt(c[5]||0,10)-e;f=parseInt(c[6]||0,10);c=Math.round(1E3*parseFloat("0."+(c[7]||0)));g.call(b,d,e,f,c)}return b}var f={yyyy:c("FullYear",4),yy:c("FullYear",2,0,!0),y:c("FullYear",1),MMMM:d("Month"),MMM:d("Month",
-!0),MM:c("Month",2,1),M:c("Month",1,1),dd:c("Date",2),d:c("Date",1),HH:c("Hours",2),H:c("Hours",1),hh:c("Hours",2,-12),h:c("Hours",1,-12),mm:c("Minutes",2),m:c("Minutes",1),ss:c("Seconds",2),s:c("Seconds",1),sss:c("Milliseconds",3),EEEE:d("Day"),EEE:d("Day",!0),a:function(b,c){return 12>b.getHours()?c.AMPMS[0]:c.AMPMS[1]},Z:function(c){c=-1*c.getTimezoneOffset();return c=(0<=c?"+":"")+(b(Math[0<c?"floor":"ceil"](c/60),2)+b(Math.abs(c%60),2))}},g=/((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
-h=/^\d+$/,k=/^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/,l=/^(\d+)-(\d+)-(\d{4})$/,m=/^(\d+)\s+(\d+),(\d{4})$/;Va.date=function(b,c){var d=Va.date.locate,k="",n=[],Sa,ga;c=c||"mediumDate";c=d[c]||c;if("string"===typeof b){if(h.test(b))b=parseInt(b,10);else{ga=b.trim();if(ga.match(l)||ga.match(m))b=RegExp.$3+"/"+RegExp.$1+"/"+RegExp.$2;b=e(b)}b=new Date(b)}"number"===typeof b&&(b=new Date(b));if("date"===avalon.type(b)){for(;c;)(ga=g.exec(c))?
-(n=n.concat(ga.slice(1)),c=n.pop()):(n.push(c),c=null);n.forEach(function(c){Sa=f[c];k+=Sa?Sa(b,d):c.replace(/(^'|'$)/g,"").replace(/''/g,"'")});return k}};var n={AMPMS:{"0":"\u4e0a\u5348",1:"\u4e0b\u5348"},DAY:{"0":"\u661f\u671f\u65e5",1:"\u661f\u671f\u4e00",2:"\u661f\u671f\u4e8c",3:"\u661f\u671f\u4e09",4:"\u661f\u671f\u56db",5:"\u661f\u671f\u4e94",6:"\u661f\u671f\u516d"},MONTH:{"0":"1\u6708",1:"2\u6708",2:"3\u6708",3:"4\u6708",4:"5\u6708",5:"6\u6708",6:"7\u6708",7:"8\u6708",8:"9\u6708",9:"10\u6708",
-10:"11\u6708",11:"12\u6708"},SHORTDAY:{"0":"\u5468\u65e5",1:"\u5468\u4e00",2:"\u5468\u4e8c",3:"\u5468\u4e09",4:"\u5468\u56db",5:"\u5468\u4e94",6:"\u5468\u516d"},fullDate:"y\u5e74M\u6708d\u65e5EEEE",longDate:"y\u5e74M\u6708d\u65e5",medium:"yyyy-M-d ah:mm:ss",mediumDate:"yyyy-M-d",mediumTime:"ah:mm:ss","short":"yy-M-d ah:mm",shortDate:"yy-M-d",shortTime:"ah:mm"};n.SHORTMONTH=n.MONTH;Va.date.locate=n};var F,t=avalon.modules={"ready!":{exports:avalon},avalon:{exports:avalon,state:2}};new function(){function b(b){return(b||
-"").replace(/[?#].*/,"")}function c(b){var c;try{a.b.c()}catch(d){c=d.stack,!c&&s.opera&&(c=(String(d).match(/of linked script \S+/g)||[]).join(" "))}if(c)return c=c.split(/[@ ]/g).pop(),c="("===c[0]?c.slice(1,-1):c.replace(/\s/,""),c.replace(/(:\d+)?:\d+$/i,"");c=(b?q:H).getElementsByTagName("script");for(var e=c.length,f;f=c[--e];)if((b||f.className===y)&&"interactive"===f.readyState)return f.className=f.src}function d(b,c){for(var e in b)if("\u53f8\u5f92\u6b63\u7f8e"===b[e]&&2!==t[e].state&&(e===
-c||d(t[e].deps,c)))return!0}function e(){var b=l.length,c;a:for(;c=l[--b];){c=t[c];var d=c.deps,f;for(f in d)if(P.call(d,f)&&2!==t[f].state)continue a;2!==c.state&&(l.splice(b,1),k(c.id,c.args,c.factory),e())}}function f(c,d,e){var f=b(c.src);c.onload=c.onreadystatechange=c.onerror=null;if(d||e&&!t[f].state)setTimeout(function(){H.removeChild(c);c=null}),B("debug: \u52a0\u8f7d "+f+" \u5931\u8d25"+d+" "+!t[f].state);else return!0}function g(c,d,e,f){if("ready!"===c||t[c]&&2===t[c].state)return c;var g;
-c=c.replace(/^\w+!/,function(b){g=b.slice(0,-1);return""});g=g||"js";g=S[g]||A;"object"===typeof u.shim[c]&&(f=u.shim[c]);u.paths[c]&&(c=u.paths[c]);if(/^(\w+)(\d)?:.*/.test(c))e=c;else{d=d.substr(0,d.lastIndexOf("/"));var h=c.charAt(0);if("."!==h&&"/"!==h)e=n+c;else if("./"===c.slice(0,2))e=d+c.slice(1);else if(".."===c.slice(0,2))for(e=d+"/"+c;r.test(e);)e=e.replace(r,"");else"/"===h?e=c:avalon.error("\u4e0d\u7b26\u5408\u6a21\u5757\u6807\u8bc6\u89c4\u5219: "+c)}c=b(e);(d=g.ext)&&c.slice(0-d.length)!==
-d&&(e+=d);u.nocache&&(e+=(-1===e.indexOf("?")?"?":"&")+(new Date-0));return g(e,f)}function h(b,c,d){var e=q.createElement("script");e.className=y;e[v?"onload":"onreadystatechange"]=function(){if(v||/loaded|complete/i.test(e.readyState)){var g=m.pop();g&&g.delay(c);d&&d();f(e,!1,!v)&&B("debug: \u5df2\u6210\u529f\u52a0\u8f7d "+b)}};e.onerror=function(){f(e,!0)};e.src=b;H.insertBefore(e,H.firstChild);B("debug: \u6b63\u51c6\u5907\u52a0\u8f7d "+b)}function k(b,c,d){for(var e=0,f=[],g;g=c[e++];)f.push(t[g].exports);
-c=Object(t[b]);d=d.apply(s,f);c.state=2;void 0!==d&&(t[b].exports=d);return d}var l=[],m=[],n;S.js=function(c,d){var e=b(c);t[e]||(t[e]={id:e,exports:{}},d?F(d.deps||"",function(){h(c,e,function(){t[e].state=2;d.exports&&(t[e].exports="function"===typeof d.exports?d.exports():s[d.exports]);F.checkDeps()})}):h(c,e));return e};S.css=function(b){var c=b.replace(/(#.+|\W)/g,"");if(!q.getElementById(c)){var d=q.createElement("link");d.rel="stylesheet";d.href=b;d.id=c;H.insertBefore(d,H.firstChild)}};S.css.ext=
-".css";S.js.ext=".js";S.text=function(b){var c=Pa(),d=b.replace(/[?#].*/,"");t[d]={};c.onreadystatechange=function(){if(4===c.readyState){var e=c.status;399<e&&600>e?avalon.error(b+" \u5bf9\u5e94\u8d44\u6e90\u4e0d\u5b58\u5728\u6216\u6ca1\u6709\u5f00\u542f CORS"):(t[d].state=2,t[d].exports=c.responseText,F.checkDeps())}};c.open("GET",b,!0);"withCredentials"in c&&(c.withCredentials=!0);c.setRequestHeader("X-Requested-With","XMLHttpRequest");c.send();return d};var p=c(!0);p||(p=avalon.slice(q.scripts).pop().src);
-p=b(p);n=u.base=p.slice(0,p.lastIndexOf("/")+1);var r=/\/\w+\/\.\./;F=avalon.require=function(b,c,d){var f={},h=[],m=0,p=0,q=d||"callback"+setTimeout("1");d=d||n;String(b).replace(C,function(b){if(b=g(b,d))m++,t[b]&&2===t[b].state&&p++,f[b]||(h.push(b),f[b]="\u53f8\u5f92\u6b63\u7f8e")});t[q]={id:q,factory:c,deps:f,args:h,state:1};m===p?k(q,h,c):l.unshift(q);e()};F.define=function(e,f,g){var h=aa.call(arguments);if("string"===typeof e)var k=h.shift();"function"===typeof h[0]&&h.unshift([]);var l=t[k]&&
-1<=t[k].state?k:b(c());!t[l]&&k&&(t[l]={id:l,factory:g,state:1});g=h[1];g.id=k;g.delay=function(b){h.push(b);var c=!0;try{c=d(t[b].deps,b)}catch(e){}c&&avalon.error(b+"\u6a21\u5757\u4e0e\u4e4b\u524d\u7684\u6a21\u5757\u5b58\u5728\u5faa\u73af\u4f9d\u8d56\uff0c\u8bf7\u4e0d\u8981\u76f4\u63a5\u7528script\u6807\u7b7e\u5f15\u5165"+b+"\u6a21\u5757");delete g.delay;F.apply(null,h)};l?g.delay(l,h):m.push(g)};F.define.amd=t;F.config=u;F.checkDeps=e};var xb=[];"complete"===q.readyState?setTimeout(R):v?q.addEventListener("DOMContentLoaded",
-R):(q.attachEvent("onreadystatechange",function(){"complete"===q.readyState&&R()}),z.doScroll&&yb());avalon.bind(s,"load",R);avalon.ready=function(b){F?F("ready!",b):R===A?b(avalon):xb.push(b)};avalon.config({loader:!0});avalon.ready(function(){if(s.VBArray&&!s.setImmediate){var b=[];avalon.nextTick=function(c){"function"===typeof c&&b.push(c);var d=q.createElement("script");d.onreadystatechange=function(){var c=b.shift();c&&(c(),b.length&&avalon.nextTick());d.onreadystatechange=null;H.removeChild(d);
-d=null};H.appendChild(d)}}avalon.scan(q.body)})})(document);
+//==================================================
+// avalon.modern 注意： 只能用于IE10及高版本的标准浏览器
+//==================================================
+(function(DOC) {
+    var prefix = "ms-"
+    var expose = Date.now()
+    var subscribers = "$" + expose
+    var window = this || (0, eval)('this')
+    var otherRequire = window.require
+    var otherDefine = window.define
+    var stopRepeatAssign = false
+    var rword = /[^, ]+/g //切割字符串为一个个小块，以空格或豆号分开它们，结合replace实现字符串的forEach
+    var rcomplextype = /^(?:object|array)$/
+    var rsvg = /^\[object SVG\w*Element\]$/
+    var rwindow = /^\[object (Window|DOMWindow|global)\]$/
+    var oproto = Object.prototype
+    var ohasOwn = oproto.hasOwnProperty
+    var serialize = oproto.toString
+    var ap = Array.prototype
+    var aslice = ap.slice
+    var Registry = {} //将函数曝光到此对象上，方便访问器收集依赖
+    var head = DOC.head //HEAD元素
+    var root = DOC.documentElement
+    var hyperspace = DOC.createDocumentFragment()
+    var cinerator = DOC.createElement("div")
+    var class2type = {}
+    "Boolean Number String Function Array Date RegExp Object Error".replace(rword, function(name) {
+        class2type["[object " + name + "]"] = name.toLowerCase()
+    })
+
+    function noop() {
+    }
+
+    function log(a) {
+        if (avalon.config.debug) {
+            console.log(a)
+        }
+    }
+    function oneObject(array, val) {
+        if (typeof array === "string") {
+            array = array.match(rword) || []
+        }
+        var result = {},
+                value = val !== void 0 ? val : 1
+        for (var i = 0, n = array.length; i < n; i++) {
+            result[array[i]] = value
+        }
+        return result
+    }
+    /*生成UUID http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript*/
+    function generateID() {
+        return "avalon" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    }
+    /*********************************************************************
+     *                  avalon的静态方法定义区                                   *
+     **********************************************************************/
+    window.avalon = function(el) { //创建jQuery式的无new 实例化结构
+        return new avalon.init(el)
+    }
+    avalon.init = function(el) {
+        this[0] = this.element = el
+    }
+    avalon.fn = avalon.prototype = avalon.init.prototype
+
+    /*取得目标类型*/
+    avalon.type = function(obj) {
+        if (obj == null) {
+            return String(obj)
+        }
+        // 早期的webkit内核浏览器实现了已废弃的ecma262v4标准，可以将正则字面量当作函数使用，因此typeof在判定正则时会返回function
+        return typeof obj === "object" || typeof obj === "function" ?
+                class2type[serialize.call(obj)] || "object" :
+                typeof obj
+    }
+
+    avalon.isWindow = function(obj) {
+        return rwindow.test(serialize.call(obj))
+    }
+
+    /*判定是否是一个朴素的javascript对象（Object），不是DOM对象，不是BOM对象，不是自定义类的实例*/
+    avalon.isPlainObject = function(obj) {
+        return !!obj && typeof obj === "object" && Object.getPrototypeOf(obj) === oproto
+    }
+
+    avalon.mix = avalon.fn.mix = function() {
+        var options, name, src, copy, copyIsArray, clone,
+                target = arguments[0] || {},
+                i = 1,
+                length = arguments.length,
+                deep = false
+
+        // 如果第一个参数为布尔,判定是否深拷贝
+        if (typeof target === "boolean") {
+            deep = target
+            target = arguments[1] || {}
+            i++
+        }
+
+//确保接受方为一个复杂的数据类型
+        if (typeof target !== "object" && avalon.type(target) !== "function") {
+            target = {}
+        }
+
+//如果只有一个参数，那么新成员添加于mix所在的对象上
+        if (i === length) {
+            target = this
+            i--
+        }
+
+        for (; i < length; i++) {
+//只处理非空参数
+            if ((options = arguments[i]) != null) {
+                for (name in options) {
+                    src = target[name]
+                    copy = options[name]
+
+                    // 防止环引用
+                    if (target === copy) {
+                        continue
+                    }
+                    if (deep && copy && (avalon.isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))) {
+                        if (copyIsArray) {
+                            copyIsArray = false
+                            clone = src && Array.isArray(src) ? src : []
+
+                        } else {
+                            clone = src && avalon.isPlainObject(src) ? src : {}
+                        }
+
+                        target[name] = avalon.mix(deep, clone, copy)
+                    } else if (copy !== void 0) {
+                        target[name] = copy
+                    }
+                }
+            }
+        }
+        return target
+    }
+
+    avalon.mix({
+        rword: rword,
+        subscribers: subscribers,
+        version: 1.35,
+        ui: {},
+        log: log,
+        noop: noop,
+        error: function(str, e) { //如果不用Error对象封装一下，str在控制台下可能会乱码
+            throw new (e || Error)(str)
+        },
+        oneObject: oneObject,
+        /* avalon.range(10)
+         => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+         avalon.range(1, 11)
+         => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+         avalon.range(0, 30, 5)
+         => [0, 5, 10, 15, 20, 25]
+         avalon.range(0, -10, -1)
+         => [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+         avalon.range(0)
+         => []*/
+        range: function(start, end, step) { // 用于生成整数数组
+            step || (step = 1)
+            if (end == null) {
+                end = start || 0
+                start = 0
+            }
+            var index = -1,
+                    length = Math.max(0, Math.ceil((end - start) / step)),
+                    result = Array(length)
+            while (++index < length) {
+                result[index] = start
+                start += step
+            }
+            return result
+        },
+        slice: function(nodes, start, end) {
+            return aslice.call(nodes, start, end)
+        },
+        contains: function(a, b) {
+            return a.contains(b)
+        },
+        eventHooks: {},
+        bind: function(el, type, fn, phase) {
+            var hooks = avalon.eventHooks
+            var hook = hooks[type]
+            if (typeof hook === "object") {
+                type = hook.type
+                if (hook.deel) {
+                    fn = hook.deel(el, fn)
+                }
+            }
+            el.addEventListener(type, fn, !!phase)
+            return fn
+        },
+        unbind: function(el, type, fn, phase) {
+            var hooks = avalon.eventHooks
+            var hook = hooks[type]
+            if (typeof hook === "object") {
+                type = hook.type
+            }
+            el.removeEventListener(type, fn || noop, !!phase)
+        },
+        css: function(node, name, value) {
+            if (node instanceof avalon) {
+                node = node[0]
+            }
+            var prop = /[_-]/.test(name) ? camelize(name) : name
+            name = avalon.cssName(prop) || prop
+            if (value === void 0 || typeof value === "boolean") { //获取样式
+                var fn = cssHooks[prop + ":get"] || cssHooks["@:get"]
+                var val = fn(node, name)
+                return value === true ? parseFloat(val) || 0 : val
+            } else if (value === "") { //请除样式
+                node.style[name] = ""
+            } else { //设置样式
+                if (value == null || value !== value) {
+                    return
+                }
+                if (isFinite(value) && !avalon.cssNumber[prop]) {
+                    value += "px"
+                }
+                fn = cssHooks[prop + ":set"] || cssHooks["@:set"]
+                fn(node, name, value)
+            }
+        },
+        each: function(obj, fn) {
+            if (obj) { //排除null, undefined
+                var i = 0
+                if (isArrayLike(obj)) {
+                    for (var n = obj.length; i < n; i++) {
+                        fn(i, obj[i])
+                    }
+                } else {
+                    for (i in obj) {
+                        if (obj.hasOwnProperty(i)) {
+                            fn(i, obj[i])
+                        }
+                    }
+                }
+            }
+        },
+        getWidgetData: function(elem, prefix) {
+            var raw = avalon(elem).data()
+            var result = {}
+            for (var i in raw) {
+                if (i.indexOf(prefix) === 0) {
+                    result[i.replace(prefix, "").replace(/\w/, function(a) {
+                        return a.toLowerCase()
+                    })] = raw[i]
+                }
+            }
+            return result
+        },
+        parseJSON: JSON.parse,
+        Array: {
+            /*只有当前数组不存在此元素时只添加它*/
+            ensure: function(target, item) {
+                if (target.indexOf(item) === -1) {
+                    target.push(item)
+                }
+                return target
+            },
+            /*移除数组中指定位置的元素，返回布尔表示成功与否*/
+            removeAt: function(target, index) {
+                return !!target.splice(index, 1).length
+            },
+            /*移除数组中第一个匹配传参的那个元素，返回布尔表示成功与否*/
+            remove: function(target, item) {
+                var index = target.indexOf(item)
+                if (~index)
+                    return avalon.Array.removeAt(target, index)
+                return false
+            }
+        }
+    })
+
+
+    /*判定是否类数组，如节点集合，纯数组，arguments与拥有非负整数的length属性的纯JS对象*/
+    function isArrayLike(obj) {
+        if (obj && typeof obj === "object") {
+            var n = obj.length,
+                    str = serialize.call(obj)
+            if (/(Array|List|Collection|Map|Arguments)\]$/.test(str)) {
+                return true
+            } else if (str === "[object Object]" && (+n === n && !(n % 1) && n >= 0)) {
+                return true //由于ecma262v5能修改对象属性的enumerable，因此不能用propertyIsEnumerable来判定了
+            }
+        }
+        return false
+    }
+    avalon.isArrayLike = isArrayLike
+    /*视浏览器情况采用最快的异步回调*/
+    avalon.nextTick = window.setImmediate ? setImmediate.bind(window) : function(callback) {
+        setTimeout(callback, 0)
+    }
+    /*********************************************************************
+     *                           DOM 底层补丁                             *
+     **********************************************************************/
+    if (!root.contains) { //safari5+是把contains方法放在Element.prototype上而不是Node.prototype
+        Node.prototype.contains = function(arg) {
+            return !!(this.compareDocumentPosition(arg) & 16)
+        }
+    }
+    if (window.SVGElement) {
+        var svgns = "http://www.w3.org/2000/svg"
+        var svg = document.createElementNS(svgns, "svg")
+        svg.innerHTML = '<circle cx="50" cy="50" r="40" fill="yellow" />'
+        if (!rsvg.test(svg.firstChild)) {// #409
+            function enumerateNode(node, targetNode) {
+                if (node && node.childNodes) {
+                    var nodes = node.childNodes
+                    for (var i = 0, el; el = nodes[i++]; ) {
+                        if (el.tagName) {
+                            var svg = document.createElementNS(svgns,
+                                    el.tagName.toLowerCase())
+                            // copy attrs
+                            ap.forEach.call(el.attributes, function(attr) {
+                                svg.setAttribute(attr.name, attr.value)
+                            })
+                            // 递归处理子节点
+                            enumerateNode(el, svg)
+                            targetNode.appendChild(svg)
+                        }
+                    }
+                }
+            }
+            Object.defineProperties(SVGElement.prototype, {
+                "outerHTML": {//IE9-11,firefox不支持SVG元素的innerHTML,outerHTML属性
+                    enumerable: true,
+                    configurable: true,
+                    get: function() {
+                        return new XMLSerializer().serializeToString(this)
+                    },
+                    set: function(html) {
+                        var tagName = this.tagName.toLowerCase(),
+                                par = this.parentNode,
+                                frag = avalon.parseHTML(html)
+                        // 操作的svg，直接插入
+                        if (tagName === "svg") {
+                            par.insertBefore(frag, this)
+                            // svg节点的子节点类似
+                        } else {
+                            var newFrag = document.createDocumentFragment()
+                            enumerateNode(frag, newFrag)
+                            par.insertBefore(newFrag, this)
+                        }
+                        par.removeChild(this)
+                    }
+                },
+                "innerHTML": {
+                    enumerable: true,
+                    configurable: true,
+                    get: function() {
+                        var s = this.outerHTML
+                        var ropen = new RegExp("<" + this.nodeName + '\\b(?:(["\'])[^"]*?(\\1)|[^>])*>', "i")
+                        var rclose = new RegExp("<\/" + this.nodeName + ">$", "i")
+                        return  s.replace(ropen, "").replace(rclose, "")
+                    },
+                    set: function(html) {
+                        if (avalon.clearHTML) {
+                            avalon.clearHTML(this)
+                            var frag = avalon.parseHTML(html)
+                            enumerateNode(frag, this)
+                        }
+                    }
+                }
+            })
+        }
+    }
+    /*********************************************************************
+     *                           modelFactory                              *
+     **********************************************************************/
+    //avalon最核心的方法的两个方法之一（另一个是avalon.scan），返回一个ViewModel(VM)
+    var VMODELS = avalon.vmodels = {}
+    avalon.define = function(id, factory) {
+        var $id = id.$id || id
+        if (!$id) {
+            log("warning: 必须指定$id")
+        }
+        if (VMODELS[id]) {
+            log("warning: " + $id + " 已经存在于avalon.vmodels中")
+        }
+        if (typeof id === "object") {
+            var model = modelFactory(id)
+        } else {
+            var scope = {
+                $watch: noop
+            }
+            factory(scope) //得到所有定义
+            model = modelFactory(scope) //偷天换日，将scope换为model
+            stopRepeatAssign = true
+            factory(model)
+            stopRepeatAssign = false
+        }
+        model.$id = $id
+        return VMODELS[$id] = model
+    }
+
+    function modelFactory(scope, model) {
+        if (Array.isArray(scope)) {
+            var arr = scope.concat() //原数组的作为新生成的监控数组的$model而存在
+            scope.length = 0
+            var collection = Collection(scope)
+            collection.push.apply(collection, arr)
+            return collection
+        }
+        if (typeof scope.nodeType === "number") {
+            return scope
+        }
+        var vmodel = {} //要返回的对象
+        model = model || {} //放置$model上的属性
+        var accessingProperties = {} //监控属性
+        var normalProperties = {} //普通属性
+        var computedProperties = [] //计算属性
+        var watchProperties = arguments[2] || {} //强制要监听的属性
+        var skipArray = scope.$skipArray //要忽略监控的属性
+        for (var i = 0, name; name = skipProperties[i++]; ) {
+            delete scope[name]
+            normalProperties[name] = true
+        }
+        if (Array.isArray(skipArray)) {
+            for (var i = 0, name; name = skipArray[i++]; ) {
+                normalProperties[name] = true
+            }
+        }
+        for (var i in scope) {
+            accessorFactory(i, scope[i], model, normalProperties, accessingProperties, computedProperties, watchProperties)
+        }
+        vmodel = Object.defineProperties(vmodel, descriptorFactory(accessingProperties)) //生成一个空的ViewModel
+        for (var name in normalProperties) {
+            vmodel[name] = normalProperties[name]
+        }
+        watchProperties.vmodel = vmodel
+        vmodel.$model = model
+        vmodel.$events = {}
+        vmodel.$id = generateID()
+        vmodel.$accessors = accessingProperties
+        vmodel[subscribers] = []
+        for (var i in EventManager) {
+            vmodel[i] = EventManager[i]
+        }
+        Object.defineProperty(vmodel, "hasOwnProperty", {
+            value: function(name) {
+                return name in vmodel.$model
+            },
+            writable: false,
+            enumerable: false,
+            configurable: true
+        })
+        for (var i = 0, fn; fn = computedProperties[i++]; ) { //最后强逼计算属性 计算自己的值
+            Registry[expose] = fn
+            fn()
+            collectSubscribers(fn)
+            delete Registry[expose]
+        }
+        return vmodel
+    }
+    var skipProperties = String("$id,$watch,$unwatch,$fire,$events,$model,$skipArray,$accessors," + subscribers).match(rword)
+
+    var isEqual = Object.is || function(v1, v2) {
+        if (v1 === 0 && v2 === 0) {
+            return 1 / v1 === 1 / v2
+        } else if (v1 !== v1) {
+            return v2 !== v2
+        } else {
+            return v1 === v2;
+        }
+    }
+
+    function safeFire(a, b, c, d) {
+        if (a.$events) {
+            EventManager.$fire.call(a, b, c, d)
+        }
+    }
+
+    function descriptorFactory(obj) {
+        var descriptors = {}
+        for (var i in obj) {
+            descriptors[i] = {
+                get: obj[i],
+                set: obj[i],
+                enumerable: true,
+                configurable: true
+            }
+        }
+        return descriptors
+    }
+    //循环生成访问器属性需要的setter, getter函数（这里统称为accessor）
+    function accessorFactory(name, val, model, normalProperties, accessingProperties, computedProperties, watchProperties) {
+        model[name] = val
+        // 如果是元素节点 或者 在全局的skipProperties里 或者在当前的$skipArray里
+        // 或者是以$开头并又不在watchPropertie里，这些属性是不会产生accessor
+        if (normalProperties[name] || (val && val.nodeType) || (name.charAt(0) === "$" && !watchProperties[name])) {
+            return normalProperties[name] = val
+        }
+        // 此外， 函数也不会产生accessor
+        var valueType = avalon.type(val)
+        if (valueType === "function") {
+            return normalProperties[name] = val
+        }
+        //总共产生三种accessor
+        var accessor, oldArgs
+        if (valueType === "object" && typeof val.get === "function" && Object.keys(val).length <= 2) {
+            var setter = val.set,
+                    getter = val.get
+            //第1种对应计算属性， 因变量，通过其他监控属性触发其改变
+            accessor = function(newValue) {
+                var vmodel = watchProperties.vmodel
+                var value = model[name],
+                        preValue = value
+                if (arguments.length) {
+                    if (stopRepeatAssign) {
+                        return
+                    }
+                    if (typeof setter === "function") {
+                        var backup = vmodel.$events[name]
+                        vmodel.$events[name] = [] //清空回调，防止内部冒泡而触发多次$fire
+                        setter.call(vmodel, newValue)
+                        vmodel.$events[name] = backup
+                    }
+                    if (!isEqual(oldArgs, newValue)) {
+                        oldArgs = newValue
+                        newValue = model[name] = getter.call(vmodel) //同步$model
+                        withProxyCount && updateWithProxy(vmodel.$id, name, newValue) //同步循环绑定中的代理VM
+                        notifySubscribers(accessor) //通知顶层改变
+                        safeFire(vmodel, name, newValue, preValue) //触发$watch回调
+                    }
+                } else {
+                    if (avalon.openComputedCollect) { // 收集视图刷新函数
+                        collectSubscribers(accessor)
+                    }
+                    newValue = model[name] = getter.call(vmodel)
+                    if (!isEqual(value, newValue)) {
+                        oldArgs = void 0
+                        safeFire(vmodel, name, newValue, preValue)
+                    }
+                    return newValue
+                }
+            }
+            computedProperties.push(accessor)
+        } else if (rcomplextype.test(valueType)) {
+            //第2种对应子ViewModel或监控数组 
+            accessor = function(newValue) {
+                var realAccessor = accessor.$vmodel,
+                        preValue = realAccessor.$model
+                if (arguments.length) {
+                    if (stopRepeatAssign) {
+                        return
+                    }
+                    if (!isEqual(preValue, newValue)) {
+                        newValue = accessor.$vmodel = updateVModel(realAccessor, newValue, valueType)
+                        var fn = rebindings[newValue.$id]
+                        fn && fn() //更新视图
+                        var parent = watchProperties.vmodel
+                        model[name] = newValue.$model //同步$model
+                        notifySubscribers(realAccessor) //通知顶层改变
+                        safeFire(parent, name, model[name], preValue) //触发$watch回调
+                    }
+                } else {
+                    collectSubscribers(realAccessor) //收集视图函数
+                    return realAccessor
+                }
+            }
+            accessor.$vmodel = val.$model ? val : modelFactory(val, val)
+            model[name] = accessor.$vmodel.$model
+        } else {
+            //第3种对应简单的数据类型，自变量，监控属性
+            accessor = function(newValue) {
+                var preValue = model[name]
+                if (arguments.length) {
+                    if (!isEqual(preValue, newValue)) {
+                        model[name] = newValue //同步$model
+                        var vmodel = watchProperties.vmodel
+                        withProxyCount && updateWithProxy(vmodel.$id, name, newValue) //同步循环绑定中的代理VM
+                        notifySubscribers(accessor) //通知顶层改变
+                        safeFire(vmodel, name, newValue, preValue) //触发$watch回调
+                    }
+                } else {
+                    collectSubscribers(accessor) //收集视图函数
+                    return preValue
+                }
+            }
+            model[name] = val
+        }
+        accessor[subscribers] = [] //订阅者数组
+        accessingProperties[name] = accessor
+    }
+    //ms-with, ms-repeat绑定生成的代理对象储存池
+    var withProxyPool = {}
+    var withProxyCount = 0
+    var rebindings = {}
+
+    function updateWithProxy($id, name, val) {
+        var pool = withProxyPool[$id]
+        if (pool && pool[name]) {
+            pool[name].$val = val
+        }
+    }
+
+    function updateVModel(a, b, valueType) {
+        //a为原来的VM， b为新数组或新对象
+        if (valueType === "array") {
+            if (!Array.isArray(b)) {
+                return a //fix https://github.com/RubyLouvre/avalon/issues/261
+            }
+            var bb = b.concat()
+            a.clear()
+            a.push.apply(a, bb)
+            return a
+        } else {
+            var iterators = a[subscribers] || []
+            if (withProxyPool[a.$id]) {
+                withProxyCount--
+                delete withProxyPool[a.$id]
+            }
+            var ret = modelFactory(b)
+            rebindings[ret.$id] = function(data) {
+                while (data = iterators.shift()) {
+                    (function(el) {
+                        if (el.type) {
+                            avalon.nextTick(function() {
+                                el.rollback && el.rollback()
+                                bindingHandlers[el.type](el, el.vmodels)
+                            })
+                        }
+                    })(data)
+                }
+                delete rebindings[ret.$id]
+            }
+            return ret
+        }
+    }
+
+    /*********************************************************************
+     *                       配置系统                                     *
+     **********************************************************************/
+    function kernel(settings) {
+        for (var p in settings) {
+            if (!ohasOwn.call(settings, p))
+                continue
+            var val = settings[p]
+            if (typeof kernel.plugins[p] === "function") {
+                kernel.plugins[p](val)
+            } else if (typeof kernel[p] === "object") {
+                avalon.mix(kernel[p], val)
+            } else {
+                kernel[p] = val
+            }
+        }
+        return this
+    }
+    var openTag, closeTag, rexpr, rexprg, rbind, rregexp = /[-.*+?^${}()|[\]\/\\]/g
+    /*将字符串安全格式化为正则表达式的源码 http://stevenlevithan.com/regex/xregexp/*/
+    function escapeRegExp(target) {
+        return (target + "").replace(rregexp, "\\$&")
+    }
+    var plugins = {
+        loader: function(builtin) {
+            window.define = builtin ? innerRequire.define : otherDefine
+            window.require = builtin ? innerRequire : otherRequire
+        },
+        interpolate: function(array) {
+            openTag = array[0]
+            closeTag = array[1]
+            if (openTag === closeTag) {
+                avalon.error("openTag!==closeTag", SyntaxError)
+            } else if (array + "" === "<!--,-->") {
+                kernel.commentInterpolate = true
+            } else {
+                var test = openTag + "test" + closeTag
+                cinerator.innerHTML = test
+                if (cinerator.innerHTML !== test && cinerator.innerHTML.indexOf("&lt;") >= 0) {
+                    avalon.error("此定界符不合法", SyntaxError)
+                }
+                cinerator.innerHTML = ""
+            }
+            var o = escapeRegExp(openTag),
+                    c = escapeRegExp(closeTag)
+            rexpr = new RegExp(o + "(.*?)" + c)
+            rexprg = new RegExp(o + "(.*?)" + c, "g")
+            rbind = new RegExp(o + ".*?" + c + "|\\sms-")
+        }
+    }
+    kernel.dettachVModels = kernel.debug = true
+    kernel.plugins = plugins
+    kernel.plugins['interpolate'](["{{", "}}"])
+    kernel.paths = {}
+    kernel.shim = {}
+    kernel.maxRepeatSize = 100
+    avalon.config = kernel
+
+    /*********************************************************************
+     *                        avalon的原型方法定义区                        *
+     **********************************************************************/
+
+
+    function hyphen(target) {
+        //转换为连字符线风格
+        return target.replace(/([a-z\d])([A-Z]+)/g, "$1-$2").toLowerCase()
+    }
+    function camelize(target) {
+        //转换为驼峰风格
+        if (target.indexOf("-") < 0 && target.indexOf("_") < 0) {
+            return target //提前判断，提高getStyle等的效率
+        }
+        return target.replace(/[-_][^-_]/g, function(match) {
+            return match.charAt(1).toUpperCase()
+        })
+    }
+
+    "add,remove".replace(rword, function(method) {
+        avalon.fn[method + "Class"] = function(cls) {
+            var el = this[0]
+            //https://developer.mozilla.org/zh-CN/docs/Mozilla/Firefox/Releases/26
+            if (cls && typeof cls === "string" && el && el.nodeType === 1) {
+                cls.replace(/\S+/g, function(c) {
+                    el.classList[method](c)
+                })
+            }
+            return this
+        }
+    })
+
+    avalon.fn.mix({
+        hasClass: function(cls) {
+            var el = this[0] || {} //IE10+, chrome8+, firefox3.6+, safari5.1+,opera11.5+支持classList,chrome24+,firefox26+支持classList2.0
+            return el.nodeType === 1 && el.classList.contains(cls)
+        },
+        toggleClass: function(value, stateVal) {
+            var className, i = 0
+            var classNames = value.split(/\s+/)
+            var isBool = typeof stateVal === "boolean"
+            while ((className = classNames[i++])) {
+                var state = isBool ? stateVal : !this.hasClass(className)
+                this[state ? "addClass" : "removeClass"](className)
+            }
+            return this
+        },
+        attr: function(name, value) {
+            if (arguments.length === 2) {
+                this[0].setAttribute(name, value)
+                return this
+            } else {
+                return this[0].getAttribute(name)
+            }
+        },
+        data: function(name, value) {
+            name = "data-" + hyphen(name || "")
+            switch (arguments.length) {
+                case 2:
+                    this.attr(name, value)
+                    return this
+                case 1:
+                    var val = this.attr(name)
+                    return parseData(val)
+                case 0:
+                    var ret = {}
+                    ap.forEach.call(this[0].attributes, function(attr) {
+                        if (attr) {
+                            name = attr.name
+                            if (!name.indexOf("data-")) {
+                                name = camelize(name.slice(5))
+                                ret[name] = parseData(attr.value)
+                            }
+                        }
+                    })
+                    return ret
+            }
+        },
+        removeData: function(name) {
+            name = "data-" + hyphen(name)
+            this[0].removeAttribute(name)
+            return this
+        },
+        css: function(name, value) {
+            if (avalon.isPlainObject(name)) {
+                for (var i in name) {
+                    avalon.css(this, i, name[i])
+                }
+            } else {
+                var ret = avalon.css(this, name, value)
+            }
+            return ret !== void 0 ? ret : this
+        },
+        position: function() {
+            var offsetParent, offset,
+                    elem = this[0],
+                    parentOffset = {
+                        top: 0,
+                        left: 0
+                    };
+            if (!elem) {
+                return
+            }
+            if (this.css("position") === "fixed") {
+                offset = elem.getBoundingClientRect()
+            } else {
+                offsetParent = this.offsetParent() //得到真正的offsetParent
+                offset = this.offset() // 得到正确的offsetParent
+                if (offsetParent[0].tagName !== "HTML") {
+                    parentOffset = offsetParent.offset()
+                }
+                parentOffset.top += avalon.css(offsetParent[0], "borderTopWidth", true)
+                parentOffset.left += avalon.css(offsetParent[0], "borderLeftWidth", true)
+            }
+            return {
+                top: offset.top - parentOffset.top - avalon.css(elem, "marginTop", true),
+                left: offset.left - parentOffset.left - avalon.css(elem, "marginLeft", true)
+            }
+        },
+        offsetParent: function() {
+            var offsetParent = this[0].offsetParent || root
+            while (offsetParent && (offsetParent.tagName !== "HTML") && avalon.css(offsetParent, "position") === "static") {
+                offsetParent = offsetParent.offsetParent
+            }
+            return avalon(offsetParent || root)
+        },
+        bind: function(type, fn, phase) {
+            if (this[0]) { //此方法不会链
+                return avalon.bind(this[0], type, fn, phase)
+            }
+        },
+        unbind: function(type, fn, phase) {
+            if (this[0]) {
+                avalon.unbind(this[0], type, fn, phase)
+            }
+            return this
+        },
+        val: function(value) {
+            var node = this[0]
+            if (node && node.nodeType === 1) {
+                var get = arguments.length === 0
+                var access = get ? ":get" : ":set"
+                var fn = valHooks[getValType(node) + access]
+                if (fn) {
+                    var val = fn(node, value)
+                } else if (get) {
+                    return (node.value || "").replace(/\r/g, "")
+                } else {
+                    node.value = value
+                }
+            }
+            return get ? val : this
+        }
+    })
+
+
+
+    if (root.dataset) {
+        avalon.data = function(name, val) {
+            var dataset = this[0].dataset
+            switch (arguments.length) {
+                case 2:
+                    dataset[name] = val
+                    return this
+                case 1:
+                    val = dataset[name]
+                    return parseData(val)
+                case 0:
+                    var ret = {}
+                    for (var name in dataset) {
+                        ret[name] = parseData(dataset[name])
+                    }
+                    return ret
+            }
+        }
+    }
+    var rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/
+
+    function parseData(data) {
+        try {
+            data = data === "true" ? true :
+                    data === "false" ? false :
+                    data === "null" ? null : +data + "" === data ? +data : rbrace.test(data) ? JSON.parse(data) : data
+        } catch (e) {
+        }
+        return data
+    }
+    avalon.each({
+        scrollLeft: "pageXOffset",
+        scrollTop: "pageYOffset"
+    }, function(method, prop) {
+        avalon.fn[method] = function(val) {
+            var node = this[0] || {}, win = getWindow(node),
+                    top = method === "scrollTop"
+            if (!arguments.length) {
+                return win ? win[prop] : node[method]
+            } else {
+                if (win) {
+                    win.scrollTo(!top ? val : avalon(win).scrollLeft(), top ? val : avalon(win).scrollTop())
+                } else {
+                    node[method] = val
+                }
+            }
+        }
+    })
+
+    function getWindow(node) {
+        return node.window && node.document ? node : node.nodeType === 9 ? node.defaultView : false
+    }
+
+    //=============================css相关==================================
+    var cssHooks = avalon.cssHooks = {}
+    var prefixes = ["", "-webkit-", "-o-", "-moz-", "-ms-"]
+    var cssMap = {
+        "float": "cssFloat",
+        background: "backgroundColor"
+    }
+    avalon.cssNumber = oneObject("columnCount,order,fillOpacity,fontWeight,lineHeight,opacity,orphans,widows,zIndex,zoom")
+
+    avalon.cssName = function(name, host, camelCase) {
+        if (cssMap[name]) {
+            return cssMap[name]
+        }
+        host = host || root.style
+        for (var i = 0, n = prefixes.length; i < n; i++) {
+            camelCase = camelize(prefixes[i] + name)
+            if (camelCase in host) {
+                return (cssMap[name] = camelCase)
+            }
+        }
+        return null
+    }
+    cssHooks["@:set"] = function(node, name, value) {
+        node.style[name] = value
+    }
+
+    cssHooks["@:get"] = function(node, name) {
+        if (!node || !node.style) {
+            throw new Error("getComputedStyle要求传入一个节点 " + node)
+        }
+        var ret, styles = getComputedStyle(node, null)
+        if (styles) {
+            ret = styles.getPropertyValue(name)
+            if (ret === "") {
+                ret = node.style[name] //其他浏览器需要我们手动取内联样式
+            }
+        }
+        return ret
+    }
+    cssHooks["opacity:get"] = function(node) {
+        var ret = cssHooks["@:get"](node, "opacity")
+        return ret === "" ? "1" : ret
+    }
+
+    "top,left".replace(rword, function(name) {
+        cssHooks[name + ":get"] = function(node) {
+            var computed = cssHooks["@:get"](node, name)
+            return /px$/.test(computed) ? computed :
+                    avalon(node).position()[name] + "px"
+        }
+    })
+    var cssShow = {
+        position: "absolute",
+        visibility: "hidden",
+        display: "block"
+    }
+    var rdisplayswap = /^(none|table(?!-c[ea]).+)/
+
+    function showHidden(node, array) {
+        //http://www.cnblogs.com/rubylouvre/archive/2012/10/27/2742529.html
+        if (node.offsetWidth <= 0) { //opera.offsetWidth可能小于0
+            var styles = getComputedStyle(node, null)
+            if (rdisplayswap.test(styles["display"])) {
+                var obj = {
+                    node: node
+                }
+                for (var name in cssShow) {
+                    obj[name] = styles[name]
+                    node.style[name] = cssShow[name]
+                }
+                array.push(obj)
+            }
+            var parent = node.parentNode
+            if (parent && parent.nodeType === 1) {
+                showHidden(parent, array)
+            }
+        }
+    }
+
+    "Width,Height".replace(rword, function(name) {//fix 481
+        var method = name.toLowerCase(),
+                clientProp = "client" + name,
+                scrollProp = "scroll" + name,
+                offsetProp = "offset" + name
+        cssHooks[method + ":get"] = function(node, which, override) {
+            var boxSizing = -4
+            if (typeof override === "number") {
+                boxSizing = override
+            }
+            which = name === "Width" ? ["Left", "Right"] : ["Top", "Bottom"]
+            var ret = node[offsetProp]   // border-box 0
+            if (boxSizing === 2) {       // margin-box 2
+                return ret
+                        + avalon.css(node, "margin" + which[0], true)
+                        + avalon.css(node, "margin" + which[1], true)
+            }
+            if (boxSizing < 0) {        // padding-box  -2
+                ret = ret
+                        - avalon.css(node, "border" + which[0] + "Width", true)
+                        - avalon.css(node, "border" + which[1] + "Width", true)
+            }
+            if (boxSizing === -4) {     // content-box -4
+                ret = ret
+                        - avalon.css(node, "padding" + which[0], true)
+                        - avalon.css(node, "padding" + which[1], true)
+            }
+            return ret
+        }
+        cssHooks[method + "&get"] = function(node) {
+            var hidden = [];
+            showHidden(node, hidden);
+            var val = cssHooks[method + ":get"](node)
+            for (var i = 0, obj; obj = hidden[i++]; ) {
+                node = obj.node
+                for (var n in obj) {
+                    if (typeof obj[n] === "string") {
+                        node.style[n] = obj[n]
+                    }
+                }
+            }
+            return val;
+        }
+        avalon.fn[method] = function(value) { //会忽视其display
+            var node = this[0]
+            if (arguments.length === 0) {
+                if (node.setTimeout) { //取得窗口尺寸,IE9后可以用node.innerWidth /innerHeight代替
+                    return node["inner" + name] || node.document.documentElement[clientProp]
+                }
+                if (node.nodeType === 9) { //取得页面尺寸
+                    var doc = node.documentElement
+                    //FF chrome    html.scrollHeight< body.scrollHeight
+                    //IE 标准模式 : html.scrollHeight> body.scrollHeight
+                    //IE 怪异模式 : html.scrollHeight 最大等于可视窗口多一点？
+                    return Math.max(node.body[scrollProp], doc[scrollProp], node.body[offsetProp], doc[offsetProp], doc[clientProp])
+                }
+                return cssHooks[method + "&get"](node)
+            } else {
+                return this.css(method, value)
+            }
+        }
+        avalon.fn["inner" + name] = function() {
+            return cssHooks[method + ":get"](this[0], void 0, -2)
+        }
+        avalon.fn["outer" + name] = function(includeMargin) {
+            return cssHooks[method + ":get"](this[0], void 0, includeMargin === true ? 2 : 0)
+        }
+    })
+    avalon.fn.offset = function() { //取得距离页面左右角的坐标
+        var node = this[0], box = {
+            left: 0,
+            top: 0
+        }
+        if (!node || !node.tagName || !node.ownerDocument) {
+            return box
+        }
+        var doc = node.ownerDocument,
+                root = doc.documentElement,
+                win = doc.defaultView
+        if (!root.contains(node)) {
+            return box
+        }
+        if (node.getBoundingClientRect !== void 0) {
+            box = node.getBoundingClientRect()
+        }
+        return {
+            top: box.top + win.pageYOffset - root.clientTop,
+            left: box.left + win.pageXOffset - root.clientLeft
+        }
+    }
+    //=============================val相关=======================
+
+    function getValType(el) {
+        var ret = el.tagName.toLowerCase()
+        return ret === "input" && /checkbox|radio/.test(el.type) ? "checked" : ret
+    }
+    var valHooks = {
+        "select:get": function(node, value) {
+            var option, options = node.options,
+                    index = node.selectedIndex,
+                    one = node.type === "select-one" || index < 0,
+                    values = one ? null : [],
+                    max = one ? index + 1 : options.length,
+                    i = index < 0 ? max : one ? index : 0
+            for (; i < max; i++) {
+                option = options[i]
+                //旧式IE在reset后不会改变selected，需要改用i === index判定
+                //我们过滤所有disabled的option元素，但在safari5下，如果设置select为disable，那么其所有孩子都disable
+                //因此当一个元素为disable，需要检测其是否显式设置了disable及其父节点的disable情况
+                if ((option.selected || i === index) && !option.disabled) {
+                    value = option.value
+                    if (one) {
+                        return value
+                    }
+                    //收集所有selected值组成数组返回
+                    values.push(value)
+                }
+            }
+            return values
+        },
+        "select:set": function(node, values, optionSet) {
+            values = [].concat(values) //强制转换为数组
+            for (var i = 0, el; el = node.options[i++]; ) {
+                if ((el.selected = values.indexOf(el.value) >= 0)) {
+                    optionSet = true
+                }
+            }
+            if (!optionSet) {
+                node.selectedIndex = -1
+            }
+        }
+    }
+
+    /************************************************************************
+     *              HTML处理(parseHTML, innerHTML, clearHTML)                 *
+     **************************************************************************/
+    var rtagName = /<([\w:]+)/,
+            //取得其tagName
+            rxhtml = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
+            scriptTypes = oneObject("text/javascript", "text/ecmascript", "application/ecmascript", "application/javascript", "text/vbscript"),
+            //需要处理套嵌关系的标签
+            rnest = /<(?:tb|td|tf|th|tr|col|opt|leg|cap|area)/
+    //parseHTML的辅助变量
+    var tagHooks = new function() {
+        avalon.mix(this, {
+            option: DOC.createElement("select"),
+            thead: DOC.createElement("table"),
+            td: DOC.createElement("tr"),
+            area: DOC.createElement("map"),
+            tr: DOC.createElement("tbody"),
+            col: DOC.createElement("colgroup"),
+            legend: DOC.createElement("fieldset"),
+            "*": DOC.createElement("div")
+        })
+        this.optgroup = this.option
+        this.tbody = this.tfoot = this.colgroup = this.caption = this.thead
+        this.th = this.td
+    }
+
+    avalon.clearHTML = function(node) {
+        node.textContent = ""
+        return node
+    }
+    var script = DOC.createElement("script")
+    avalon.parseHTML = function(html) {
+        if (typeof html !== "string") {
+            html = html + ""
+        }
+        html = html.replace(rxhtml, "<$1></$2>").trim()
+        if (deleteRange.createContextualFragment && !rnest.test(html) && !/<script/i.test(html)) {
+            var range = DOC.createRange()
+            range.selectNodeContents(root)
+            return range.createContextualFragment(html)
+        }
+        var fragment = hyperspace.cloneNode(false)
+        var tag = (rtagName.exec(html) || ["", ""])[1].toLowerCase()
+        if (!(tag in tagHooks)) {
+            tag = "*"
+        }
+        var parent = tagHooks[tag]
+        parent.innerHTML = html
+        var els = parent.getElementsByTagName("script"),
+                firstChild, neo
+        if (els.length) { //使用innerHTML生成的script节点不会发出请求与执行text属性
+            for (var i = 0, el; el = els[i++]; ) {
+                if (!el.type || scriptTypes[el.type]) { //如果script节点的MIME能让其执行脚本
+                    neo = script.cloneNode(false) //FF不能省略参数
+                    ap.forEach.call(el.attributes, function(attr) {
+                        if (attr) {
+                            neo[attr.name] = attr.value //复制其属性
+                        }
+                    })
+                    neo.text = el.text //必须指定,因为无法在attributes中遍历出来
+                    el.parentNode.replaceChild(neo, el) //替换节点
+                }
+            }
+        }
+        while (firstChild = parent.firstChild) { // 将wrapper上的节点转移到文档碎片上！
+            fragment.appendChild(firstChild)
+        }
+        return fragment
+    }
+    avalon.innerHTML = function(node, html) {
+        if (!/<script/i.test(html) && !rnest.test(html)) {
+            node.innerHTML = html
+        } else {
+            var a = this.parseHTML(html)
+            this.clearHTML(node).appendChild(a)
+        }
+    }
+    /*********************************************************************
+     *                        事件管理器                                *
+     **********************************************************************/
+    var EventManager = {
+        $watch: function(type, callback) {
+            if (typeof callback === "function") {
+                var callbacks = this.$events[type]
+                if (callbacks) {
+                    callbacks.push(callback)
+                } else {
+                    this.$events[type] = [callback]
+                }
+            } else { //重新开始监听此VM的第一重简单属性的变动
+                this.$events = this.$watch.backup
+            }
+            return this
+        },
+        $unwatch: function(type, callback) {
+            var n = arguments.length
+            if (n === 0) { //让此VM的所有$watch回调无效化
+                this.$watch.backup = this.$events
+                this.$events = {}
+            } else if (n === 1) {
+                this.$events[type] = []
+            } else {
+                var callbacks = this.$events[type] || []
+                var i = callbacks.length
+                while (~--i < 0) {
+                    if (callbacks[i] === callback) {
+                        return callbacks.splice(i, 1)
+                    }
+                }
+            }
+            return this
+        },
+        $fire: function(type) {
+            var special
+            if (/^(\w+)!(\S+)$/.test(type)) {
+                special = RegExp.$1
+                type = RegExp.$2
+            }
+            var events = this.$events
+            var callbacks = events[type] || []
+            var all = events.$all || []
+            var args = aslice.call(arguments, 1)
+            for (var i = 0, callback; callback = callbacks[i++]; ) {
+                callback.apply(this, args)
+            }
+            for (var i = 0, callback; callback = all[i++]; ) {
+                callback.apply(this, arguments)
+            }
+            var element = events.expr && findNode(events.expr)
+            if (element) {
+                var detail = [type].concat(args)
+                if (special === "up" || special === "down" || special === "all") {
+                    for (var i in avalon.vmodels) {
+                        var v = avalon.vmodels[i]
+                        if (v && v.$events && v.$events.expr) {
+                            if (v !== this) {
+                                var node = findNode(v.$events.expr)
+                                var ok = special === "all" ? 1 : //全局广播
+                                        special === "down" ? element.contains(node) : //向下捕获
+                                        node.contains(element)//向上冒泡
+                                if (ok) {
+                                    node._avalon = v//符合条件的加一个标识
+                                }
+                            }
+                        }
+                    }
+                    var nodes = document.querySelectorAll("[avalonctrl]")//实现节点排序
+                    var alls = []
+                    Array.prototype.forEach.call(nodes, function(el) {
+                        if (el._avalon) {
+                            alls.push(el._avalon)
+                            el._avalon = ""
+                            el.removeAttribute("_avalon")
+                        }
+                    })
+                    if (special === "up") {
+                        alls.reverse()
+                    }
+                    alls.forEach(function(v) {
+                        v.$fire.apply(v, detail)
+                    })
+                }
+            }
+        }
+    }
+
+    function findNode(str) {
+        return  document.querySelector(str)
+    }
+    /*********************************************************************
+     *                       依赖调度系统                                 *
+     **********************************************************************/
+
+    var ronduplex = /^(duplex|on)$/
+    function registerSubscriber(data, val) {
+        Registry[expose] = data //暴光此函数,方便collectSubscribers收集
+        avalon.openComputedCollect = true
+        var fn = data.evaluator
+        if (fn) { //如果是求值函数
+            try {
+                var c = ronduplex.test(data.type) ? data : fn.apply(0, data.args)
+                data.handler(c, data.element, data)
+            } catch (e) {
+                delete data.evaluator
+                if (data.nodeType === 3) {
+                    if (kernel.commentInterpolate) {
+                        data.element.replaceChild(DOC.createComment(data.value), data.node)
+                    } else {
+                        data.node.data = openTag + data.value + closeTag
+                    }
+                }
+                log("warning:evaluator of [" + data.value + "] throws error!")
+            }
+        } else { //如果是计算属性的accessor
+            data()
+        }
+        avalon.openComputedCollect = false
+        delete Registry[expose]
+    }
+
+    /*收集依赖于这个访问器的订阅者*/
+    function collectSubscribers(accessor) {
+        if (Registry[expose]) {
+            var list = accessor[subscribers]
+            if (list) {
+                avalon.Array.ensure(list, Registry[expose]) //只有数组不存在此元素才push进去
+                setTimeout(function() {
+                    notifySubscribers(accessor, true)
+                })
+            }
+        }
+    }
+
+    /*通知依赖于这个访问器的订阅者更新自身*/
+    function notifySubscribers(accessor, nofire) {
+        var list = accessor[subscribers]
+        if (list && list.length) {
+            var args = aslice.call(arguments, 1)
+            for (var i = list.length, fn; fn = list[--i]; ) {
+                var el = fn.element
+                if (el) {
+                    var inTree = root.contains(el)
+                    var remove = !ifSanctuary.contains(el) && !inTree
+                    var comment = fn.placehoder
+                    if (fn.type === "if") {
+                        var recycle = fn.msInDocument ? !inTree : !avalon.contains(root, comment)
+                        if (recycle) {
+                            if (!fn.msInDocument && comment.elem) {
+                                ifSanctuary.removeChild(comment.elem)
+                            }
+                            fn.placehoder = fn.msInDocument = comment.elem = null
+                            remove = true
+                        }
+                    }
+                } else if (fn.type === "if") {
+                    remove = true
+                }
+                if (remove) {
+                    list.splice(i, 1)
+                    if (fn.proxies) {
+                        recycleEachProxies(fn.proxies)
+                        fn.proxies = fn.callbackElement = fn.template = fn.startRepeat = fn.endRepeat = null
+                    }
+                    log("debug: remove " + fn.type)
+                    fn = fn.element = fn.node = fn.evaluator = null
+                } else if (nofire === true) {
+                    //nothing
+                } else if (typeof fn === "function") {
+                    fn.apply(0, args) //强制重新计算自身
+                } else if (fn.getter) {
+                    fn.handler.apply(fn, args) //强制重新计算自身
+                } else {
+                    fn.handler(fn.evaluator.apply(0, fn.args || []), el, fn)
+                }
+            }
+        }
+    }
+
+
+    /*********************************************************************
+     *                            扫描系统                                *
+     **********************************************************************/
+    avalon.scan = function(elem, vmodel) {
+        elem = elem || root
+        var vmodels = vmodel ? [].concat(vmodel) : []
+        scanTag(elem, vmodels)
+    }
+
+    //http://www.w3.org/TR/html5/syntax.html#void-elements
+    var stopScan = oneObject("area,base,basefont,br,col,command,embed,hr,img,input,link,meta,param,source,track,wbr,noscript,noscript,script,style,textarea".toUpperCase())
+
+    /*确保元素的内容被完全扫描渲染完毕才调用回调*/
+    function checkScan(elem, callback) {
+        var innerHTML = NaN,
+                id = setInterval(function() {
+                    var currHTML = elem.innerHTML
+                    if (currHTML === innerHTML) {
+                        clearInterval(id)
+                        callback()
+                    } else {
+                        innerHTML = currHTML
+                    }
+                }, 15)
+    }
+
+
+    function scanTag(elem, vmodels, node) {
+        //扫描顺序  ms-skip(0) --> ms-important(1) --> ms-controller(2) --> ms-if(10) --> ms-repeat(100) 
+        //--> ms-if-loop(110) --> ms-attr(970) ...--> ms-each(1400)-->ms-with(1500)--〉ms-duplex(2000)垫后        
+        var a = elem.getAttribute(prefix + "skip")
+        var b = elem.getAttributeNode(prefix + "important")
+        var c = elem.getAttributeNode(prefix + "controller")
+        if (typeof a === "string") {
+            return
+        } else if (node = b || c) {
+            var newVmodel = VMODELS[node.value]
+            if (!newVmodel) {
+                return
+            }
+            //ms-important不包含父VM，ms-controller相反
+            vmodels = node === b ? [newVmodel] : [newVmodel].concat(vmodels)
+            elem.removeAttribute(node.name) //removeAttributeNode不会刷新[ms-controller]样式规则
+            elem.classList.remove(node.name)
+            var id = setTimeout("1")
+            elem.setAttribute("avalonctrl", id)
+            newVmodel.$events.expr = elem.tagName + '[avalonctrl="' + id + '"]'
+        }
+        scanAttr(elem, vmodels) //扫描特性节点
+    }
+
+    function scanNodes(parent, vmodels) {
+        var node = parent.firstChild
+        while (node) {
+            var nextNode = node.nextSibling
+            var nodeType = node.nodeType
+            if (nodeType === 1) {
+                scanTag(node, vmodels) //扫描元素节点
+            } else if (nodeType === 3 && rexpr.test(node.data)) {
+                scanText(node, vmodels) //扫描文本节点
+            } else if (kernel.commentInterpolate && nodeType === 8 && !rexpr.test(node.nodeValue)) {
+                scanText(node, vmodels) //扫描注释节点
+            }
+            node = nextNode
+        }
+    }
+
+    function scanText(textNode, vmodels) {
+        var bindings = []
+        if (textNode.nodeType === 8) {
+            var leach = []
+            var value = trimFilter(textNode.nodeValue, leach)
+            var token = {
+                expr: true,
+                value: value
+            }
+            if (leach.length) {
+                token.filters = leach
+            }
+            var tokens = [token]
+        } else {
+            tokens = scanExpr(textNode.data)
+        }
+        if (tokens.length) {
+            for (var i = 0, token; token = tokens[i++]; ) {
+                var node = DOC.createTextNode(token.value) //将文本转换为文本节点，并替换原来的文本节点
+                if (token.expr) {
+                    var filters = token.filters
+                    var binding = {
+                        type: "text",
+                        node: node,
+                        nodeType: 3,
+                        value: token.value,
+                        filters: filters
+                    }
+                    if (filters && filters.indexOf("html") !== -1) {
+                        avalon.Array.remove(filters, "html")
+                        binding.type = "html"
+                        binding.replaceNodes = [node]
+                        if (!filters.length) {
+                            delete bindings.filters
+                        }
+                    }
+                    bindings.push(binding) //收集带有插值表达式的文本
+                }
+                hyperspace.appendChild(node)
+            }
+            textNode.parentNode.replaceChild(hyperspace, textNode)
+            if (bindings.length)
+                executeBindings(bindings, vmodels)
+        }
+    }
+
+    var rmsAttr = /ms-(\w+)-?(.*)/
+    var priorityMap = {
+        "if": 10,
+        "repeat": 90,
+        "data": 100,
+        "widget": 110,
+        "each": 1400,
+        "with": 1500,
+        "duplex": 2000,
+        "on": 3000
+    }
+
+    var events = oneObject("animationend,blur,change,input,click,dblclick,focus,keydown,keypress,keyup,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup,scan,scroll,submit")
+
+    function scanAttr(elem, vmodels) {
+        //防止setAttribute, removeAttribute时 attributes自动被同步,导致for循环出错
+        var attributes = elem.hasAttributes() ? avalon.slice(elem.attributes) : []
+        var bindings = [],
+                msData = {},
+                match
+        for (var i = 0, attr; attr = attributes[i++]; ) {
+            if (attr.specified) {
+                if (match = attr.name.match(rmsAttr)) {
+                    //如果是以指定前缀命名的
+                    var type = match[1]
+                    var param = match[2] || ""
+                    var value = attr.value
+                    var name = attr.name
+                    msData[name] = value
+                    if (events[type]) {
+                        param = type
+                        type = "on"
+                    } else if (type === "enabled") {//吃掉ms-enabled绑定,用ms-disabled代替
+                        type = "disabled"
+                        value = "!(" + value + ")"
+                    }
+                    //吃掉以下几个绑定,用ms-attr-*绑定代替
+                    if (type === "checked" || type === "selected" || type === "disabled" || type === "readonly") {
+                        param = type
+                        type = "attr"
+                        elem.removeAttribute(name)
+                        name = "ms-attr-" + param
+                        elem.setAttribute(name, value)
+                        match = [name]
+                        msData[name] = value
+                    }
+                    if (typeof bindingHandlers[type] === "function") {
+                        var binding = {
+                            type: type,
+                            param: param,
+                            element: elem,
+                            name: match[0],
+                            value: value,
+                            priority: type in priorityMap ? priorityMap[type] : type.charCodeAt(0) * 10 + (Number(param) || 0)
+                        }
+                        if (type === "if" && param === "loop") {
+                            binding.priority += 100
+                        }
+                        if (vmodels.length) {
+                            bindings.push(binding)
+                            if (type === "widget") {
+                                elem.msData = elem.msData || msData
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (msData["ms-checked"] && msData["ms-duplex"]) {
+            log("warning!一个元素上不能同时定义ms-checked与ms-duplex")
+        }
+        bindings.sort(function(a, b) {
+            return a.priority - b.priority
+        })
+        var firstBinding = bindings[0] || {}
+        switch (firstBinding.type) {
+            case "if":
+            case "repeat":
+            case "widget":
+                executeBindings([firstBinding], vmodels)
+                break
+            default:
+                executeBindings(bindings, vmodels)
+                if (!stopScan[elem.tagName] && rbind.test(elem.innerHTML + elem.textContent)) {
+                    scanNodes(elem, vmodels) //扫描子孙元素
+                }
+                break;
+        }
+        if (elem.patchRepeat) {
+            elem.patchRepeat()
+            elem.patchRepeat = ""
+            elem.removeAttribute("patchRepeat")
+        }
+    }
+
+    function executeBindings(bindings, vmodels) {
+        for (var i = 0, data; data = bindings[i++]; ) {
+            data.vmodels = vmodels
+            bindingHandlers[data.type](data, vmodels)
+            if (data.evaluator && data.name) { //移除数据绑定，防止被二次解析
+                //chrome使用removeAttributeNode移除不存在的特性节点时会报错 https://github.com/RubyLouvre/avalon/issues/99
+                data.element.removeAttribute(data.name)
+            }
+        }
+        bindings.length = 0
+    }
+
+    var rfilters = /\|\s*(\w+)\s*(\([^)]*\))?/g,
+            r11a = /\|\|/g,
+            r11b = /U2hvcnRDaXJjdWl0/g,
+            rlt = /&lt;/g,
+            rgt = /&gt;/g
+    function trimFilter(value, leach) {
+        if (value.indexOf("|") > 0) { // 抽取过滤器 先替换掉所有短路与
+            value = value.replace(r11a, "U2hvcnRDaXJjdWl0") //btoa("ShortCircuit")
+            value = value.replace(rfilters, function(c, d, e) {
+                leach.push(d + (e || ""))
+                return ""
+            })
+            value = value.replace(r11b, "||") //还原短路与
+        }
+        return value
+    }
+
+    function scanExpr(str) {
+        var tokens = [],
+                value, start = 0,
+                stop
+
+        do {
+            stop = str.indexOf(openTag, start)
+            if (stop === -1) {
+                break
+            }
+            value = str.slice(start, stop)
+            if (value) { // {{ 左边的文本
+                tokens.push({
+                    value: value,
+                    expr: false
+                })
+            }
+            start = stop + openTag.length
+            stop = str.indexOf(closeTag, start)
+            if (stop === -1) {
+                break
+            }
+            value = str.slice(start, stop)
+            if (value) { //处理{{ }}插值表达式
+                var leach = []
+                value = trimFilter(value, leach)
+                tokens.push({
+                    value: value,
+                    expr: true,
+                    filters: leach.length ? leach : void 0
+                })
+            }
+            start = stop + closeTag.length
+        } while (1)
+        value = str.slice(start)
+        if (value) { //}} 右边的文本
+            tokens.push({
+                value: value,
+                expr: false
+            })
+        }
+
+        return tokens
+    }
+    /*********************************************************************
+     *                          编译系统                                   *
+     **********************************************************************/
+    var keywords =
+            // 关键字
+            "break,case,catch,continue,debugger,default,delete,do,else,false" + ",finally,for,function,if,in,instanceof,new,null,return,switch,this" + ",throw,true,try,typeof,var,void,while,with"
+
+            // 保留字
+            + ",abstract,boolean,byte,char,class,const,double,enum,export,extends" + ",final,float,goto,implements,import,int,interface,long,native" + ",package,private,protected,public,short,static,super,synchronized" + ",throws,transient,volatile"
+
+            // ECMA 5 - use strict
+            + ",arguments,let,yield"
+
+            + ",undefined"
+    var rrexpstr = /\/\*[\w\W]*?\*\/|\/\/[^\n]*\n|\/\/[^\n]*$|"(?:[^"\\]|\\[\w\W])*"|'(?:[^'\\]|\\[\w\W])*'|[\s\t\n]*\.[\s\t\n]*[$\w\.]+/g
+    var rsplit = /[^\w$]+/g
+    var rkeywords = new RegExp(["\\b" + keywords.replace(/,/g, '\\b|\\b') + "\\b"].join('|'), 'g')
+    var rnumber = /\b\d[^,]*/g
+    var rcomma = /^,+|,+$/g
+    var cacheVars = createCache(512)
+    var getVariables = function(code) {
+        var key = "," + code.trim()
+        if (cacheVars[key]) {
+            return cacheVars[key]
+        }
+        var match = code
+                .replace(rrexpstr, "")
+                .replace(rsplit, ",")
+                .replace(rkeywords, "")
+                .replace(rnumber, "")
+                .replace(rcomma, "")
+                .split(/^$|,+/)
+        return cacheVars(key, uniqSet(match))
+    }
+    /*添加赋值语句*/
+    function addAssign(vars, scope, name, duplex) {
+        var ret = [],
+                prefix = " = " + name + "."
+        for (var i = vars.length, prop; prop = vars[--i]; ) {
+            if (scope.hasOwnProperty(prop)) {
+                ret.push(prop + prefix + prop)
+                if (duplex === "duplex") {
+                    vars.get = name + "." + prop
+                }
+                vars.splice(i, 1)
+            }
+        }
+        return ret
+
+    }
+
+    function uniqSet(array) {
+        var ret = [], unique = {}
+        for (var i = 0; i < array.length; i++) {
+            var el = array[i]
+            var id = el && typeof el.$id === "string" ? el.$id : el
+            if (!unique[id]) {
+                unique[id] = ret.push(el)
+            }
+        }
+        return ret
+    }
+
+    /*创建具有一定容量的缓存体*/
+    function createCache(maxLength) {
+        var keys = []
+
+        function cache(key, value) {
+            if (keys.push(key) > maxLength) {
+                delete cache[keys.shift()]
+            }
+            return cache[key] = value;
+        }
+        return cache;
+    }
+    var cacheExprs = createCache(128)
+    //根据一段文本与一堆VM，转换为对应的求值函数及匹配的VM(解释器模式)
+    var rduplex = /\w\[.*\]|\w\.\w/
+    var rproxy = /(\$proxy\$[a-z]+)\d+$/
+
+    function parseExpr(code, scopes, data) {
+        var dataType = data.type
+        var filters = dataType === "html" || dataType === "text" ? data.filters : ""
+        var exprId = scopes.map(function(el) {
+            return el.$id.replace(rproxy, "$1")
+        }) + code + dataType + filters
+        var vars = getVariables(code).concat(),
+                assigns = [],
+                names = [],
+                args = [],
+                prefix = ""
+        //args 是一个对象数组， names 是将要生成的求值函数的参数
+        scopes = uniqSet(scopes)
+        for (var i = 0, sn = scopes.length; i < sn; i++) {
+            if (vars.length) {
+                var name = "vm" + expose + "_" + i
+                names.push(name)
+                args.push(scopes[i])
+                assigns.push.apply(assigns, addAssign(vars, scopes[i], name, dataType))
+            }
+        }
+        if (!assigns.length && dataType === "duplex") {
+            return
+        }
+        //---------------args----------------
+        if (filters) {
+            args.push(avalon.filters)
+        }
+        data.args = args
+        //---------------cache----------------
+        var fn = cacheExprs[exprId] //直接从缓存，免得重复生成
+        if (fn) {
+            data.evaluator = fn
+            return
+        }
+        var prefix = assigns.join(", ")
+        if (prefix) {
+            prefix = "var " + prefix
+        }
+        if (filters) { //文本绑定，双工绑定才有过滤器
+            code = "\nvar ret" + expose + " = " + code
+            var textBuffer = [],
+                    fargs
+            textBuffer.push(code, "\r\n")
+            for (var i = 0, fname; fname = data.filters[i++]; ) {
+                var start = fname.indexOf("(")
+                if (start !== -1) {
+                    fargs = fname.slice(start + 1, fname.lastIndexOf(")")).trim()
+                    fargs = "," + fargs
+                    fname = fname.slice(0, start).trim()
+                } else {
+                    fargs = ""
+                }
+                textBuffer.push(" if(filters", expose, ".", fname, "){\n\ttry{\nret", expose,
+                        " = filters", expose, ".", fname, "(ret", expose, fargs, ")\n\t}catch(e){} \n}\n")
+            }
+            code = textBuffer.join("")
+            code += "\nreturn ret" + expose
+            names.push("filters" + expose)
+        } else if (dataType === "duplex") { //双工绑定
+            var _body = "'use strict';\nreturn function(vvv){\n\t" +
+                    prefix +
+                    ";\n\tif(!arguments.length){\n\t\treturn " +
+                    code +
+                    "\n\t}\n\t" + (!rduplex.test(code) ? vars.get : code) +
+                    "= vvv;\n} "
+            try {
+                fn = Function.apply(noop, names.concat(_body))
+                data.evaluator = cacheExprs(exprId, fn)
+            } catch (e) {
+                log("debug: parse error," + e.message)
+            }
+            return
+        } else if (dataType === "on") { //事件绑定
+            if (code.indexOf("(") === -1) {
+                code += ".call(this, $event)"
+            } else {
+                code = code.replace("(", ".call(this,")
+            }
+            names.push("$event")
+            code = "\nreturn " + code + ";" //IE全家 Function("return ")出错，需要Function("return ;")
+            var lastIndex = code.lastIndexOf("\nreturn")
+            var header = code.slice(0, lastIndex)
+            var footer = code.slice(lastIndex)
+            code = header + "\n" + footer
+        } else { //其他绑定
+            code = "\nreturn " + code + ";" //IE全家 Function("return ")出错，需要Function("return ;")
+        }
+        try {
+            fn = Function.apply(noop, names.concat("'use strict';\n" + prefix + code))
+            data.evaluator = cacheExprs(exprId, fn)
+        } catch (e) {
+            log("debug: parse error," + e.message)
+        } finally {
+            vars = textBuffer = names = null //释放内存
+        }
+    }
+
+    /*parseExpr的智能引用代理*/
+    function parseExprProxy(code, scopes, data, tokens) {
+        if (Array.isArray(tokens)) {
+            code = tokens.map(function(el) {
+                return el.expr ? "(" + el.value + ")" : JSON.stringify(el.value)
+            }).join(" + ")
+        }
+        parseExpr(code, scopes, data)
+        if (data.evaluator) {
+            data.handler = bindingExecutors[data.handlerName || data.type]
+            data.evaluator.toString = function() {
+                return data.type + " binding to eval(" + code + ")"
+            }
+            //方便调试
+            //这里非常重要,我们通过判定视图刷新函数的element是否在DOM树决定
+            //将它移出订阅者列表
+            registerSubscriber(data)
+        }
+    }
+    avalon.parseExprProxy = parseExprProxy
+    /*********************************************************************
+     *绑定模块（实现“操作数据即操作DOM”的关键，将DOM操作放逐出前端开发人员的视野，让它交由框架自行处理，开发人员专致于业务本身） *                                 *
+     **********************************************************************/
+
+
+    head.insertAdjacentHTML("afterBegin", '<style id="avalonStyle">.avalonHide{ display: none!important }</style>')
+    var getBindingCallback = function(elem, name, vmodels) {
+        var callback = elem.getAttribute(name)
+        if (callback) {
+            for (var i = 0, vm; vm = vmodels[i++]; ) {
+                if (vm.hasOwnProperty(callback) && typeof vm[callback] === "function") {
+                    return vm[callback]
+                }
+            }
+        }
+    }
+    var cacheTmpls = avalon.templateCache = {}
+    var ifSanctuary = DOC.createElement("div")
+    var bools = "autofocus,autoplay,async,checked,controls,declare,disabled,defer,defaultChecked,defaultSelected" +
+            "contentEditable,isMap,loop,multiple,noHref,noResize,noShade,open,readOnly,selected"
+    var boolMap = {}
+    bools.replace(rword, function(name) {
+        boolMap[name.toLowerCase()] = name
+    })
+    //这里的函数每当VM发生改变后，都会被执行（操作方为notifySubscribers）
+    var bindingExecutors = avalon.bindingExecutors = {
+        "attr": function(val, elem, data) {
+            var method = data.type,
+                    attrName = data.param
+
+            function scanTemplate(text) {
+                if (loaded) {
+                    text = loaded.apply(elem, [text].concat(vmodels))
+                }
+                avalon.innerHTML(elem, text)
+                scanNodes(elem, vmodels)
+                rendered && checkScan(elem, function() {
+                    rendered.call(elem)
+                })
+            }
+
+            if (method === "css") {
+                avalon(elem).css(attrName, val)
+            } else if (method === "attr") {
+                // ms-attr-class="xxx" vm.xxx="aaa bbb ccc"将元素的className设置为aaa bbb ccc
+                // ms-attr-class="xxx" vm.xxx=false  清空元素的所有类名
+                // ms-attr-name="yyy"  vm.yyy="ooo" 为元素设置name属性
+                if (boolMap[attrName]) {
+                    var bool = boolMap[attrName]
+                    if (typeof elem[bool] === "boolean") {
+                        return elem[bool] = !!val
+                    }
+                }
+                var toRemove = (val === false) || (val === null) || (val === void 0)
+                if (toRemove) {
+                    return elem.removeAttribute(attrName)
+                }
+                if (window.VBArray && !rsvg.test(elem)) {//IE下需要区分固有属性与自定义属性
+                    var attrs = elem.attributes || {}
+                    var attr = attrs[attrName]
+                    var isInnate = attr && attr.expando === false
+                }
+                if (isInnate) {
+                    elem[attrName] = val
+                } else {
+                    elem.setAttribute(attrName, val)
+                }
+
+            } else if (method === "include" && val) {
+                var vmodels = data.vmodels
+                var rendered = getBindingCallback(elem, "data-include-rendered", vmodels)
+                var loaded = getBindingCallback(elem, "data-include-loaded", vmodels)
+
+                if (data.param === "src") {
+                    if (cacheTmpls[val]) {
+                        avalon.nextTick(function() {
+                            scanTemplate(cacheTmpls[val])
+                        })
+                    } else {
+                        var xhr = new window.XMLHttpRequest
+                        xhr.onload = function() {
+                            var s = xhr.status
+                            if (s >= 200 && s < 300 || s === 304) {
+                                scanTemplate(cacheTmpls[val] = xhr.responseText)
+                            }
+                        }
+                        xhr.open("GET", val, true)
+                        xhr.withCredentials = true
+                        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+                        xhr.send(null)
+                    }
+                } else {
+                    //IE系列与够新的标准浏览器支持通过ID取得元素（firefox14+）
+                    //http://tjvantoll.com/2012/07/19/dom-element-references-as-global-variables/
+                    var el = val && val.nodeType == 1 ? val : DOC.getElementById(val)
+                    avalon.nextTick(function() {
+                        scanTemplate(el.value || el.innerText || el.innerHTML)
+                    })
+                }
+            } else {
+                elem[method] = val
+            }
+        },
+        "class": function(val, elem, data) {
+            var $elem = avalon(elem),
+                    method = data.type
+            if (method === "class" && data.oldStyle) { //如果是旧风格
+                $elem.toggleClass(data.oldStyle, !!val)
+            } else {
+                //如果存在冒号就有求值函数
+                data.toggleClass = data._evaluator ? !!data._evaluator.apply(elem, data._args) : true
+                data.newClass = data.immobileClass || val
+                if (data.oldClass && data.newClass !== data.oldClass) {
+                    $elem.removeClass(data.oldClass)
+                }
+                data.oldClass = data.newClass
+                switch (method) {
+                    case "class":
+                        $elem.toggleClass(data.newClass, data.toggleClass)
+                        break
+                    case "hover":
+                    case "active":
+                        if (!data.hasBindEvent) { //确保只绑定一次
+                            var activate = "mouseenter" //在移出移入时切换类名
+                            var abandon = "mouseleave"
+                            if (method === "active") {//在聚焦失焦中切换类名
+                                elem.tabIndex = elem.tabIndex || -1
+                                activate = "mousedown"
+                                abandon = "mouseup"
+                                $elem.bind("mouseleave", function() {
+                                    data.toggleClass && $elem.removeClass(data.newClass)
+                                })
+                            }
+                            $elem.bind(activate, function() {
+                                data.toggleClass && $elem.addClass(data.newClass)
+                            })
+                            $elem.bind(abandon, function() {
+                                data.toggleClass && $elem.removeClass(data.newClass)
+                            })
+                            data.hasBindEvent = true
+                        }
+                        break;
+                }
+            }
+        },
+        "data": function(val, elem, data) {
+            var key = "data-" + data.param
+            if (val && typeof val === "object") {
+                elem[key] = val
+            } else {
+                elem.setAttribute(key, String(val))
+            }
+        },
+        "repeat": function(method, pos, el) {
+            if (method) {
+                var data = this
+                var group = data.group
+                var parent = data.startRepeat ? data.startRepeat.parentNode : data.callbackElement// //fix  #300 #307
+                var proxies = data.proxies
+                var transation = hyperspace.cloneNode(false)
+                var spans = []
+                var lastFn = {}
+                if (method === "del" || method === "move") {
+                    var locatedNode = getLocatedNode(parent, data, pos)
+                }
+                switch (method) {
+                    case "add":
+                        //在pos位置后添加el数组（pos为数字，el为数组）
+                        var arr = el
+                        var last = data.getter().length - 1
+                        for (var i = 0, n = arr.length; i < n; i++) {
+                            var ii = i + pos
+                            var proxy = getEachProxy(ii, arr[i], data, last)
+                            proxies.splice(ii, 0, proxy)
+                            lastFn = shimController(data, transation, spans, proxy)
+                        }
+                        locatedNode = getLocatedNode(parent, data, pos)
+                        lastFn.node = locatedNode
+                        lastFn.parent = parent
+                        parent.insertBefore(transation, locatedNode)
+                        for (var i = 0, node; node = spans[i++]; ) {
+                            scanTag(node, data.vmodels)
+                        }
+                        spans = null
+                        break
+                    case "del": //将pos后的el个元素删掉(pos, el都是数字)
+                        var removed = proxies.splice(pos, el)
+                        recycleEachProxies(removed)
+                        expelFromSanctuary(removeView(locatedNode, group, el))
+                        break
+                    case "index": //将proxies中的第pos个起的所有元素重新索引（pos为数字，el用作循环变量）
+                        var last = proxies.length - 1
+                        for (; el = proxies[pos]; pos++) {
+                            el.$index = pos
+                            el.$first = pos === 0
+                            el.$last = pos === last
+                        }
+                        break
+                    case "clear":
+                        if (data.startRepeat) {
+                            while (true) {
+                                var node = data.startRepeat.nextSibling
+                                if (node && node !== data.endRepeat) {
+                                    transation.appendChild(node)
+                                } else {
+                                    break
+                                }
+                            }
+                        } else {
+                            transation = parent
+                        }
+                        recycleEachProxies(proxies)
+                        expelFromSanctuary(transation)
+                        break
+                    case "move": //将proxies中的第pos个元素移动el位置上(pos, el都是数字)
+                        var t = proxies.splice(pos, 1)[0]
+                        if (t) {
+                            proxies.splice(el, 0, t)
+                            transation = removeView(locatedNode, group)
+                            locatedNode = getLocatedNode(parent, data, el)
+                            parent.insertBefore(transation, locatedNode)
+                        }
+                        break
+                    case "set": //将proxies中的第pos个元素的VM设置为el（pos为数字，el任意）
+                        var proxy = proxies[pos]
+                        if (proxy) {
+                            proxy[proxy.$itemName] = el
+                        }
+                        break
+                    case "append": //将pos的键值对从el中取出（pos为一个普通对象，el为预先生成好的代理VM对象池）
+                        var pool = el
+                        var callback = getBindingCallback(data.callbackElement, "data-with-sorted", data.vmodels)
+                        var keys = []
+                        for (var key in pos) { //得到所有键名
+                            if (pos.hasOwnProperty(key)) {
+                                keys.push(key)
+                            }
+                        }
+                        if (callback) { //如果有回调，则让它们排序
+                            var keys2 = callback.call(parent, keys)
+                            if (keys2 && Array.isArray(keys2) && keys2.length) {
+                                keys = keys2
+                            }
+                        }
+                        for (var i = 0, key; key = keys[i++]; ) {
+                            lastFn = shimController(data, transation, spans, pool[key])
+                        }
+                        lastFn.parent = parent
+                        lastFn.node = data.endRepeat || null
+                        parent.insertBefore(transation, lastFn.node)
+                        for (var i = 0, el; el = spans[i++]; ) {
+                            scanTag(el, data.vmodels)
+                        }
+                        spans = null
+                        break
+                }
+                iteratorCallback.call(data, arguments, parent)
+            }
+        },
+        "html": function(val, elem, data) {
+            val = val == null ? "" : val
+            if (!elem) {
+                elem = data.element = data.node.parentNode
+            }
+            if (data.replaceNodes) {
+                var fragment, nodes
+                if (val.nodeType === 11) {
+                    fragment = val
+                } else if (val.nodeType === 1 || val.item) {
+                    nodes = val.nodeType === 1 ? val.childNodes : val.item ? val : []
+                    fragment = hyperspace.cloneNode(true)
+                    while (nodes[0]) {
+                        fragment.appendChild(nodes[0])
+                    }
+                } else {
+                    fragment = avalon.parseHTML(val)
+                }
+                var replaceNodes = avalon.slice(fragment.childNodes)
+                elem.insertBefore(fragment, data.replaceNodes[0] || null)
+                for (var i = 0, node; node = data.replaceNodes[i++]; ) {
+                    elem.removeChild(node)
+                }
+                data.replaceNodes = replaceNodes
+            } else {
+                avalon.innerHTML(elem, val)
+            }
+            avalon.nextTick(function() {
+                scanNodes(elem, data.vmodels)
+            })
+        },
+        "if": function(val, elem, data) {
+            var placehoder = data.placehoder
+            if (val) { //插回DOM树
+                if (!data.msInDocument) {
+                    data.msInDocument = true
+                    if (placehoder.parentNode) {
+                        placehoder.parentNode.replaceChild(elem, placehoder)
+                    }
+                }
+                if (rbind.test(elem.outerHTML.replace(rlt, "<").replace(rgt, ">"))) {
+                    scanAttr(elem, data.vmodels)
+                }
+            } else { //移出DOM树，放进ifSanctuary DIV中，并用注释节点占据原位置
+                if (data.msInDocument) {
+                    data.msInDocument = false
+                    if (elem.parentNode) {
+                        elem.parentNode.replaceChild(placehoder, elem)
+                    }
+                    placehoder.elem = elem
+                    ifSanctuary.appendChild(elem)
+                }
+            }
+        },
+        "on": function(callback, elem, data) {
+            var vmodels = data.vmodels
+            var fn = data.evaluator
+            callback = function(e) {
+                return fn.apply(this, data.args.concat(e))
+            }
+            if (!avalon.config.dettachVModels) {
+                elem.$vmodel = vmodels[0]
+                elem.$vmodels = vmodels
+            }
+            var eventType = data.param.replace(/-\d+$/, "") // ms-on-mousemove-10
+            if (eventType === "scan") {
+                callback.call(elem, {type: eventType})
+            } else if (typeof data.specialBind === "function") {
+                data.specialBind(elem, callback)
+            } else {
+                var removeFn = avalon.bind(elem, eventType, callback)
+            }
+            data.rollback = function() {
+                if (typeof data.specialUnbind === "function") {
+                    data.specialUnbind()
+                } else {
+                    avalon.unbind(elem, data.param, removeFn)
+                }
+            }
+            data.evaluator = data.handler = noop
+        },
+        "text": function(val, elem, data) {
+            val = val == null ? "" : val //不在页面上显示undefined null
+            var node = data.node
+            if (data.nodeType === 3) { //绑定在文本节点上
+                data.element = node.parentNode
+                try {//IE对游离于DOM树外的节点赋值会报错
+                    node.data = val
+                } catch (e) {
+                }
+            } else { //绑定在特性节点上
+                elem.textContent = val
+            }
+        },
+        "visible": function(val, elem, data) {
+            elem.style.display = val ? data.display : "none"
+        },
+        "widget": noop
+    }
+
+    var rdash = /\(([^)]*)\)/
+    var rwhitespace = /^\s+$/
+    function parseDisplay(nodeName, val) {
+        //用于取得此类标签的默认display值
+        var key = "_" + nodeName
+        if (!parseDisplay[key]) {
+            var node = DOC.createElement(nodeName)
+            root.appendChild(node)
+            val = getComputedStyle(node, null).display
+            root.removeChild(node)
+            parseDisplay[key] = val
+        }
+        return parseDisplay[key]
+    }
+    avalon.parseDisplay = parseDisplay
+    //这里的函数只会在第一次被扫描后被执行一次，并放进行对应VM属性的subscribers数组内（操作方为registerSubscriber）
+    var bindingHandlers = avalon.bindingHandlers = {
+        //这是一个字符串属性绑定的范本, 方便你在title, alt,  src, href, include, css添加插值表达式
+        //<a ms-href="{{url.hostname}}/{{url.pathname}}.html">
+        "attr": function(data, vmodels) {
+            var text = data.value.trim(),
+                    simple = true
+            if (text.indexOf(openTag) > -1 && text.indexOf(closeTag) > 2) {
+                simple = false
+                if (rexpr.test(text) && RegExp.rightContext === "" && RegExp.leftContext === "") {
+                    simple = true
+                    text = RegExp.$1
+                }
+            }
+            data.handlerName = "attr" //handleName用于处理多种绑定共用同一种bindingExecutor的情况
+            parseExprProxy(text, vmodels, data, (simple ? null : scanExpr(data.value)))
+        },
+        //根据VM的属性值或表达式的值切换类名，ms-class="xxx yyy zzz:flag" 
+        //http://www.cnblogs.com/rubylouvre/archive/2012/12/17/2818540.html
+        "class": function(data, vmodels) {
+            var oldStyle = data.param,
+                    text = data.value,
+                    rightExpr
+            data.handlerName = "class"
+            if (!oldStyle || isFinite(oldStyle)) {
+                data.param = "" //去掉数字
+                var noExpr = text.replace(rexprg, function(a) {
+                    return Math.pow(10, a.length - 1) //将插值表达式插入10的N-1次方来占位
+                })
+                var colonIndex = noExpr.indexOf(":") //取得第一个冒号的位置
+                if (colonIndex === -1) { // 比如 ms-class="aaa bbb ccc" 的情况
+                    var className = text
+                } else { // 比如 ms-class-1="ui-state-active:checked" 的情况 
+                    className = text.slice(0, colonIndex)
+                    rightExpr = text.slice(colonIndex + 1)
+                    parseExpr(rightExpr, vmodels, data) //决定是添加还是删除
+                    if (!data.evaluator) {
+                        log("debug: ms-class '" + (rightExpr || "").trim() + "' 不存在于VM中")
+                        return false
+                    } else {
+                        data._evaluator = data.evaluator
+                        data._args = data.args
+                    }
+                }
+                var hasExpr = rexpr.test(className) //比如ms-class="width{{w}}"的情况
+                if (!hasExpr) {
+                    data.immobileClass = className
+                }
+                parseExprProxy("", vmodels, data, (hasExpr ? scanExpr(className) : null))
+            } else {
+                data.immobileClass = data.oldStyle = data.param
+                parseExprProxy(text, vmodels, data)
+            }
+        },
+        "duplex": function(data, vmodels) {
+            var elem = data.element,
+                    tagName = elem.tagName
+            if (typeof duplexBinding[tagName] === "function") {
+                data.changed = getBindingCallback(elem, "data-duplex-changed", vmodels) || noop
+                //由于情况特殊，不再经过parseExprProxy
+                parseExpr(data.value, vmodels, data, "duplex")
+                if (data.evaluator && data.args) {
+                    var form = elem.form
+                    if (form && form.msValidate) {
+                        form.msValidate(elem)
+                    }
+                    data.bound = function(type, callback) {
+                        elem.addEventListener(type, callback)
+                        var old = data.rollback
+                        data.rollback = function() {
+                            elem.removeEventListener(type, callback)
+                            old && old()
+                        }
+                    }
+                    duplexBinding[elem.tagName](elem, data.evaluator.apply(null, data.args), data)
+                }
+            }
+        },
+        "repeat": function(data, vmodels) {
+            var type = data.type,
+                    list
+            parseExpr(data.value, vmodels, data)
+            if (type !== "repeat") {
+                log("warning:建议使用ms-repeat代替ms-each, ms-with, ms-repeat只占用一个标签并且性能更好")
+            }
+            var elem = data.callbackElement = data.element //用于判定当前元素是否位于DOM树
+            data.getter = function() {
+                return this.evaluator.apply(0, this.args || [])
+            }
+            data.proxies = []
+            var freturn = true
+            try {
+                list = data.getter()
+                if (rcomplextype.test(avalon.type(list))) {
+                    freturn = false
+                }
+            } catch (e) {
+            }
+            var template = hyperspace.cloneNode(false)
+            if (type === "repeat") {
+                var startRepeat = DOC.createComment("ms-repeat-start")
+                var endRepeat = DOC.createComment("ms-repeat-end")
+                data.startRepeat = startRepeat
+                data.endRepeat = endRepeat
+                elem.removeAttribute(data.name)
+                var parent = data.element = elem.parentNode
+                parent.replaceChild(endRepeat, elem)
+                parent.insertBefore(startRepeat, endRepeat)
+                template.appendChild(elem)
+            } else {
+                var node
+                while (node = elem.firstChild) {
+                    if (node.nodeType === 3 && rwhitespace.test(node.data)) {
+                        elem.removeChild(node)
+                    } else {
+                        template.appendChild(node)
+                    }
+                }
+            }
+            data.template = template
+            data.rollback = function() {
+                bindingExecutors.repeat.call(data, "clear")
+                var endRepeat = data.endRepeat
+                var parent = data.element
+                parent.insertBefore(data.template, endRepeat || null)
+                if (endRepeat) {
+                    parent.removeChild(endRepeat)
+                    parent.removeChild(data.startRepeat)
+                    data.element = data.callbackElement
+                }
+            }
+            var arr = data.value.split(".") || []
+            if (arr.length > 1) {
+                arr.pop()
+                var n = arr[0]
+                for (var i = 0, v; v = vmodels[i++]; ) {
+                    if (v && v.hasOwnProperty(n) && v[n][subscribers]) {
+                        v[n][subscribers].push(data)
+                        break
+                    }
+                }
+            }
+            if (freturn) {
+                return
+            }
+            data.callbackName = "data-" + type + "-rendered"
+            data.handler = bindingExecutors.repeat
+            data.$outer = {}
+            var check0 = "$key",
+                    check1 = "$val"
+            if (Array.isArray(list)) {
+                check0 = "$first"
+                check1 = "$last"
+            }
+            for (var i = 0, p; p = vmodels[i++]; ) {
+                if (p.hasOwnProperty(check0) && p.hasOwnProperty(check1)) {
+                    data.$outer = p
+                    break
+                }
+            }
+            node = template.firstChild
+            data.fastRepeat = !!node && node.nodeType === 1 && template.lastChild === node && !node.attributes["ms-controller"] && !node.attributes["ms-important"]
+            list[subscribers] && list[subscribers].push(data)
+            notifySubscribers(list) //强制垃圾回收
+            if (!Array.isArray(list) && type !== "each") {
+                var pool = withProxyPool[list.$id]
+                if (!pool) {
+                    withProxyCount++
+                    pool = withProxyPool[list.$id] = {}
+                    for (var key in list) {
+                        if (list.hasOwnProperty(key) && key !== "hasOwnProperty") {
+                            (function(k, v) {
+                                pool[k] = createWithProxy(k, v, {})
+                                pool[k].$watch("$val", function(val) {
+                                    list[k] = val //#303
+                                })
+                            })(key, list[key])
+                        }
+                    }
+                }
+                data.handler("append", list, pool)
+            } else {
+                data.handler("add", 0, list)
+            }
+        },
+        "html": function(data, vmodels) {
+            parseExprProxy(data.value, vmodels, data)
+        },
+        "if": function(data, vmodels) {
+            var elem = data.element
+            elem.removeAttribute(data.name)
+            if (!data.placehoder) {
+                data.msInDocument = data.placehoder = DOC.createComment("ms-if")
+            }
+            data.vmodels = vmodels
+            parseExprProxy(data.value, vmodels, data)
+        },
+        "on": function(data, vmodels) {
+            var value = data.value
+            var eventType = data.param.replace(/-\d+$/, "") // ms-on-mousemove-10
+            if (typeof bindingHandlers.on[eventType + "Hook"] === "function") {
+                bindingHandlers.on[eventType + "Hook"](data)
+            }
+            if (value.indexOf("(") > 0 && value.indexOf(")") > -1) {
+                var matched = (value.match(rdash) || ["", ""])[1].trim()
+                if (matched === "" || matched === "$event") { // aaa() aaa($event)当成aaa处理
+                    value = value.replace(rdash, "")
+                }
+            }
+            parseExprProxy(value, vmodels, data)
+        },
+        "visible": function(data, vmodels) {
+            var elem = avalon(data.element)
+            var display = elem.css("display")
+            if (display === "none") {
+                var style = elem[0].style
+                var has = /visibility/i.test(style.cssText)
+                var visible = elem.css("visibility")
+                style.display = ""
+                style.visibility = "hidden"
+                display = elem.css("display")
+                if (display === "none") {
+                    display = parseDisplay(elem[0].nodeName)
+                }
+                style.visibility = has ? visible : ""
+            }
+            data.display = display
+            parseExprProxy(data.value, vmodels, data)
+        },
+        "widget": function(data, vmodels) {
+            var args = data.value.match(rword)
+            var elem = data.element
+            var widget = args[0]
+            if (args[1] === "$" || !args[1]) {
+                args[1] = widget + setTimeout("1")
+            }
+            data.value = args.join(",")
+            var constructor = avalon.ui[widget]
+            if (typeof constructor === "function") { //ms-widget="tabs,tabsAAA,optname"
+                vmodels = elem.vmodels || vmodels
+                var optName = args[2] || widget //尝试获得配置项的名字，没有则取widget的名字
+                for (var i = 0, v; v = vmodels[i++]; ) {
+                    if (v.hasOwnProperty(optName) && typeof v[optName] === "object") {
+                        var nearestVM = v
+                        break
+                    }
+                }
+                if (nearestVM) {
+                    var vmOptions = nearestVM[optName]
+                    vmOptions = vmOptions.$model || vmOptions
+                    var id = vmOptions[widget + "Id"]
+                    if (typeof id === "string") {
+                        args[1] = id
+                    }
+                }
+                var widgetData = avalon.getWidgetData(elem, args[0]) //抽取data-tooltip-text、data-tooltip-attr属性，组成一个配置对象
+                data[widget + "Id"] = args[1]
+                data[widget + "Options"] = avalon.mix({}, constructor.defaults, vmOptions || {}, widgetData)
+                elem.removeAttribute("ms-widget")
+                var vmodel = constructor(elem, data, vmodels) || {} //防止组件不返回VM
+                data.evaluator = noop
+                elem.msData["ms-widget-id"] = vmodel.$id || ""
+                if (vmodel.hasOwnProperty("$init")) {
+                    vmodel.$init()
+                }
+                if (vmodel.hasOwnProperty("$remove")) {
+                    function offTree() {
+                        if (!elem.msRetain && !root.contains(elem)) {
+                            vmodel.$remove()
+                            elem.msData = {}
+                            delete VMODELS[vmodel.$id]
+                            return false
+                        }
+                    }
+                    if (window.chrome) {
+                        elem.addEventListener("DOMNodeRemovedFromDocument", function() {
+                            setTimeout(offTree)
+                        })
+                    } else {
+                        avalon.tick(offTree)
+                    }
+                }
+            } else if (vmodels.length) { //如果该组件还没有加载，那么保存当前的vmodels
+                elem.vmodels = vmodels
+            }
+        }
+
+    }
+
+    //============================   class preperty binding  =======================
+    "hover,active".replace(rword, function(method) {
+        bindingHandlers[method] = bindingHandlers["class"]
+    })
+    "with,each".replace(rword, function(name) {
+        bindingHandlers[name] = bindingHandlers.repeat
+    })
+    bindingHandlers.data = bindingHandlers.text = bindingHandlers.html
+    //============================= string preperty binding =======================
+    //与href绑定器 用法差不多的其他字符串属性的绑定器
+    //建议不要直接在src属性上修改，这样会发出无效的请求，请使用ms-src
+    "title,alt,src,value,css,include,href".replace(rword, function(name) {
+        bindingHandlers[name] = bindingHandlers.attr
+    })
+    //============================= model binding =======================
+    //将模型中的字段与input, textarea的value值关联在一起
+    var duplexBinding = bindingHandlers.duplex
+    //如果一个input标签添加了model绑定。那么它对应的字段将与元素的value连结在一起
+    //字段变，value就变；value变，字段也跟着变。默认是绑定input事件，
+    duplexBinding.INPUT = function(element, evaluator, data) {
+        var fixType = data.param,
+                bound = data.bound,
+                type = element.type,
+                $elem = avalon(element),
+                firstTigger = false,
+                composing = false,
+                callback = function(value) {
+                    firstTigger = true
+                    data.changed.call(this, value)
+                },
+                compositionStart = function() {
+                    composing = true
+                },
+                compositionEnd = function() {
+                    composing = false
+                },
+                //当value变化时改变model的值
+                updateVModel = function() {
+                    if (composing)
+                        return
+                    var val = element.oldValue = element.value
+                    if ($elem.data("duplex-observe") !== false) {
+                        evaluator(val)
+                        callback.call(element, val)
+                    }
+                }
+
+        //当model变化时,它就会改变value的值
+        data.handler = function() {
+            var val = evaluator()
+            val = val == null ? "" : val + ""
+            if (val !== element.value) {
+                element.value = val
+            }
+        }
+        if (type === "checkbox" && fixType === "radio") {
+            type = "radio"
+        }
+        if (type === "radio") {
+            data.handler = function() {
+                element.oldChecked = element.checked = /bool|text/.test(fixType) ? evaluator() + "" === element.value : !!evaluator()
+            }
+            updateVModel = function() {
+                if ($elem.data("duplex-observe") !== false) {
+                    var val = element.value
+                    if (fixType === "text") {
+                        evaluator(val)
+                    } else if (fixType === "bool") {
+                        val = val === "true"
+                        evaluator(val)
+                    } else {
+                        val = !element.oldChecked
+                        evaluator(val)
+                        element.checked = val
+                    }
+                    callback.call(element, val)
+                }
+            }
+            bound(fixType ? "change" : "mousedown", updateVModel)
+        } else if (type === "checkbox") {
+            updateVModel = function() {
+                if ($elem.data("duplex-observe") !== false) {
+                    var method = element.checked ? "ensure" : "remove"
+                    var array = evaluator()
+                    if (Array.isArray(array)) {
+                        avalon.Array[method](array, element.value)
+                    } else {
+                        avalon.error("ms-duplex位于checkbox时要求对应一个数组")
+                    }
+                    callback.call(element, array)
+                }
+            }
+            data.handler = function() {
+                var array = [].concat(evaluator()) //强制转换为数组
+                element.checked = array.indexOf(element.value) >= 0
+            }
+            bound("change", updateVModel)
+        } else {
+            var event = element.attributes["data-duplex-event"] || element.attributes["data-event"] || {}
+            event = event.value
+            if (event === "change") {
+                bound("change", updateVModel)
+            } else {
+                bound("input", updateVModel)
+                bound("compositionstart", compositionStart)
+                bound("compositionend", compositionEnd)
+            }
+        }
+        element.oldValue = element.value
+        launch(function() {
+            if (avalon.contains(root, element)) {
+                onTree.call(element)
+            } else if (!element.msRetain) {
+                return false
+            }
+        })
+        registerSubscriber(data)
+        var timer = setTimeout(function() {
+            if (!firstTigger) {
+                callback.call(element, element.value)
+            }
+            clearTimeout(timer)
+        }, 31)
+    }
+    var TimerID, ribbon = [],
+            launch = noop
+
+    function W3CFire(el, name, detail) {
+        var event = DOC.createEvent("Events")
+        event.initEvent(name, true, true)
+        if (detail) {
+            event.detail = detail
+        }
+        el.dispatchEvent(event)
+    }
+
+    function onTree() { //disabled状态下改动不触发inout事件
+        if (!this.disabled && this.oldValue !== this.value) {
+            W3CFire(this, "input")
+        }
+    }
+
+    function ticker() {
+        for (var n = ribbon.length - 1; n >= 0; n--) {
+            var el = ribbon[n]
+            if (el() === false) {
+                ribbon.splice(n, 1)
+            }
+        }
+        if (!ribbon.length) {
+            clearInterval(TimerID)
+        }
+    }
+
+    avalon.tick = function(fn) {
+        if (ribbon.push(fn) === 1) {
+            TimerID = setInterval(ticker, 30)
+        }
+    }
+
+    function newSetter(newValue) {
+        oldSetter.call(this, newValue)
+        if (newValue !== this.oldValue) {
+            W3CFire(this, "input")
+        }
+    }
+    try {
+        var inputProto = HTMLInputElement.prototype
+        var oldSetter = Object.getOwnPropertyDescriptor(inputProto, "value").set //屏蔽chrome, safari,opera
+        Object.defineProperty(inputProto, "value", {
+            set: newSetter,
+            configurable: true
+        })
+    } catch (e) {
+        launch = avalon.tick
+    }
+
+    duplexBinding.SELECT = function(element, evaluator, data) {
+        var $elem = avalon(element)
+        function updateVModel() {
+            if ($elem.data("duplex-observe") !== false) {
+                var val = $elem.val() //字符串或字符串数组
+                if (val + "" !== element.oldValue) {
+                    evaluator(val)
+                    element.oldValue = val + ""
+                }
+                data.changed.call(element, val)
+            }
+        }
+        data.handler = function() {
+            var curValue = evaluator()
+            curValue = curValue && curValue.$model || curValue
+            curValue = Array.isArray(curValue) ? curValue.map(String) : curValue + ""
+            if (curValue + "" !== element.oldValue) {
+                $elem.val(curValue)
+                element.oldValue = curValue + ""
+            }
+        }
+        data.bound("change", updateVModel)
+        var innerHTML = NaN
+        var id = setInterval(function() {
+            var currHTML = element.innerHTML
+            if (currHTML === innerHTML) {
+                clearInterval(id)
+                //先等到select里的option元素被扫描后，才根据model设置selected属性  
+                registerSubscriber(data)
+            } else {
+                innerHTML = currHTML
+            }
+        }, 20)
+    }
+    duplexBinding.TEXTAREA = duplexBinding.INPUT
+    //========================= event binding ====================
+    var eventHooks = avalon.eventHooks
+    //针对firefox, chrome修正mouseenter, mouseleave(chrome30+)
+    if (!("onmouseenter" in root)) {
+        avalon.each({
+            mouseenter: "mouseover",
+            mouseleave: "mouseout"
+        }, function(origType, fixType) {
+            eventHooks[origType] = {
+                type: fixType,
+                deel: function(elem, fn) {
+                    return function(e) {
+                        var t = e.relatedTarget
+                        if (!t || (t !== elem && !(elem.compareDocumentPosition(t) & 16))) {
+                            delete e.type
+                            e.type = origType
+                            return fn.call(elem, e)
+                        }
+                    }
+                }
+            }
+        })
+    }
+    //针对IE9+, w3c修正animationend
+    avalon.each({
+        AnimationEvent: "animationend",
+        WebKitAnimationEvent: "webkitAnimationEnd"
+    }, function(construct, fixType) {
+        if (window[construct] && !eventHooks.animationend) {
+            eventHooks.animationend = {
+                type: fixType
+            }
+        }
+    })
+    if (document.onmousewheel === void 0) {
+        /* IE6-11 chrome mousewheel wheelDetla 下 -120 上 120
+         firefox DOMMouseScroll detail 下3 上-3
+         firefox wheel detlaY 下3 上-3
+         IE9-11 wheel deltaY 下40 上-40
+         chrome wheel deltaY 下100 上-100 */
+        eventHooks.mousewheel = {
+            type: "wheel",
+            deel: function(elem, fn) {
+                return function(e) {
+                    e.wheelDeltaY = e.wheelDelta = e.deltaY > 0 ? -120 : 120
+                    e.wheelDeltaX = 0
+                    Object.defineProperty(e, "type", {
+                        value: "mousewheel"
+                    })
+                    fn.call(elem, e)
+                }
+            }
+        }
+    }
+    /*********************************************************************
+     *          监控数组（与ms-each, ms-repeat配合使用）                     *
+     **********************************************************************/
+
+    function Collection(model) {
+        var array = []
+        array.$id = generateID()
+        array[subscribers] = []
+        array.$model = model
+        array.$events = {}
+        array._ = modelFactory({
+            length: model.length
+        })
+        array._.$watch("length", function(a, b) {
+            array.$fire("length", a, b)
+        })
+        for (var i in EventManager) {
+            array[i] = EventManager[i]
+        }
+        avalon.mix(array, CollectionPrototype)
+        return array
+    }
+
+
+    var _splice = ap.splice
+    var CollectionPrototype = {
+        _splice: _splice,
+        _add: function(arr, pos) {
+            var oldLength = this.length
+            pos = typeof pos === "number" ? pos : oldLength
+            var added = []
+            for (var i = 0, n = arr.length; i < n; i++) {
+                added[i] = convert(arr[i])
+            }
+            _splice.apply(this, [pos, 0].concat(added))
+            notifySubscribers(this, "add", pos, added)
+            if (!this._stopFireLength) {
+                return this._.length = this.length
+            }
+        },
+        _del: function(pos, n) {
+            var ret = this._splice(pos, n)
+            if (ret.length) {
+                notifySubscribers(this, "del", pos, n)
+                if (!this._stopFireLength) {
+                    this._.length = this.length
+                }
+            }
+            return ret
+        },
+        push: function() {
+            ap.push.apply(this.$model, arguments)
+            var n = this._add(arguments)
+            notifySubscribers(this, "index", n > 2 ? n - 2 : 0)
+            return n
+        },
+        pushArray: function(array) {
+            return this.push.apply(this, array)
+        },
+        unshift: function() {
+            ap.unshift.apply(this.$model, arguments)
+            var ret = this._add(arguments, 0) //返回长度
+            notifySubscribers(this, "index", arguments.length)
+            return ret
+        },
+        shift: function() {
+            var el = this.$model.shift()
+            this._del(0, 1)
+            notifySubscribers(this, "index", 0)
+            return el //返回被移除的元素
+        },
+        pop: function() {
+            var el = this.$model.pop()
+            this._del(this.length - 1, 1)
+            return el //返回被移除的元素
+        },
+        splice: function(a, b) {
+            // 必须存在第一个参数，需要大于-1, 为添加或删除元素的基点
+            var len = this.length
+            a = Math.floor(a) || 0
+            a = a < 0 ? Math.max(len + a, 0) : Math.min(a, len)
+            var removed = _splice.apply(this.$model, arguments),
+                    ret = [], change
+            this._stopFireLength = true //确保在这个方法中 , $watch("length",fn)只触发一次
+            if (removed.length) {
+                ret = this._del(a, removed.length)
+                change = true
+            }
+            if (arguments.length > 2) {
+                this._add(aslice.call(arguments, 2), a)
+                change = true
+            }
+            this._stopFireLength = false
+            this._.length = this.length
+            if (change) {
+                notifySubscribers(this, "index", 0)
+            }
+            return ret //返回被移除的元素
+        },
+        contains: function(el) { //判定是否包含
+            return this.indexOf(el) !== -1
+        },
+        size: function() { //取得数组长度，这个函数可以同步视图，length不能
+            return this._.length
+        },
+        remove: function(el) { //移除第一个等于给定值的元素
+            return this.removeAt(this.indexOf(el))
+        },
+        removeAt: function(index) { //移除指定索引上的元素
+            return index >= 0 ? this.splice(index, 1) : []
+        },
+        clear: function() {
+            this.$model.length = this.length = this._.length = 0 //清空数组
+            notifySubscribers(this, "clear", 0)
+            return this
+        },
+        removeAll: function(all) { //移除N个元素
+            if (Array.isArray(all)) {
+                all.forEach(function(el) {
+                    this.remove(el)
+                }, this)
+            } else if (typeof all === "function") {
+                for (var i = this.length - 1; i >= 0; i--) {
+                    var el = this[i]
+                    if (all(el, i)) {
+                        this.splice(i, 1)
+                    }
+                }
+            } else {
+                this.clear()
+            }
+        },
+        ensure: function(el) {
+            if (!this.contains(el)) { //只有不存在才push
+                this.push(el)
+            }
+            return this
+        },
+        set: function(index, val) {
+            if (index >= 0) {
+                var valueType = avalon.type(val)
+                if (val && val.$model) {
+                    val = val.$model
+                }
+                var target = this[index]
+                if (valueType === "object") {
+                    for (var i in val) {
+                        if (target.hasOwnProperty(i)) {
+                            target[i] = val[i]
+                        }
+                    }
+                } else if (valueType === "array") {
+                    target.clear().push.apply(target, val)
+                } else if (target !== val) {
+                    this[index] = val
+                    this.$model[index] = val
+                    notifySubscribers(this, "set", index, val)
+                }
+            }
+            return this
+        }
+    }
+    "sort,reverse".replace(rword, function(method) {
+        CollectionPrototype[method] = function() {
+            var aaa = this.$model,
+                    bbb = aaa.slice(0),
+                    sorted = false
+            ap[method].apply(aaa, arguments) //先移动model
+            for (var i = 0, n = bbb.length; i < n; i++) {
+                var a = aaa[i],
+                        b = bbb[i]
+                if (!isEqual(a, b)) {
+                    sorted = true
+                    var index = bbb.indexOf(a, i)
+                    var remove = this._splice(index, 1)[0]
+                    var remove2 = bbb.splice(index, 1)[0]
+                    this._splice(i, 0, remove)
+                    bbb.splice(i, 0, remove2)
+                    notifySubscribers(this, "move", index, i)
+                }
+            }
+            bbb = void 0
+            if (sorted) {
+                notifySubscribers(this, "index", 0)
+            }
+            return this
+        }
+    })
+
+    function convert(val) {
+        var type = avalon.type(val)
+        if (rcomplextype.test(type)) {
+            val = val.$id ? val : modelFactory(val, val)
+        }
+        return val
+    }
+
+    //============ each/repeat/with binding 用到的辅助函数与对象 ======================
+    /*得到某一元素节点或文档碎片对象下的所有注释节点*/
+    var queryComments = function(parent) {
+        var tw = DOC.createTreeWalker(parent, NodeFilter.SHOW_COMMENT, null, null),
+                comment, ret = []
+        while (comment = tw.nextNode()) {
+            ret.push(comment)
+        }
+        return ret
+    }
+    var deleteRange = DOC.createRange()
+
+    /*将通过ms-if移出DOM树放进ifSanctuary的元素节点移出来，以便垃圾回收*/
+
+    function expelFromSanctuary(parent) {
+        var comments = queryComments(parent)
+        for (var i = 0, comment; comment = comments[i++]; ) {
+            if (comment.nodeValue === "ms-if") {
+                cinerator.appendChild(comment.elem)
+            }
+        }
+        while (comment = parent.firstChild) {
+            cinerator.appendChild(comment)
+        }
+        cinerator.innerHTML = ""
+    }
+
+    function iteratorCallback(args, parent) {
+        var callback = getBindingCallback(this.callbackElement, this.callbackName, this.vmodels)
+        if (callback) {
+            checkScan(parent, function() {
+                callback.apply(parent, args)
+            })
+        }
+    }
+
+    //为ms-each, ms-with, ms-repeat要循环的元素外包一个msloop临时节点，ms-controller的值为代理VM的$id
+    function shimController(data, transation, spans, proxy) {
+        var tview = data.template.cloneNode(true)
+        var id = proxy.$id
+        var span = tview.firstChild
+        if (!data.fastRepeat) {
+            span = DOC.createElement("msloop")
+            span.style.display = "none"
+            span.appendChild(tview)
+        }
+        span.setAttribute("ms-controller", id)
+        span.removeAttribute(data.callbackName)
+        span.removeAttribute("data-with-sorted")
+        spans.push(span)
+        transation.appendChild(span)
+        proxy.$outer = data.$outer
+        VMODELS[id] = proxy
+
+        function fn() {
+            delete VMODELS[id]
+            data.group = 1
+            if (!data.fastRepeat) {
+                data.group = span.childNodes.length
+                span.parentNode.removeChild(span)
+                while (span.firstChild) {
+                    transation.appendChild(span.firstChild)
+                }
+                if (fn.node !== void 0) {
+                    fn.parent.insertBefore(transation, fn.node)
+                }
+            }
+        }
+        return span.patchRepeat = fn
+    }
+    // 取得用于定位的节点。在绑定了ms-each, ms-with属性的元素里，它的整个innerHTML都会视为一个子模板先行移出DOM树，
+    // 然后如果它的元素有多少个（ms-each）或键值对有多少双（ms-with），就将它复制多少份(多少为N)，再经过扫描后，重新插入该元素中。
+    // 这时该元素的孩子将分为N等分，每等份的第一个节点就是这个用于定位的节点，
+    // 方便我们根据它算出整个等分的节点们，然后整体移除或移动它们。
+
+    function getLocatedNode(parent, data, pos) {
+        if (data.startRepeat) {
+            var ret = data.startRepeat,
+                    end = data.endRepeat
+            pos += 1
+            for (var i = 0; i < pos; i++) {
+                ret = ret.nextSibling
+                if (ret === end)
+                    return end
+            }
+            return ret
+        } else {
+            return parent.childNodes[data.group * pos] || null
+        }
+    }
+
+    function removeView(node, group, n) {
+        var length = group * (n || 1)
+        var view = hyperspace //.cloneNode(false)//???
+        while (--length >= 0) {
+            var nextSibling = node.nextSibling
+            view.appendChild(node)
+            node = nextSibling
+            if (!node) {
+                break
+            }
+        }
+        return view
+    }
+
+
+    // 为ms-each, ms-repeat创建一个代理对象，通过它们能使用一些额外的属性与功能（$index,$first,$last,$remove,$key,$val,$outer）
+    var watchEachOne = oneObject("$index,$first,$last")
+
+    function createWithProxy(key, val, $outer) {
+        var proxy = modelFactory({
+            $key: key,
+            $outer: $outer,
+            $val: val
+        }, 0, {
+            $val: 1,
+            $key: 1
+        })
+        proxy.$id = "$proxy$with" + Math.random()
+        return proxy
+    }
+    var eachProxyPool = []
+    function getEachProxy(index, item, data, last) {
+        var param = data.param || "el", proxy
+        var source = {
+            $remove: function() {
+                return data.getter().removeAt(proxy.$index)
+            },
+            $itemName: param,
+            $index: index,
+            $outer: data.$outer,
+            $first: index === 0,
+            $last: index === last
+        }
+        source[param] = item
+        for (var i = 0, n = eachProxyPool.length; i < n; i++) {
+            var proxy = eachProxyPool[i]
+            if (proxy.hasOwnProperty(param)) {
+                for (var k in source) {
+                    proxy[k] = source[k]
+                }
+                eachProxyPool.splice(i, 1)
+                return proxy
+            }
+        }
+        var type = avalon.type(item)
+        if (type === "object" || type === "function") {
+            source.$skipArray = [param]
+        }
+        proxy = modelFactory(source, 0, watchEachOne)
+        proxy.$id = "$proxy$" + data.type + Math.random()
+        return proxy
+    }
+    function recycleEachProxies(array) {
+        for (var i = 0, el; el = array[i++]; ) {
+            recycleEachProxy(el)
+        }
+        array.length = 0
+    }
+    function recycleEachProxy(proxy) {
+        var obj = proxy.$accessors, name = proxy.$itemName;
+        ["$index", "$last", "$first"].forEach(function(prop) {
+            obj[prop][subscribers].length = 0
+        })
+        if (proxy[name][subscribers]) {
+            proxy[name][subscribers].length = 0;
+        }
+        if (eachProxyPool.unshift(proxy) > kernel.maxRepeatSize) {
+            eachProxyPool.pop()
+        }
+    }
+    /*********************************************************************
+     *                  文本绑定里默认可用的过滤器                        *
+     **********************************************************************/
+    var rscripts = /<script[^>]*>([\S\s]*?)<\/script\s*>/gim
+    var raimg = /^<(a|img)\s/i
+    var ron = /\s+(on[^=\s]+)(?:=("[^"]*"|'[^']*'|[^\s>]+))?/g
+    var ropen = /<\w+\b(?:(["'])[^"]*?(\1)|[^>])*>/ig
+    var rjavascripturl = /\s+(src|href)(?:=("javascript[^"]*"|'javascript[^']*'))?/ig
+    var rsurrogate = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g
+    var rnoalphanumeric = /([^\#-~| |!])/g;
+    var filters = avalon.filters = {
+        uppercase: function(str) {
+            return str.toUpperCase()
+        },
+        lowercase: function(str) {
+            return str.toLowerCase()
+        },
+        truncate: function(target, length, truncation) {
+            //length，新字符串长度，truncation，新字符串的结尾的字段,返回新字符串
+            length = length || 30
+            truncation = truncation === void(0) ? "..." : truncation
+            return target.length > length ? target.slice(0, length - truncation.length) + truncation : String(target)
+        },
+        sanitize: window.toStaticHTML ? toStaticHTML.bind(window) : function(str) {
+            return str.replace(rscripts, "").replace(ropen, function(a, b) {
+                if (raimg.test(a)) {
+                    a = a.replace(rjavascripturl, " $1=''")//移除javascript伪协议//移除javascript伪协议
+                }
+                return a.replace(ron, " ").replace(/\s+/g, " ")//移除onXXX事件
+            })
+        },
+        camelize: camelize,
+        escape: function(html) {
+            //将字符串经过 html 转义得到适合在页面中显示的内容, 例如替换 < 为 &lt 
+            return String(html).
+                    replace(/&/g, '&amp;').
+                    replace(rsurrogate, function(value) {
+                        var hi = value.charCodeAt(0)
+                        var low = value.charCodeAt(1)
+                        return '&#' + (((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000) + ';'
+                    }).
+                    replace(rnoalphanumeric, function(value) {
+                        return '&#' + value.charCodeAt(0) + ';'
+                    }).
+                    replace(/</g, '&lt;').
+                    replace(/>/g, '&gt;')
+        },
+        currency: function(number, symbol) {
+            symbol = symbol || "\uFFE5"
+            return symbol + avalon.filters.number(number)
+        },
+        number: function(number, decimals, dec_point, thousands_sep) {
+            //与PHP的number_format完全兼容
+            //number    必需，要格式化的数字
+            //decimals  可选，规定多少个小数位。
+            //dec_point 可选，规定用作小数点的字符串（默认为 . ）。
+            //thousands_sep 可选，规定用作千位分隔符的字符串（默认为 , ），如果设置了该参数，那么所有其他参数都是必需的。
+            // http://kevin.vanzonneveld.net
+            number = (number + "").replace(/[^0-9+\-Ee.]/g, "")
+            var n = !isFinite(+number) ? 0 : +number,
+                    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                    sep = thousands_sep || ",",
+                    dec = dec_point || ".",
+                    s = "",
+                    toFixedFix = function(n, prec) {
+                        var k = Math.pow(10, prec)
+                        return "" + Math.round(n * k) / k
+                    }
+            // Fix for IE parseFloat(0.55).toFixed(0) = 0 
+            s = (prec ? toFixedFix(n, prec) : "" + Math.round(n)).split('.')
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
+            }
+            if ((s[1] || "").length < prec) {
+                s[1] = s[1] || ""
+                s[1] += new Array(prec - s[1].length + 1).join("0")
+            }
+            return s.join(dec)
+        }
+    }
+    /*
+     'yyyy': 4 digit representation of year (e.g. AD 1 => 0001, AD 2010 => 2010)
+     'yy': 2 digit representation of year, padded (00-99). (e.g. AD 2001 => 01, AD 2010 => 10)
+     'y': 1 digit representation of year, e.g. (AD 1 => 1, AD 199 => 199)
+     'MMMM': Month in year (January-December)
+     'MMM': Month in year (Jan-Dec)
+     'MM': Month in year, padded (01-12)
+     'M': Month in year (1-12)
+     'dd': Day in month, padded (01-31)
+     'd': Day in month (1-31)
+     'EEEE': Day in Week,(Sunday-Saturday)
+     'EEE': Day in Week, (Sun-Sat)
+     'HH': Hour in day, padded (00-23)
+     'H': Hour in day (0-23)
+     'hh': Hour in am/pm, padded (01-12)
+     'h': Hour in am/pm, (1-12)
+     'mm': Minute in hour, padded (00-59)
+     'm': Minute in hour (0-59)
+     'ss': Second in minute, padded (00-59)
+     's': Second in minute (0-59)
+     'a': am/pm marker
+     'Z': 4 digit (+sign) representation of the timezone offset (-1200-+1200)
+     format string can also be one of the following predefined localizable formats:
+     
+     'medium': equivalent to 'MMM d, y h:mm:ss a' for en_US locale (e.g. Sep 3, 2010 12:05:08 pm)
+     'short': equivalent to 'M/d/yy h:mm a' for en_US locale (e.g. 9/3/10 12:05 pm)
+     'fullDate': equivalent to 'EEEE, MMMM d,y' for en_US locale (e.g. Friday, September 3, 2010)
+     'longDate': equivalent to 'MMMM d, y' for en_US locale (e.g. September 3, 2010
+     'mediumDate': equivalent to 'MMM d, y' for en_US locale (e.g. Sep 3, 2010)
+     'shortDate': equivalent to 'M/d/yy' for en_US locale (e.g. 9/3/10)
+     'mediumTime': equivalent to 'h:mm:ss a' for en_US locale (e.g. 12:05:08 pm)
+     'shortTime': equivalent to 'h:mm a' for en_US locale (e.g. 12:05 pm)
+     */
+    new function() {
+        function toInt(str) {
+            return parseInt(str, 10)
+        }
+
+        function padNumber(num, digits, trim) {
+            var neg = ""
+            if (num < 0) {
+                neg = "-"
+                num = -num
+            }
+            num = "" + num
+            while (num.length < digits)
+                num = "0" + num
+            if (trim)
+                num = num.substr(num.length - digits)
+            return neg + num
+        }
+
+        function dateGetter(name, size, offset, trim) {
+            return function(date) {
+                var value = date["get" + name]()
+                if (offset > 0 || value > -offset)
+                    value += offset
+                if (value === 0 && offset === -12) {
+                    value = 12
+                }
+                return padNumber(value, size, trim)
+            }
+        }
+
+        function dateStrGetter(name, shortForm) {
+            return function(date, formats) {
+                var value = date["get" + name]()
+                var get = (shortForm ? ("SHORT" + name) : name).toUpperCase()
+                return formats[get][value]
+            }
+        }
+
+        function timeZoneGetter(date) {
+            var zone = -1 * date.getTimezoneOffset()
+            var paddedZone = (zone >= 0) ? "+" : ""
+            paddedZone += padNumber(Math[zone > 0 ? "floor" : "ceil"](zone / 60), 2) + padNumber(Math.abs(zone % 60), 2)
+            return paddedZone
+        }
+        //取得上午下午
+
+        function ampmGetter(date, formats) {
+            return date.getHours() < 12 ? formats.AMPMS[0] : formats.AMPMS[1]
+        }
+        var DATE_FORMATS = {
+            yyyy: dateGetter("FullYear", 4),
+            yy: dateGetter("FullYear", 2, 0, true),
+            y: dateGetter("FullYear", 1),
+            MMMM: dateStrGetter("Month"),
+            MMM: dateStrGetter("Month", true),
+            MM: dateGetter("Month", 2, 1),
+            M: dateGetter("Month", 1, 1),
+            dd: dateGetter("Date", 2),
+            d: dateGetter("Date", 1),
+            HH: dateGetter("Hours", 2),
+            H: dateGetter("Hours", 1),
+            hh: dateGetter("Hours", 2, -12),
+            h: dateGetter("Hours", 1, -12),
+            mm: dateGetter("Minutes", 2),
+            m: dateGetter("Minutes", 1),
+            ss: dateGetter("Seconds", 2),
+            s: dateGetter("Seconds", 1),
+            sss: dateGetter("Milliseconds", 3),
+            EEEE: dateStrGetter("Day"),
+            EEE: dateStrGetter("Day", true),
+            a: ampmGetter,
+            Z: timeZoneGetter
+        }
+        var DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
+                NUMBER_STRING = /^\d+$/
+        var R_ISO8601_STR = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/
+        // 1        2       3         4          5          6          7          8  9     10      11
+
+        function jsonStringToDate(string) {
+            var match
+            if (match = string.match(R_ISO8601_STR)) {
+                var date = new Date(0),
+                        tzHour = 0,
+                        tzMin = 0,
+                        dateSetter = match[8] ? date.setUTCFullYear : date.setFullYear,
+                        timeSetter = match[8] ? date.setUTCHours : date.setHours
+                if (match[9]) {
+                    tzHour = toInt(match[9] + match[10])
+                    tzMin = toInt(match[9] + match[11])
+                }
+                dateSetter.call(date, toInt(match[1]), toInt(match[2]) - 1, toInt(match[3]))
+                var h = toInt(match[4] || 0) - tzHour
+                var m = toInt(match[5] || 0) - tzMin
+                var s = toInt(match[6] || 0)
+                var ms = Math.round(parseFloat('0.' + (match[7] || 0)) * 1000)
+                timeSetter.call(date, h, m, s, ms)
+                return date
+            }
+            return string
+        }
+        var rfixFFDate = /^(\d+)-(\d+)-(\d{4})$/
+        var rfixIEDate = /^(\d+)\s+(\d+),(\d{4})$/
+        filters.date = function(date, format) {
+            var locate = filters.date.locate,
+                    text = "",
+                    parts = [],
+                    fn, match
+            format = format || "mediumDate"
+            format = locate[format] || format
+            if (typeof date === "string") {
+                if (NUMBER_STRING.test(date)) {
+                    date = toInt(date)
+                } else {
+                    var trimDate = date.trim()
+                    if (trimDate.match(rfixFFDate) || trimDate.match(rfixIEDate)) {
+                        date = RegExp.$3 + "/" + RegExp.$1 + "/" + RegExp.$2
+                    }
+                    date = jsonStringToDate(date)
+                }
+                date = new Date(date)
+            }
+            if (typeof date === "number") {
+                date = new Date(date)
+            }
+            if (avalon.type(date) !== "date") {
+                return
+            }
+            while (format) {
+                match = DATE_FORMATS_SPLIT.exec(format)
+                if (match) {
+                    parts = parts.concat(match.slice(1))
+                    format = parts.pop()
+                } else {
+                    parts.push(format)
+                    format = null
+                }
+            }
+            parts.forEach(function(value) {
+                fn = DATE_FORMATS[value]
+                text += fn ? fn(date, locate) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'")
+            })
+            return text
+        }
+        var locate = {
+            AMPMS: {
+                0: "上午",
+                1: "下午"
+            },
+            DAY: {
+                0: "星期日",
+                1: "星期一",
+                2: "星期二",
+                3: "星期三",
+                4: "星期四",
+                5: "星期五",
+                6: "星期六"
+            },
+            MONTH: {
+                0: "1月",
+                1: "2月",
+                2: "3月",
+                3: "4月",
+                4: "5月",
+                5: "6月",
+                6: "7月",
+                7: "8月",
+                8: "9月",
+                9: "10月",
+                10: "11月",
+                11: "12月"
+            },
+            SHORTDAY: {
+                "0": "周日",
+                "1": "周一",
+                "2": "周二",
+                "3": "周三",
+                "4": "周四",
+                "5": "周五",
+                "6": "周六"
+            },
+            fullDate: "y年M月d日EEEE",
+            longDate: "y年M月d日",
+            medium: "yyyy-M-d ah:mm:ss",
+            mediumDate: "yyyy-M-d",
+            mediumTime: "ah:mm:ss",
+            "short": "yy-M-d ah:mm",
+            shortDate: "yy-M-d",
+            shortTime: "ah:mm"
+        }
+        locate.SHORTMONTH = locate.MONTH
+        filters.date.locate = locate
+    }
+    /*********************************************************************
+     *                     AMD加载器                                  *
+     **********************************************************************/
+
+    var innerRequire
+    var modules = avalon.modules = {
+        "ready!": {
+            exports: avalon
+        },
+        "avalon": {
+            exports: avalon,
+            state: 2
+        }
+    }
+
+    new function() {
+        var loadings = [] //正在加载中的模块列表
+        var factorys = [] //储存需要绑定ID与factory对应关系的模块（标准浏览器下，先parse的script节点会先onload）
+        var basepath
+
+        function cleanUrl(url) {
+            return (url || "").replace(/[?#].*/, "")
+        }
+        plugins.js = function(url, shim) {
+            var id = cleanUrl(url)
+            if (!modules[id]) { //如果之前没有加载过
+                modules[id] = {
+                    id: id,
+                    exports: {}
+                }
+                if (shim) { //shim机制
+                    innerRequire(shim.deps || "", function() {
+                        loadJS(url, id, function() {
+                            modules[id].state = 2
+                            if (shim.exports)
+                                modules[id].exports = typeof shim.exports === "function" ?
+                                        shim.exports() : window[shim.exports]
+                            innerRequire.checkDeps()
+                        })
+                    })
+                } else {
+                    loadJS(url, id)
+                }
+            }
+            return id
+        }
+        plugins.css = function(url) {
+            var id = url.replace(/(#.+|\W)/g, "") ////用于处理掉href中的hash与所有特殊符号
+            if (!DOC.getElementById(id)) {
+                var node = DOC.createElement("link")
+                node.rel = "stylesheet"
+                node.href = url
+                node.id = id
+                head.insertBefore(node, head.firstChild)
+            }
+        }
+        plugins.css.ext = ".css"
+        plugins.js.ext = ".js"
+
+        plugins.text = function(url) {
+            var xhr = new XMLHttpRequest
+            var id = url.replace(/[?#].*/, "")
+            modules[id] = {}
+            xhr.onload = function() {
+                modules[id].state = 2
+                modules[id].exports = xhr.responseText
+                innerRequire.checkDeps()
+            }
+            xhr.onerror = function() {
+                avalon.error(url + " 对应资源不存在或没有开启 CORS")
+            }
+            xhr.open("GET", url, true)
+            xhr.withCredentials = true
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+            xhr.send()
+            return id
+        }
+        //http://www.html5rocks.com/zh/tutorials/webcomponents/imports/
+        if ('import' in DOC.createElement("link")) {
+            plugins.text = function(url) {
+                var id = url.replace(/[?#].*/, "")
+                modules[id] = {}
+                var link = DOC.createElement("link")
+                link.rel = "import"
+                link.href = url
+                link.onload = function() {
+                    modules[id].state = 2
+                    var content = this["import"]
+                    if (content) {
+                        modules[id].exports = content.documentElement.outerHTML
+                        avalon.require.checkDeps()
+                    }
+                    onerror(0, content)
+                }
+
+                function onerror(a, b) {
+                    !b && avalon.error(url + "对应资源不存在或没有开启 CORS")
+                    setTimeout(function() {
+                        head.removeChild(link)
+                    })
+                }
+                link.onerror = onerror
+                head.appendChild(link)
+                return id
+            }
+        }
+
+        var cur = getCurrentScript(true)
+        if (!cur) { //处理window safari的Error没有stack的问题
+            cur = avalon.slice(document.scripts).pop().src
+        }
+        var url = cleanUrl(cur)
+        basepath = kernel.base = url.slice(0, url.lastIndexOf("/") + 1)
+
+        function getCurrentScript(base) {
+            // 参考 https://github.com/samyk/jiagra/blob/master/jiagra.js
+            var stack
+            try {
+                a.b.c() //强制报错,以便捕获e.stack
+            } catch (e) { //safari的错误对象只有line,sourceId,sourceURL
+                stack = e.stack
+            }
+            if (stack) {
+                /**e.stack最后一行在所有支持的浏览器大致如下:
+                 *chrome23:
+                 * at http://113.93.50.63/data.js:4:1
+                 *firefox17:
+                 *@http://113.93.50.63/query.js:4
+                 *opera12:http://www.oldapps.com/opera.php?system=Windows_XP
+                 *@http://113.93.50.63/data.js:4
+                 *IE10:
+                 *  at Global code (http://113.93.50.63/data.js:4:1)
+                 *  //firefox4+ 可以用document.currentScript
+                 */
+                stack = stack.split(/[@ ]/g).pop() //取得最后一行,最后一个空格或@之后的部分
+                stack = stack[0] === "(" ? stack.slice(1, -1) : stack.replace(/\s/, "") //去掉换行符
+                return stack.replace(/(:\d+)?:\d+$/i, "") //去掉行号与或许存在的出错字符起始位置
+            }
+            var nodes = (base ? DOC : head).getElementsByTagName("script") //只在head标签中寻找
+            for (var i = nodes.length, node; node = nodes[--i]; ) {
+                if ((base || node.className === subscribers) && node.readyState === "interactive") {
+                    return node.className = node.src
+                }
+            }
+        }
+
+        function checkCycle(deps, nick) {
+            //检测是否存在循环依赖
+            for (var id in deps) {
+                if (deps[id] === "司徒正美" && modules[id].state !== 2 && (id === nick || checkCycle(modules[id].deps, nick))) {
+                    return true
+                }
+            }
+        }
+
+        function checkDeps() {
+            //检测此JS模块的依赖是否都已安装完毕,是则安装自身
+            loop: for (var i = loadings.length, id; id = loadings[--i]; ) {
+                var obj = modules[id],
+                        deps = obj.deps
+                for (var key in deps) {
+                    if (ohasOwn.call(deps, key) && modules[key].state !== 2) {
+                        continue loop
+                    }
+                }
+                //如果deps是空对象或者其依赖的模块的状态都是2
+                if (obj.state !== 2) {
+                    loadings.splice(i, 1) //必须先移除再安装，防止在IE下DOM树建完后手动刷新页面，会多次执行它
+                    fireFactory(obj.id, obj.args, obj.factory)
+                    checkDeps() //如果成功,则再执行一次,以防有些模块就差本模块没有安装好
+                }
+            }
+        }
+
+
+        function checkFail(node, onError) {
+            var id = cleanUrl(node.src) //检测是否死链
+            node.onload = node.onerror = null
+            if (onError) {
+                setTimeout(function() {
+                    head.removeChild(node)
+                })
+                log("debug: 加载 " + id + " 失败" + onError + " " + (!modules[id].state))
+            } else {
+                return true
+            }
+        }
+        var rdeuce = /\/\w+\/\.\./
+
+        function loadResources(url, parent, ret, shim) {
+            //1. 特别处理mass|ready标识符
+            if (url === "ready!" || (modules[url] && modules[url].state === 2)) {
+                return url
+            }
+            //2.  处理text!  css! 等资源
+            var plugin
+            url = url.replace(/^\w+!/, function(a) {
+                plugin = a.slice(0, -1)
+                return ""
+            })
+            plugin = plugin || "js"
+            plugin = plugins[plugin] || noop
+            //3. 转化为完整路径
+            if (typeof kernel.shim[url] === "object") {
+                shim = kernel.shim[url]
+            }
+            if (kernel.paths[url]) { //别名机制
+                url = kernel.paths[url]
+            }
+            //4. 补全路径
+            if (/^(\w+)(\d)?:.*/.test(url)) {
+                ret = url
+            } else {
+                parent = parent.substr(0, parent.lastIndexOf('/'))
+                var tmp = url.charAt(0)
+                if (tmp !== "." && tmp !== "/") { //相对于根路径
+                    ret = basepath + url
+                } else if (url.slice(0, 2) === "./") { //相对于兄弟路径
+                    ret = parent + url.slice(1)
+                } else if (url.slice(0, 2) === "..") { //相对于父路径
+                    ret = parent + "/" + url
+                    while (rdeuce.test(ret)) {
+                        ret = ret.replace(rdeuce, "")
+                    }
+                } else if (tmp === "/") {
+                    ret = parent + url //相对于兄弟路径
+                } else {
+                    avalon.error("不符合模块标识规则: " + url)
+                }
+            }
+            //5. 补全扩展名
+            url = cleanUrl(ret)
+            var ext = plugin.ext
+            if (ext) {
+                if (url.slice(0 - ext.length) !== ext) {
+                    ret += ext
+                }
+            }
+            //6. 缓存处理
+            if (kernel.nocache) {
+                ret += (ret.indexOf("?") === -1 ? "?" : "&") + Date.now()
+            }
+            return plugin(ret, shim)
+        }
+
+        function loadJS(url, id, callback) {
+            //通过script节点加载目标模块
+            var node = DOC.createElement("script")
+            node.className = subscribers //让getCurrentScript只处理类名为subscribers的script节点
+            node.onload = function() {
+                var factory = factorys.pop()
+                factory && factory.delay(id)
+                if (callback) {
+                    callback()
+                }
+                log("debug: 已成功加载 " + url)
+            }
+
+            node.onerror = function() {
+                checkFail(node, true)
+            }
+            node.src = url //插入到head的第一个节点前，防止IE6下head标签没闭合前使用appendChild抛错
+            head.appendChild(node) //chrome下第二个参数不能为null
+            log("debug: 正准备加载 " + url) //更重要的是IE6下可以收窄getCurrentScript的寻找范围
+        }
+
+        innerRequire = avalon.require = function(list, factory, parent) {
+            // 用于检测它的依赖是否都为2
+            var deps = {},
+                    // 用于保存依赖模块的返回值
+                    args = [],
+                    // 需要安装的模块数
+                    dn = 0,
+                    // 已安装完的模块数
+                    cn = 0,
+                    id = parent || "callback" + setTimeout("1")
+            parent = parent || basepath
+            String(list).replace(rword, function(el) {
+                var url = loadResources(el, parent)
+                if (url) {
+                    dn++
+
+                    if (modules[url] && modules[url].state === 2) {
+                        cn++
+                    }
+                    if (!deps[url]) {
+                        args.push(url)
+                        deps[url] = "司徒正美" //去重
+                    }
+                }
+            })
+            modules[id] = {//创建一个对象,记录模块的加载情况与其他信息
+                id: id,
+                factory: factory,
+                deps: deps,
+                args: args,
+                state: 1
+            }
+            if (dn === cn) { //如果需要安装的等于已安装好的
+                fireFactory(id, args, factory) //安装到框架中
+            } else {
+                //放到检测列队中,等待checkDeps处理
+                loadings.unshift(id)
+            }
+            checkDeps()
+        }
+
+        /**
+         * 定义模块
+         * @param {String} id ? 模块ID
+         * @param {Array} deps ? 依赖列表
+         * @param {Function} factory 模块工厂
+         * @api public
+         */
+        innerRequire.define = function(id, deps, factory) { //模块名,依赖列表,模块本身
+            var args = avalon.slice(arguments)
+
+            if (typeof id === "string") {
+                var _id = args.shift()
+            }
+            if (typeof args[0] === "function") {
+                args.unshift([])
+            } //上线合并后能直接得到模块ID,否则寻找当前正在解析中的script节点的src作为模块ID
+            //现在除了safari外，我们都能直接通过getCurrentScript一步到位得到当前执行的script节点，
+            //safari可通过onload+delay闭包组合解决
+            var name = modules[_id] && modules[_id].state >= 1 ? _id : cleanUrl(getCurrentScript())
+            if (!modules[name] && _id) {
+                modules[name] = {
+                    id: name,
+                    factory: factory,
+                    state: 1
+                }
+            }
+            factory = args[1]
+            factory.id = _id //用于调试
+            factory.delay = function(d) {
+                args.push(d)
+                var isCycle = true
+                try {
+                    isCycle = checkCycle(modules[d].deps, d)
+                } catch (e) {
+                }
+                if (isCycle) {
+                    avalon.error(d + "模块与之前的模块存在循环依赖，请不要直接用script标签引入" + d + "模块")
+                }
+                delete factory.delay //释放内存
+                innerRequire.apply(null, args) //0,1,2 --> 1,2,0
+            }
+
+            if (name) {
+                factory.delay(name, args)
+            } else { //先进先出
+                factorys.push(factory)
+            }
+        }
+        innerRequire.define.amd = modules
+
+        function fireFactory(id, deps, factory) {
+            for (var i = 0, array = [], d; d = deps[i++]; ) {
+                array.push(modules[d].exports)
+            }
+            var module = Object(modules[id]),
+                    ret = factory.apply(window, array)
+            module.state = 2
+            if (ret !== void 0) {
+                modules[id].exports = ret
+            }
+            return ret
+        }
+        innerRequire.config = kernel
+        innerRequire.checkDeps = checkDeps
+    }
+
+    /*********************************************************************
+     *                    DOMReady                                         *
+     **********************************************************************/
+    var readyList = []
+    function fireReady() {
+        if (innerRequire) {
+            modules["ready!"].state = 2
+            innerRequire.checkDeps()//隋性函数，防止IE9二次调用_checkDeps
+        } else {
+            readyList.forEach(function(a) {
+                a(avalon)
+            })
+        }
+        fireReady = noop //隋性函数，防止IE9二次调用_checkDeps
+    }
+
+    if (DOC.readyState === "complete") {
+        setTimeout(fireReady) //如果在domReady之外加载
+    } else {
+        DOC.addEventListener("DOMContentLoaded", fireReady)
+        window.addEventListener("load", fireReady)
+    }
+    avalon.ready = function(fn) {
+        if (innerRequire) {
+            innerRequire("ready!", fn)
+        } else if (fireReady === noop) {
+            fn(avalon)
+        } else {
+            readyList.push(fn)
+        }
+    }
+    avalon.config({
+        loader: true
+    })
+    var msSelector = "[ms-controller],[ms-important]"
+    avalon.ready(function() {
+        var elems = DOC.querySelectorAll(msSelector),
+                nodes = []
+        for (var i = 0, elem; elem = elems[i++]; ) {
+            if (!elem.__root__) {
+                var array = elem.querySelectorAll(msSelector)
+                for (var j = 0, el; el = array[j++]; ) {
+                    el.__root__ = true
+                }
+                nodes.push(elem)
+            }
+        }
+        for (var i = 0, elem; elem = nodes[i++]; ) {
+            avalon.scan(elem)
+        }
+    })
+})(document)

@@ -64,11 +64,21 @@ $(document).ready(function() {
     }
   });
 
+  var hash = location.hash.replace(/^#/g, "").trim()
+  if(!hash) hash = process.cwd()
   // call fekit
   fekitModel.$cmd = function(cmd, args) {
+    cmd = cmd.trim()
+    if(cmd == "config") {
+      var p = $("#files .config").data("path");
+      return folder.emit("navigate", p, {
+        name: "fekit.config",
+        path: p,
+      })
+    }
     try{
-      var cwd = args ? args.cwd : process.cwd(),
-        run = spawn("fekit" + isWindows, [cmd.trim()], {
+      var cwd = args ? args.cwd : hash,
+        run = spawn("fekit" + isWindows, [cmd], {
         cwd: cwd
       }), msg = [];
       run.stderr.on('data', function (data) {
@@ -93,16 +103,19 @@ $(document).ready(function() {
     }
   }
 
-  fekitModel.$save = function(path, content) {
+  fekitModel.$save = function(path, content, exit) {
     fs.writeFileSync(path, content)
+    if(exit) {
+      fekitModel.page = "explore"
+      fekitModel.paths.pop()
+    }
   }
-  // load all cmd
-  fekitModel.$cmd("");
 
   function explore(path) {
     fekitModel.page = "explore";
     addressbar.set(path);
     folder.open(path, fileFilter);
+    location.hash = "#" + path
   }
 
   folder.on("files", function(dir, data) {
@@ -121,8 +134,6 @@ $(document).ready(function() {
   addressbar.on("paths", function(mine) {
     fekitModel.paths.clear().push.apply(fekitModel.paths, mine.paths);
   });
-
-  explore(process.cwd());
 
   folder.on('navigate', function(dir, mime) {
     if (mime.type == 'folder') {
@@ -144,4 +155,11 @@ $(document).ready(function() {
   addressbar.on('navigate', function(dir) {
     explore(dir);
   });
+
+
+  explore(hash);
+  // load all cmd
+  fekitModel.$cmd("");
+  $("#ct")[0].removeAttribute("ms-skip")
+  avalon.scan()
 });
