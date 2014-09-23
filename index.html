@@ -7,54 +7,16 @@
 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="js/jsoneditor.css">
 <link href="style.css" rel="stylesheet">
-<style type="text/css">
-  .btn-group{padding: 10px;}
-  #jsoneditor{height: 100%;}
-  [ms-controller]{ display:none}
-</style>
 <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="js/jsoneditor.js"></script>
-<script type="text/javascript" src="js/avalon.js"></script>
 <script type="text/javascript" src="js/jsl.format.js"></script>
+<script type="text/javascript" src="js/avalon.js"></script>
+<script type="text/javascript" src="js/avalon.draggable.js"></script>
+<script type="text/javascript" src="js/avalon.resizable.js"></script>
 <script type="text/javascript">
   avalon.config({loader: false})
 </script>
-<script type="text/javascript">
-  var editor ,
-    fekitModel = avalon.define("fekit", function(vm) {
-    vm.files = [],
-    vm.paths = [];
-    vm.commands = [];
-    vm.configJSON = {name:"",path:"",content:""};
-    vm.page = "explore";
-    vm.isFekitModules = false;
-
-    vm.save = function(e, exit) {
-      e.preventDefault();
-      if(editor) {
-        var newJSON = JSON.stringify(editor.get());
-        try{
-          newJSON = jsl.format.formatJson(newJSON);
-        }catch(e) {
-          return alert(e)
-        }
-        fekitModel.$save(fekitModel.configJSON.path, newJSON, exit);
-      }
-    }
-    vm.$save = function() {}
-    vm.cmd = function(e, cmd) {
-      e.preventDefault()
-      var paths = "";
-      fekitModel.paths.forEach(function(item) {
-        paths = item.path
-      })
-      fekitModel.$cmd(cmd, {
-        cwd: paths
-      })
-    }
-    vm.$cmd = function(cmd) {}
-  });
-</script>
+<script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </head>
 <body>
@@ -63,8 +25,7 @@
     <ul class="nav nav-list">
       <li class="nav-header">Favorites</li>
       <li class="active"><a href="#"><i class="icon-white icon-home"></i> Home</a></li>
-      <!--<li><a href="#"><i class="icon-picture"></i> Pictures</a></li>-->
-      <li><a href="#" onclick="location.reload()"><i class="icon-refresh"></i> Reload</a></li>
+      <li><a href="#" ms-click="$destroyFunc"><i class="icon-refresh"></i> Reload</a></li>
     </ul>
   </div>
 
@@ -75,7 +36,7 @@
           <a href="#">{{item.name}}</a><span class="divider">/</span>
         </li>
         <li ms-if="$last" ms-data-path="item.path" class="active">
-          <span>{{item.name}}</span>
+          <a href="#">{{item.name}}</a>
         </li>
       </ul>
     </div>
@@ -99,33 +60,24 @@
       </ul>
       <!--json edit menu-->
       <div class="btn-group" ms-visible="page=='edit'">
-        <button class="btn btn-warning" ms-click="save($event)">save change</button>
-        <button class="btn btn-warning" ms-click="save($event, 'exit')">save & exit</button>
+        <button class="btn btn-warning" 
+          ms-class="disabled:saving" 
+          ms-click="save($event)">save change</button>
+        <button class="btn btn-warning" 
+          ms-class="disabled:saving" 
+          ms-click="save($event, 'exitAfterSave')">save & exit</button>
+        <button class="btn btn-warning" 
+          ms-class="disabled:saving" 
+          ms-click="save($event, 'exit')">abort changes</button>
       </div>
       <div ms-visible="page=='edit'" id="jsoneditor"></div>
     </div>
   </div>
-  <div id="log"></div>
+  <div id="log" ms-resizable data-resizable-handles="n"></div>
 
   <script type="text/javascript" >
-  var container = document.getElementById('jsoneditor');
-
-  var options = {
-    mode: 'tree',
-    modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
-    error: function (err) {
-      alert(err.toString());
-    }
-  };
-
-  editor = new JSONEditor(container, options, fekitModel.configJSON);
-  fekitModel.$watch("configJSON", function(v) {
-    try{
-      editor.set(JSON.parse(v.content))
-    }catch(e) {
-      alert("fekit.config格式错误!")
-    }
-  })
+    editor.init()
+    backgroundInit()
   </script>
 </div>
 </body>
