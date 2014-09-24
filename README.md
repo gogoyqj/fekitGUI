@@ -27,4 +27,4 @@
 
 	ctrl + s - 保存对fekit.config的改动
 	
-	ctrl + c - 终止现在运行的fekit xxx命令，已经实现windows【taskill /PID pid 实现，存在一定概率误杀】
+	ctrl + c - 终止现在运行的fekit xxx命令，已经实现windows && linux && mac os【taskill /PID pid 实现，存在一定概率误杀】
