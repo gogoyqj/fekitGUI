@@ -146,6 +146,8 @@ function execCMD(cmd, args) {
                 msg = []
 
             function kill() {
+                // shell.openItem(installDir + "\\xx\\killNode.bat")
+                // return 
                 // deleteID(thisProcessId)
                 try {
                     // 杀掉进程
@@ -158,8 +160,12 @@ function execCMD(cmd, args) {
                             for(var id in thisProcessId) {
                                 // 杀掉进程
                                 // 靠，杀不掉
+                                // 杀掉没有回调
                                 if(processes[id]) nodeProcess.kill(id, function(msgObject) {
-                                    logger.log(msgObject)
+                                    // logger.log(msgObject)
+                                    if(!msgObject.error) {
+                                        logger.error("[ERROR] fekit " + cmd + ", pid=" + id + " killed!")
+                                    }
                                 })
                             }
                             return 

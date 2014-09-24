@@ -3,8 +3,8 @@ global.alert = alert
 global.logger = logger = {
     log: function(text, className) {
         var className = className || "info",
-            text = text.toString()
-            if (text != void 0 && text.match && text.match(/\[error\]/gi)) className = "error"
+            text = typeof text === "object" ? JSON.stringify(text) : text.toString()
+        if (text != void 0 && text.match && text.match(/\[error\]/gi)) className = "error"
         var log = $("#log")
         if (!log[0]) return
         log.append("<p class=\"" + className + "\">" + text.replace(/\n/g, "<br>") + "</p>")
@@ -116,9 +116,14 @@ function execCMD(cmd, args) {
             msg = []
             // kill不管用，不能杀掉fekit命令开启的进程
 
-            function kill() {
-
+        function kill() {
+            try {
+                run.kill()
+            } catch(e) {
+                
             }
+        }
+
         eventCenter.once("ctrl.c", kill)
         run.stderr.on("data", function(data) {
             eventCenter.removeListener("ctrl.c", kill)
@@ -177,7 +182,7 @@ function backgroundInit() {
         folder.open(path, fileFilter)
         storage.set("path", path)
     }
-    
+
     // call fekit
     eventCenter.on("command.run", function(cmd, args) {
         cmd = cmd.trim()

@@ -1,1 +1,1 @@
-tskill %*
+taskkill /F /PID %*
