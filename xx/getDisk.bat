@@ -1,0 +1,1 @@
+wmic logicaldisk where "drivetype=3" get name

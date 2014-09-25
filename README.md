@@ -4,12 +4,13 @@
 
 使用须知：
 
-	由于现在还没做好磁盘切换功能，因此需要将程序放到fekit项目所在的磁盘里，
-	例如有：hotel_qta项目在D盘，那么将代码检出到D运行nw.exe即可
+	我的电脑用于切换磁盘
+
+	通过浏览磁盘、目录过滤突出显示fekit项目
 
 现在比较好的支持：
 
-	fekit server - 暂时未支持自选配置
+	fekit server 
 	
 	fekit install 
 	

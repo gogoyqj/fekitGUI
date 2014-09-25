@@ -24,8 +24,8 @@
   <div class="well" style="float: left; width: 160px; padding: 8px;">
     <ul class="nav nav-list">
       <li class="nav-header">Favorites</li>
-      <li class="active"><a href="#"><i class="icon-white icon-home"></i> Home</a></li>
-      <li><a href="#" ms-click="$destroyFunc"><i class="icon-refresh"></i> Reload</a></li>
+      <li ms-class="active:page=='home'" ms-click="view($event, 'home')"><a href="#"><i class="icon-home" ms-class="icon-white:page=='home'"></i> 我的电脑</a></li>
+      <!-- <li><a href="#" ms-click="$destroyFunc"><i class="icon-refresh"></i> Reload</a></li> -->
     </ul>
   </div>
 
@@ -48,6 +48,7 @@
           ms-data-cmd="item.cmd" 
           ms-click="cmd($event,item.cmd)" 
           ms-repeat-item="commands" class="btn">fekit {{item.text}}</button>
+          <button title="帮助" ms-click="cmd($event, '')" class="btn">帮  助</button>
       </div>
       <!--file list-->
       <ul ms-visible="page=='explore'" style="margin: 5px;" id="files">
@@ -56,6 +57,15 @@
             <img src="about:blank" ms-attr-src="'icons/'+file._type+'.png'">
           </div>
           <div class="name" style="text-align:center;">{{file.name}}</div>
+        </li>
+      </ul>
+      <!--disk list-->
+      <ul ms-visible="page=='home'" style="margin: 5px;" id="diskes">
+        <li class="file" ms-data-path="disk" ms-repeat-disk="diskes" ms-dblclick="navigate($event)">
+          <div class="icon">
+            <img src="about:blank" ms-attr-src="'icons/disk.png'">
+          </div>
+          <div class="name" style="text-align:center;">{{disk}}</div>
         </li>
       </ul>
       <!--json edit menu-->
@@ -74,6 +84,7 @@
     </div>
   </div>
   <div id="log" ms-resizable data-resizable-handles="n"></div>
+  <button class="btn clear-log" ms-click="clear($event)">clear</button>
 
   <script type="text/javascript" >
     editor.init()

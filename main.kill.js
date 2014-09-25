@@ -2,12 +2,13 @@ global.$ = $
 global.alert = alert
 global.logger = logger = {
     log: function(text, className) {
-        var className = className || "info",
+        var className = className || "log",
             text = typeof text === "object" ? JSON.stringify(text) : text.toString()
             if (text != void 0 && text.match && text.match(/\[error\]/gi)) className = "error"
         var log = $("#log")
         if (!log[0]) return
-        log.append("<p class=\"" + className + "\">" + text.replace(/\n/g, "<br>") + "</p>")
+        text = text.replace(/\[(SUCCESS|ERROR|LOG)\][\s]?/g, "")
+        log.append("<p class=\"" + className + "\">["  + className.toUpperCase() + "] " + text.replace(/\n/g, "<br>") + "</p>")
         log[0].scrollTop = log[0].scrollHeight
     },
     error: function(text) {
@@ -63,7 +64,8 @@ var eventCenter = require("eventCenter").eventCenter
 var cache = {
     canStartServer: {}
 }
-var nodeProcessList = {}
+var serverProcessLister = objecter("serverProcessList")
+var serverProcessList = serverProcessLister.getJSON() || {}
 eventCenter.on("exit", function(data) {
     if (data.code === 0) {
         // install update dir
@@ -92,12 +94,23 @@ eventCenter.on("exit", function(data) {
                         version: version,
                         commands: cmds
                     })
-                    location.reload()
+                    writeModel("commands", cmds)
                 }
-            logger.success("[SUCCESS] fekit command list updated")
+            logger.success("fekit command list updated")
             return
         }
         logger.success(data.msg)
+    } else {
+        if(data.cmd === "server" && data._msg.match(/\[ERROR\]/g)) {
+            //logger.log(serverProcessList)
+            if(confirm(data._msg + "点击确定，杀掉进程，尝试fekit server")) {
+                for(var id in serverProcessList) nodeProcess.kill(id, function(msgObject) {
+                    if(!msgObject.error) {
+                        logger.error("fekit server, pid=" + id + " killed!")
+                    }
+                })
+            }
+        }
     }
 })
 
@@ -108,19 +121,20 @@ function writeModel(k, v) {
 function deleteID(arr) {
     if(arr.forEach) {
         arr.forEach(function(id) {
-            delete nodeProcessList[id]
+            delete serverProcessList[id]
         })
     } else {
         for(var id in arr) {
-            delete nodeProcessList[id]
+            delete serverProcessList[id]
         }
     }
 }
 
 function execCMD(cmd, args) {
-    var callback = args.callback
+    var callback = args && args.callback,
+        config = args && args.config || []
     try {
-        logger.log("[LOG] executing fekit " + cmd + "...")
+        logger.log("executing fekit " + cmd + "...")
         var cwd = args ? args.cwd : targetDir
         if (cmd === "server") cwd = cwd.substring(0, cwd.lastIndexOf("\\"))
 
@@ -138,9 +152,16 @@ function execCMD(cmd, args) {
                 } else {
                     // object
                     existNodeProcess = obj.processes
+                    // 删除掉死掉的进程
+                    if(cmd === "server") {
+                        for(var id in serverProcessList) {
+                            if(!existNodeProcess[id]) delete serverProcessList[id]
+                        }
+                        serverProcessLister.set(serverProcessList)
+                    }
                 }
             }
-            var run = spawn("fekit" + isWindows, [cmd], {
+            var run = spawn("fekit" + isWindows, [cmd].concat(config), {
                 cwd: cwd
             }),
                 msg = []
@@ -164,48 +185,63 @@ function execCMD(cmd, args) {
                                 if(processes[id]) nodeProcess.kill(id, function(msgObject) {
                                     // logger.log(msgObject)
                                     if(!msgObject.error) {
-                                        logger.error("[ERROR] fekit " + cmd + ", pid=" + id + " killed!")
+                                        logger.error("fekit " + cmd + ", pid=" + id + " killed!")
+                                    }
+                                    // 删除掉死掉的进程
+                                    if(cmd === "server") {
+                                        delete serverProcessList[id]
+                                        serverProcessLister.set(serverProcessList)
                                     }
                                 })
                             }
                             return 
                         }
-                        logger.error("[ERROR] 未能结束进程: fekit " + cmd)
+                        logger.error("未能结束进程: fekit " + cmd)
                     })
                 } catch (e) {
-                    logger.error("[ERROR] " + e)
+                    logger.error("" + e)
                 }
             }
 
-            eventCenter.once("ctrl.c", kill)
+            cmd && eventCenter.once("ctrl.c", kill)
             run.stderr.on("data", function(data) {
                 eventCenter.removeListener("ctrl.c", kill)
                 if (cmd === "") {
-                    return logger.error("[ERROR] 检查是否已安装fekit")
+                    return logger.error("检查是否已安装fekit")
                 }
-                logger.error("[ERROR] " + data.toString())
+                logger.error("" + data.toString())
             })
             // 计算增量node进程，可能存在不准的意外，
             // 例如过程中正好有其他的新增进程以及其他可能例外
-            var getProccessTimer
+            var getProccessTimer, processGetted
             run.stdout.on("data", function(data) {
-                getProccessTimer = setTimeout(function() {
-                    nodeProcess.get(function(msgObject) {
-                        if(!msgObject.error) {
-                            // object
-                            var processes = msgObject.processes
-                            for(var id in processes) {
-                                if(!existNodeProcess[id]) thisProcessId[id] = processes[id]
+                if(cmd && !processGetted) {
+                    getProccessTimer = setTimeout(function() {
+                        nodeProcess.get(function(msgObject) {
+                            if(!msgObject.error) {
+                                // object
+                                var processes = msgObject.processes
+                                for(var id in processes) {
+                                    if(!existNodeProcess[id]) {
+                                        thisProcessId[id] = processes[id]
+                                        // 写入进程
+                                        if(cmd === "server") {
+                                            serverProcessList[id] = id
+                                            serverProcessLister.set(serverProcessList)
+                                        }
+                                        processGetted = true
+                                    }
+                                }
                             }
-                        }
-                    })
-                }, 200)
+                        })
+                    }, 200)
+                }
                 msg.push(data.toString())
                 logger.log(data.toString())
             })
             run.on("close", function(code, signal) {
-                var info = code ? "[ERROR] fekit " + cmd + " failed" : "[SUCCESS] fekit " + cmd + " success ^_^"
-                if (cmd === "server") info = "[SUCCESS] server shut down"
+                var info = code ? "fekit " + cmd + " failed" : "fekit " + cmd + " success ^_^"
+                if (cmd === "server") info = "server shut down"
                 eventCenter.removeListener("ctrl.c", kill)
                 eventCenter.emit("exit", {
                     code: code,
@@ -217,11 +253,6 @@ function execCMD(cmd, args) {
                 msg = []
                 callback && callback(code)
             })
-            if (cmd === "server") {
-                fekitModel.$destroy.push(function() {
-                    kill()
-                })
-            }
         }
         if (cmd) {
             // 执行命令前，筛选出所有的node进程
@@ -230,13 +261,26 @@ function execCMD(cmd, args) {
             cb(/*"help"*/)
         }
     } catch (e) {
-        logger.error("[ERROR] execute fekit " + cmd + " failed:" + e)
+        logger.error("execute fekit " + cmd + " failed:" + e)
         callback && callback(255, e)
     }
 }
 // load all cmd
 if (allCommand && allCommand.version) writeModel("commands", allCommand.commands)
 execCMD("")
+// 获取所有磁盘
+nodeProcess.getInfo("getDisk", null, function(object) {
+    if(!object.error) {
+        var diskes = []
+        object.msg.forEach(function(item) {
+            // get diskName
+            var names = item.match(/[A-Za-z0-9_]:/g)
+            names && (diskes = diskes.concat(names))
+        })
+        logger.success("获取磁盘信息完成")
+        writeModel("diskes", diskes)
+    }
+})
 
 function backgroundInit() {
     var folder = new folder_view.Folder($("#files"))
@@ -266,6 +310,7 @@ function backgroundInit() {
             return folder.emit("navigate", p, {
                 name: "fekit.config",
                 path: p,
+                type: "file",
             })
         }
         execCMD(cmd, args)
@@ -274,7 +319,7 @@ function backgroundInit() {
     eventCenter.on("config.save", function(path, content, callback, exitAfterSave) {
         if (exitAfterSave != "exit") {
             fs.writeFileSync(path, content)
-            logger.success("[SUCCESS] 保存成功")
+            logger.success("保存成功")
         }
         if (exitAfterSave) {
             explore(path.substring(0, path.lastIndexOf("\\")))
@@ -289,6 +334,10 @@ function backgroundInit() {
     })
 
     addressbar.on("navigate", function(dir) {
+        explore(dir)
+    })
+
+    eventCenter.on("dir.navigate", function(dir) {
         explore(dir)
     })
 
@@ -313,11 +362,14 @@ function backgroundInit() {
         } else if (mime.name === "fekit.config") {
             writeModel("page", "edit")
             addressbar.set(mime.path)
+            // var start = +(new Date())
+            // 不用缓存，json文件过大的时候会有点卡
             writeModel("configJSON", {
                 name: mime.name,
                 path: mime.path,
                 content: fs.readFileSync(mime.path)
             })
+            // logger.log(+(new Date()) - start)
         } else {
             shell.openItem(mime.path)
         }
@@ -330,5 +382,9 @@ function backgroundInit() {
         if (fekitModel.page === "edit") fekitModel.save()
     })
     avalon.scan()
-    logger.success("[SUCCESS] init finished")
+    // 不好使啊
+    // process.on('exit', function() {
+    //     eventCenter.emit("ctrl.c")
+    // })
+    logger.success("init finished")
 }
