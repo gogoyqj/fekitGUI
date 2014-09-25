@@ -71,7 +71,7 @@ var fekitModel = avalon.define("fekit", function(vm) {
             paths = item.path
         })
         var config = []
-        if(cmd && cmd !== "help") {
+        if(cmd && cmd !== "help" && cmd !== "config") {
           var v = prompt("输入\"fekit " + cmd + "\"配置参数，以空格隔开，点击取消则忽略：")
           v && (config = v.split(" "))
         }
