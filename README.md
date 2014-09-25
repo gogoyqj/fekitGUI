@@ -1,6 +1,6 @@
 # fekitGUI
 
-通过node + webkit为fekit构建一个ui操作界面
+通过node + webkit为fekit构建一个ui操作界面 - 现在可以在windows里面安静的运行
 
 使用须知：
 
