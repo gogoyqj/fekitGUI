@@ -4,7 +4,7 @@
 
 使用须知：
 	
-	git clone 代码，点击nw.exe即可
+	如果你已经安装了fekit，git clone https://github.com/gogoyqj/fekitGUI.git，点击nw.exe即可
 
 	我的电脑用于切换磁盘
 
