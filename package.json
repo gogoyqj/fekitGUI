@@ -2,7 +2,7 @@
   "name": "fekit",
   "description": "fekit with gui.",
   "version": "0.1",
-  "main": "index.html",
+  "main": "index-new.html",
   "window": {
     "toolbar": false,
     "width": "100%",

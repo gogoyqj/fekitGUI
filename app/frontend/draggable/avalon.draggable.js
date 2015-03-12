@@ -1,4 +1,4 @@
-(function(avalon) {
+_define(["avalon"], function(avalon) {
     var defaults = {
         ghosting: false, //是否影子拖动，动态生成一个元素，拖动此元素，当拖动结束时，让原元素到达此元素的位置上,
         delay: 0,
@@ -47,9 +47,11 @@
     }
 
     var draggable = avalon.bindingHandlers.draggable = function(data, vmodels) {
-        var args = data.value.match(avalon.rword) || ["$", "draggable"]
-        var ID = args[0].trim(), opts = args[1], model, vmOptions
-        if (ID && ID != "$") {
+        var args = data.value.match(avalon.rword) || []
+        var ID  = args[0] ||  "$"
+        var opts = args[1] ||"draggable"
+        var model, vmOptions
+        if (ID != "$") {
             model = avalon.vmodels[ID]//如果指定了此VM的ID
             if (!model) {
                 return
@@ -67,15 +69,18 @@
             }
             fnObj = vmOptions
         }
+
         var element = data.element
         var $element = avalon(element)
         var options = avalon.mix({}, defaults, vmOptions || {}, data[opts] || {}, avalon.getWidgetData(element, "draggable"));
+
         //修正drag,stop为函数
         "drag,stop,start,beforeStart,beforeStop".replace(avalon.rword, function(name) {
             var method = options[name]
             if (typeof method === "string") {
                 if (typeof fnObj[method] === "function") {
                     options[name] = fnObj[method]
+
                 }
             }
         })
@@ -164,6 +169,7 @@
             setContainment(options, data)//修正containment
             draggable.dragData = data//决定有东西在拖动
             "start,drag,beforeStop,stop".replace(avalon.rword, function(name) {
+                //console.log(options[name])
                 draggable[name] = [options[name]]
             })
             draggable.plugin.call("start", e, data)
@@ -300,8 +306,9 @@
 
     if (window.VBArray && !("msUserSelect" in rootElement.style)) {
         var _ieSelectBack;//fix IE6789
-        function returnFalse(event) {
-            event.returnValue = false
+        function returnFalse() {
+            var e = window.event || {}
+            e.returnValue = false
         }
         fixUserSelect = function() {
             _ieSelectBack = body.onselectstart;
@@ -369,4 +376,4 @@
         }
     }
     return avalon
-})(avalon)
+})

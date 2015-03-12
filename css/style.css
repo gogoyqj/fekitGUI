@@ -1,57 +1,118 @@
 * {
-  -webkit-user-select: none;
+    -webkit-user-select: none;
 }
-
 body {
-  background-image: url('../images/htmlbg.png')
+    background-image: url('../images/htmlbg.png')
 }
-
 .files {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
-
 .file {
-  padding: 2px;
-  margin: 2px;
-  width: 80px;
-  display: inline-block;
-
-  text-align: center;
-  vertical-align: top;
+    padding: 2px;
+    margin: 2px;
+    width: 80px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
 }
-
 .file.focus {
-  background-color: #08C;
-  -webkit-border-radius: 4px;
+    background-color: #08C;
+    -webkit-border-radius: 4px;
 }
-
 .file .name {
-  width: 80px;
-  word-wrap: break-word;
+    width: 80px;
+    word-wrap: break-word;
 }
-
 .file.focus .name {
-  color: white;
+    color: white;
 }
-
 .file .icon {
-  margin: auto;
-  margin-top: 0;
-  width: 60px;
+    margin: auto;
+    margin-top: 0;
+    width: 60px;
 }
-
 .file.focus .icon {
-  -webkit-filter: invert(20%);
+    -webkit-filter: invert(20%);
 }
-
-.btn-group{padding: 10px;}
-#jsoneditor{min-height: 100px;height: 100%;max-height: 100%;}
-#view{padding-bottom: 100px;}
-[ms-controller]{ display:none}
-#log{position: fixed;right: 0;bottom: 0px;height: 100px;border-top:1px solid #ccc;z-index: 100;background: #fff;width: 100%;display: block;overflow:auto;width: 100%;}
-#log p{padding: 2px 10px;margin: 0 0 0 10px;line-height: 20px;font-size: 14px;}
-#log .error{color: red;}
-#log .log{color: #1A8DFF;}
-#log .success{color: green;}
-.clear-log{position: fixed;right: 20px;bottom: 4px;z-index:200;}
+.btn-group {
+    padding: 10px;
+}
+#jsoneditor {
+    min-height: 100px;
+    height: 100%;
+    max-height: 100%;
+}
+#view {
+    padding-bottom: 100px;
+}
+[ms-controller] {
+    display: none
+}
+#log {
+    position: fixed;
+    right: 0;
+    bottom: 0px;
+    height: 100px;
+    border-top: 1px solid #ccc;
+    z-index: 100;
+    background: #fff;
+    width: 100%;
+    display: block;
+    overflow: auto;
+    width: 100%;
+}
+#log p {
+    padding: 2px 10px;
+    margin: 0 0 0 10px;
+    line-height: 20px;
+    font-size: 14px;
+}
+#log .error {
+    color: red;
+}
+#log .log {
+    color: #1A8DFF;
+}
+#log .success {
+    color: green;
+}
+.clear-log {
+    position: fixed;
+    right: 20px;
+    bottom: 4px;
+    z-index: 200;
+}
+#ct {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+}
+.well {
+    float: left;
+    width: 160px;
+    padding: 8px;
+}
+#view {
+    float: left;
+    position: absolute;
+    left: 210px;
+    right: 0;
+    top: 0;
+    bottom: 50px;
+}
+.row {
+    background: #FFF;
+    -webkit-border-radius: 2px;
+    margin: -5px 1px 0 -19px;
+    height: 100%;
+    overflow: auto
+}
+#diskes, #files {
+    margin: 5px;
+}
+.name {
+    text-align: center;
+}

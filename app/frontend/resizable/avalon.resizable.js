@@ -1,4 +1,4 @@
-(function(avalon) {
+_define(["../draggable/avalon.draggable"], function(avalon) {
 
 
     var draggable = avalon.bindingHandlers.draggable;
@@ -231,4 +231,4 @@
         }
     }
     return avalon
-})(avalon)
+})

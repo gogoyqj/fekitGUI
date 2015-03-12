@@ -1,10 +1,11 @@
-define(["avalon"], function(avalon) {
+_define(["avalon"], function(avalon) {
 //chrome36的原生Promise还多了一个defer()静态方法，允许不通过传参就能生成Promise实例，
 //另还多了一个chain(onSuccess, onFail)原型方法，意义不明
 //目前，firefox24, opera19也支持原生Promise(chrome32就支持了，但需要打开开关，自36起直接可用)
 //本模块提供的Promise完整实现ECMA262v6 的Promise规范
     var mmPromise
-    if (/native code/.test(window.Promise)) {
+    // here has bug in node webket
+    if (/native code/.test(window.Promise) && 0) {
         mmPromise = window.Promise
     } else {
         var msPromise = function(executor) {

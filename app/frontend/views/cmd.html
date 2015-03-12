@@ -1,0 +1,10 @@
+<!--fekit cmd-->
+<div class="btn-group" 
+    ms-visible="page=='explore'&&isFekitModules">
+    <button
+        ms-attr-title="item.title"
+        ms-data-cmd="item.cmd"
+        ms-click="cmd($event,item.cmd)"
+        ms-repeat-item="commands" class="btn">fekit {{item.text}}</button>
+    <button title="帮助" ms-click="cmd($event, '')" class="btn">帮    助</button>
+</div>

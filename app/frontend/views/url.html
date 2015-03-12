@@ -1,0 +1,10 @@
+<ul id="addressbar" class="breadcrumb" 
+	ms-each-item="paths">
+    <li ms-if="!$last" 
+    	ms-data-path="item.path">
+        <a href="#">{{item.name}}</a><span class="divider">/</span>
+    </li>
+    <li ms-if="$last" ms-data-path="item.path" class="active">
+        <a href="#">{{item.name}}</a>
+    </li>
+</ul>

@@ -1,4 +1,4 @@
-define("mmState", ["../mmPromise/mmPromise", "mmRouter/mmRouter"], function() {
+_define("mmState", ["../mmPromise/mmPromise", "mmRouter/mmRouter"], function() {
 //重写mmRouter中的route方法     
     avalon.router.route = function(method, path, query, options) {
         path = path.trim()
@@ -203,7 +203,7 @@ define("mmState", ["../mmPromise/mmPromise", "mmRouter/mmRouter"], function() {
                     if(success !== false) {
                         _root.fire("updateview", me.currentState)
                         avalon.log("transitionTo " + toState.stateName + " success")
-                        callStateFunc("onload", me, fromState, toState)
+                        callStateFunc("onLoad", me, fromState, toState)
                     } else if(options.fromHistory){
                         var cur = me.currentState
                         info = avalon.router.urlFormate(cur.url, cur.params, mmState.query)
@@ -298,7 +298,7 @@ define("mmState", ["../mmPromise/mmPromise", "mmRouter/mmRouter"], function() {
             })
             // var vm = getVModels(_currentState)
             // avalon.scan(_element, vmodels/*vm*/)
-            avalon.scan(_element, _local && _local.vmodels || vmodels/*vm*/)
+            avalon.scan(_element, vmodels/*vm*/)
         }
         update("firsttime")
         _root.watch("updateview", function(state) {
@@ -377,7 +377,7 @@ define("mmState", ["../mmPromise/mmPromise", "mmRouter/mmRouter"], function() {
                     }
                 }, function(msg) {
                     avalon.log(warnings + " " + msg)
-                    callStateFunc("onloadError", me, name, state)
+                    callStateFunc("onLoadError", me, name, state)
                 })
                 
             })
@@ -405,18 +405,24 @@ define("mmState", ["../mmPromise/mmPromise", "mmRouter/mmRouter"], function() {
      *  @param {Function} config.onUnload url切换时候触发，this指向mmState对象，参数同onBeforeUnload
      *  @param {Function} config.begin 请使用onBegin
      *  @param {Function} config.onBegin  开始切换的回调，this指向mmState对象，参数同onBeforeUnload，如果配置了onBegin，则忽略begin
-     *  @param {Function} config.onload 切换完成并成功，this指向mmState对象，参数同onBeforeUnload
+     *  @param {Function} config.onload 请使用onLoad
+     *  @param {Function} config.onLoad 切换完成并成功，this指向mmState对象，参数同onBeforeUnload
      *  @param {Function} config.onViewEnter 视图插入动画函数，有一个默认效果
      *  @param {Node} config.onViewEnter.arguments[0] 新视图节点
      *  @param {Node} config.onViewEnter.arguments[1] 旧的节点
-     *  @param {Function} config.onloadError 加载模板资源出错的回调，this指向对应的state，第一个参数对应的模板配置keyname，第二个参数是对应的state
+     *  @param {Function} config.onloadError 请使用onLoadError
+     *  @param {Function} config.onLoadError 加载模板资源出错的回调，this指向对应的state，第一个参数对应的模板配置keyname，第二个参数是对应的state
     */
     avalon.state.config = function(config) {
         avalon.each(config, function(key, func) {
+            delete config[key]
             if(key.indexOf("on") !== 0) {
-                delete config[key]
                 config["on" + key.replace(/^[a-z]/g, function(mat) {
                     return mat.toUpperCase()
+                })] = func
+            } else {
+                config[key.replace(/^on[a-z]/g, function(mat) {
+                    return "on" + mat.split("")[2].toUpperCase()
                 })] = func
             }
         })
@@ -629,7 +635,8 @@ define("mmState", ["../mmPromise/mmPromise", "mmRouter/mmRouter"], function() {
     }
     // 【fromUrl】的辅助函数，得到一个XMLHttpRequest对象
     var getXHR = function() {
-        return new (window.XMLHttpRequest || ActiveXObject)("Microsoft.XMLHTTP")
+        // 方便weinre调试
+        return new (window._XMLHttpRequest || window.XMLHttpRequest || ActiveXObject)("Microsoft.XMLHTTP")
     }
     // 【avalon.state】的辅助函数，opts.templateUrl的处理函数
     function fromUrl(url, params) {

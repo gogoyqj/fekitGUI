@@ -1,0 +1,13 @@
+<!--json edit menu-->
+<div class="btn-group">
+    <button class="btn btn-warning"
+        ms-class="disabled:saving"
+        ms-click="save($event)">save change</button>
+    <button class="btn btn-warning"
+        ms-class="disabled:saving"
+        ms-click="save($event, 'exitAfterSave')">save & exit</button>
+    <button class="btn btn-warning"
+        ms-class="disabled:saving"
+        ms-click="save($event, 'exit')">abort changes</button>
+</div>
+<div id="jsoneditor"></div>

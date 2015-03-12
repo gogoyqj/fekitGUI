@@ -1,4 +1,4 @@
-define(["avalon"], function(avalon) {
+_define(["avalon"], function(avalon) {
     var anchorElement = document.createElement('a')
 
     var History = avalon.History = function() {
