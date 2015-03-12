@@ -115,7 +115,7 @@ eventCenter.on("exit", function(data) {
 })
 
 function writeModel(k, v) {
-    fekitModel[k] = v
+    if(fekitModel) fekitModel[k] = v
 }
 
 function deleteID(arr) {
@@ -161,10 +161,17 @@ function execCMD(cmd, args) {
                     }
                 }
             }
-            var run = spawn("fekit" + isWindows, [cmd].concat(config), {
-                cwd: cwd
-            }),
+            var run,
                 msg = []
+
+            try {
+                // run = spawn("fekit" + isWindows, [cmd].concat(config), {
+                //     cwd: cwd
+                // })
+                run = spawn("node")
+            } catch(e) {
+
+            }
 
             function kill() {
                 // shell.openItem(installDir + "\\xx\\killNode.bat")

@@ -72,27 +72,27 @@ eventCenter.on("exit", function(data) {
             var arr = data._msg.split("\n"),
                 cmds = [],
                 version
-                arr.forEach(function(ai, i) {
-                    if (ai.match(/[a-z]+[^#]+#[\s\S]+/g)) {
-                        var pos = ai.indexOf("#"),
-                            c = ai.substring(0, pos).trim(),
-                            des = ai.substring(pos + 1).trim()
-                            cmds.push({
-                                cmd: c.split(/[^a-z]+/)[0],
-                                title: des,
-                                text: c,
-                            })
-                    } else if (ai.match(/fekit [0-9]+\.[0-9]\.[0-9]+/gi)) {
-                        version = ai.match(/[0-9]+\.[0-9]\.[0-9]+/gi)[0]
-                    }
-                })
-                if (!allCommand || allCommand && allCommand.version != version) {
-                    allCommander.set({
-                        version: version,
-                        commands: cmds
-                    })
-                    location.reload()
+            arr.forEach(function(ai, i) {
+                if (ai.match(/[a-z]+[^#]+#[\s\S]+/g)) {
+                    var pos = ai.indexOf("#"),
+                        c = ai.substring(0, pos).trim(),
+                        des = ai.substring(pos + 1).trim()
+                        cmds.push({
+                            cmd: c.split(/[^a-z]+/)[0],
+                            title: des,
+                            text: c,
+                        })
+                } else if (ai.match(/fekit [0-9]+\.[0-9]\.[0-9]+/gi)) {
+                    version = ai.match(/[0-9]+\.[0-9]\.[0-9]+/gi)[0]
                 }
+            })
+            if (!allCommand || allCommand && allCommand.version != version) {
+                allCommander.set({
+                    version: version,
+                    commands: cmds
+                })
+                location.reload()
+            }
             logger.success("[SUCCESS] fekit command list updated")
             return
         }
