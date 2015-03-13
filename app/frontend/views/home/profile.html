@@ -6,9 +6,13 @@
 		<ul id="projects">
 			<li 
 			    ms-repeat-item="projects">
+			    <a href="#" class="del" title="移除" 
+			       ms-click="remove($event, item)">
+			    	<i class="icon-remove"></i>
+			    </a>
 				<a href="#" 
 		            ms-title="item.path" 
-		        	ms-click="navigate($event, item.path, true, true)">{{item.name}}</a>
+		        	ms-click="navigate($event, item.path, true, true)"><i class="icon-file"></i>{{item.name}}</a>
 			</li>
 		</ul>
 	</div>

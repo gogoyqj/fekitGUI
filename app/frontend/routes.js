@@ -1,6 +1,6 @@
 _define(["mmRouter/-mmState-new", 
 	"vmodels/tool", 
-	"vmodels/computer"], function() {
+	"vmodels/computer", "storage"], function() {
 	function viewPath(name) {
 		return "app/frontend/views/" + name
 	}
@@ -81,6 +81,7 @@ _define(["mmRouter/-mmState-new",
 			avalon.vmodels.computer.set("paths", newPaths)
 		}
 	})
+	var projects
 	avalon.state("home", {
 		url: "/home",
 		controller: "computer",
@@ -91,6 +92,12 @@ _define(["mmRouter/-mmState-new",
 			"": {
 				templateUrl: viewPath("home/profile.html")
 			}
+		},
+		onChange: function() {
+			if(projects) return
+			var projects = storage.get("projects")
+			projects = projects ? JSON.parse(projects) : []
+			avalon.vmodels.computer.projects = projects
 		}
 	})
 	var element
@@ -118,8 +125,8 @@ _define(["mmRouter/-mmState-new",
 	return {
 		init: function() {
 			// if(hasGlobal()) {
-			// 	var path = global.storage.get("path"),
-			// 		page = global.storage.get("page")
+			// 	var path = storage.get("path"),
+			// 		page = storage.get("page")
 			// 	if(page == "computer" && path) avalon.router.redirect("/computer/" + path.replace(/\\/g, "\\"))
 			// } else {
 			// 	avalon.router.redirect("home")

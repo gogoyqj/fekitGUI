@@ -1,4 +1,4 @@
-_define(["mmRouter/-mmState-new"], function() {
+_define(["mmRouter/-mmState-new", "storage"], function() {
 	// do load
 	if(typeof global != "undefined") {
 		var fs = require("fs")
@@ -47,13 +47,12 @@ _define(["mmRouter/-mmState-new"], function() {
 		window._XMLHttpRequest = xhp
 		global.$ = $
 		global.alert = alert
+		global.storage = storage
 		global.noop = function() {}
 		global.console = console
-		global.localStorage = localStorage
 		global.$eventManager = $eventManager
 		var isWindows = global.isWindows = process.platform === "win32" ? ".cmd" : "",
 			installDir = global.installDir = process.cwd(),
-			storage = global.storage = require("storage").storage,
 			targetDir = global.targetDir = storage.get("path") || installDir,
 			shell = global.shell = require("nw.gui").Shell,
 			logger = global.logger = {

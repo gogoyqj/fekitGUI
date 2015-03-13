@@ -3,7 +3,7 @@
 
 // 	})
 // })
-_define([], function() {
+_define(["storage"], function() {
 	var lastElement,
 		vmodel = avalon.define("computer", function(vm) {
 		vm.paths = []
@@ -39,6 +39,31 @@ _define([], function() {
 		}
 		vm.bookmark = function(event) {
 			event && event.preventDefault()
+			var len = vm.paths.length,
+				path = vm.paths[len - 1]
+			if(path) {
+				// 防止重复
+				for(var i = 0, len = vm.projects.length; i < len; i++) {
+					if(vm.projects[i].path == path.path) return
+				}
+				var data = path.$model || avalon.mix({}, path) 
+				vm.projects.push(data)
+				vm.save()
+			}
+		}
+		// 删除
+		vm.remove = function(event, path) {
+			event && event.preventDefault()
+			for(var i = 0, len = vm.projects.length; i < len; i++) {
+				if(path == vm.projects[i]) {
+					vm.projects.splice(i, 1)
+					return vm.save()
+				}
+			}
+		}
+		// 保存
+		vm.save = function() {
+			storage.set("projects", JSON.stringify(vm.projects.$model))
 		}
 	})
 })

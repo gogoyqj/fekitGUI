@@ -120,6 +120,12 @@ body {
 .name {
     text-align: center;
 }
-.bookmark {
+.bookmark, .del {
     float: right;
+}
+#projects {
+    max-width: 400px;
+}
+#projects li {
+    list-style: none;
 }
