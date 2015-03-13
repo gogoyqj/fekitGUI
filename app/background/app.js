@@ -47,28 +47,30 @@ _define(["mmRouter/-mmState-new"], function() {
 		window._XMLHttpRequest = xhp
 		global.$ = $
 		global.alert = alert
+		global.noop = function() {}
+		global.console = console
 		global.localStorage = localStorage
-		global.storage = require("storage")
-		global.shell = require("nw.gui").Shell
 		global.$eventManager = $eventManager
-		// global.main = require("main")
-		global.logger = logger = {
-		    log: function(msg, className) {
-		        $eventManager.$fire("log", {
-		        	type: className || "log",
-		        	msg: msg
-		        })
-		    },
-		    error: function(msg) {
-		        this.log(msg, "error")
-		    },
-		    success: function(msg) {
-		        this.log(msg, "success")
-		    }
-		}
-		// 接到命令
-		$eventManager.$watch("cmd", function(data) {
-
-		})
+		var isWindows = global.isWindows = process.platform === "win32" ? ".cmd" : "",
+			installDir = global.installDir = process.cwd(),
+			storage = global.storage = require("storage").storage,
+			targetDir = global.targetDir = storage.get("path") || installDir,
+			shell = global.shell = require("nw.gui").Shell,
+			logger = global.logger = {
+			    log: function(msg, className) {
+			        $eventManager.$fire("log", {
+			        	type: className || "log",
+			        	msg: msg
+			        })
+			    },
+			    error: function(msg) {
+			        this.log(msg, "error")
+			    },
+			    success: function(msg) {
+			        this.log(msg, "success")
+			    }
+			}
+		// load main
+		require("backgroundMain.js")
 	}
 })

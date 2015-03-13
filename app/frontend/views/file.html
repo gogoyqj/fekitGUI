@@ -1,13 +1,17 @@
 <!--file list-->
 <ul id="files">
     <li class="file" 
-        ms-data-path="file.path" 
+        ms-title="file.path" 
         ms-repeat-file="files" 
+        ms-click="navigate($event, file.path)" 
         ms-class="config:file.name=='fekit.config'">
-        <div class="icon">
-            <img src="about:blank" 
-                ms-attr-src="'icons/'+file._type+'.png'">
-        </div>
-        <div class="name">{{file.name}}</div>
+        <a href="#" 
+            ms-click="prev($event)">
+            <div class="icon">
+                <img src="about:blank" 
+                    ms-attr-src="'icons/'+file._type+'.png'">
+            </div>
+            <div class="name">{{file.name}}</div>
+        </a>
     </li>
 </ul>

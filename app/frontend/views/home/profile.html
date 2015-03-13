@@ -1,0 +1,15 @@
+<div 
+     ms-controller="computer">
+	<!-- project list -->
+	<div class="row">
+		<h5>hello, welcome to GUI!</h5>
+		<ul id="projects">
+			<li 
+			    ms-repeat-item="projects">
+				<a href="#" 
+		            ms-title="item.path" 
+		        	ms-click="navigate($event, item.path, true, true)">{{item.name}}</a>
+			</li>
+		</ul>
+	</div>
+</div>

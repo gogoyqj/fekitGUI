@@ -1,8 +1,12 @@
 * {
     -webkit-user-select: none;
 }
+html {
+    min-height:100%;
+}
 body {
-    background-image: url('../images/htmlbg.png')
+    background-image: url('../images/htmlbg.png');
+    min-height:100%;
 }
 .files {
     padding: 0;
@@ -115,4 +119,7 @@ body {
 }
 .name {
     text-align: center;
+}
+.bookmark {
+    float: right;
 }

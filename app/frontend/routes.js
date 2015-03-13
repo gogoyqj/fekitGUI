@@ -4,6 +4,21 @@ _define(["mmRouter/-mmState-new",
 	function viewPath(name) {
 		return "app/frontend/views/" + name
 	}
+	var diskes,
+		isWindows = function() {
+			return !!global.isWindows
+		},
+		hasGlobal = function() {
+			return typeof global != "undefined"
+		},
+		dataFilter = {
+			getDiskes: function(msg) {
+				if(isWindows()) return msg.match(/[A-Z][A-Za-z]*:[^\S]/g) || []
+			},
+			getFiles: function(result) {
+				return result
+			}
+		}
 	avalon.state("computer", {
 		url: "/computer",
 		controller: "computer",
@@ -22,7 +37,15 @@ _define(["mmRouter/-mmState-new",
 			}
 		},
 		onChange: function() {
+			if(diskes) return
 			// load diskes
+			$eventManager.$fire("getDisk", {
+				callback: function(result) {
+					if(!result.status) {
+						avalon.vmodels.computer.diskes = diskes = dataFilter.getDiskes(result.msg.join(""))
+					}
+				}
+			})
 		}
 	})
 	avalon.state("computer.path", {
@@ -33,37 +56,82 @@ _define(["mmRouter/-mmState-new",
 				templateUrl: viewPath("file.html")
 			}
 		},
-		onChange: function(arguments) {
+		onChange: function(path) {
 			// load files
+			var done = this.async()
+			$eventManager.$fire("explore", {
+				path: path,
+				callback: function(result) {
+					if(!result.status) {
+						result = dataFilter.getFiles(result)
+						avalon.vmodels.computer.files = result.files
+					}
+					done()
+				}
+			})
+			var spliter = isWindows() ? "\\\\" : "/",
+				paths = path.match(/[^:]+:|[\\\/]+[^\\\/]+/g),
+				newPaths = []
+			paths.forEach(function(p, index) {
+				newPaths[index] = {
+					name: p.replace(/[\\\/]+/g, ""),
+					path: paths.slice(0, index + 1).join("")
+				}
+			})
+			avalon.vmodels.computer.set("paths", newPaths)
 		}
 	})
 	avalon.state("home", {
 		url: "/home",
-		controller: "tool",
+		controller: "computer",
 		views: {
 			"menu@": {
-				template: "shit"
+				templateUrl: viewPath("menu.html")
+			},
+			"": {
+				templateUrl: viewPath("home/profile.html")
 			}
 		}
 	})
+	var element
+	$(document.body).on('click', function() {
+		element && element.find('.focus').removeClass('focus')
+	})
 	avalon.state.config({
 		onUnload: function() {
+			if(avalon.vmodels.loading) avalon.vmodels.loading.toggle = true
 		},
 		onLoad: function(fromState, toState) {
-			// $eventManager.$fire("log", {
-			// 	msg: toState.stateName + " ready"
-			// })
+			var name = toState.stateName
+			// 交互
+			if(name.indexOf("computer") == 0) {
+				if(name == "computer") avalon.vmodels.computer.set("paths")
+				avalon.vmodels.tool.page = "computer"
+				element = $("div.list")
+			} else {
+				avalon.vmodels.tool.page = name
+				element = null
+			}
+			avalon.vmodels.loading.toggle = false
 		}
 	})
-	avalon.router.errorback = function() {
-		avalon.router.redirect("/computer")
-	}
 	return {
 		init: function() {
+			// if(hasGlobal()) {
+			// 	var path = global.storage.get("path"),
+			// 		page = global.storage.get("page")
+			// 	if(page == "computer" && path) avalon.router.redirect("/computer/" + path.replace(/\\/g, "\\"))
+			// } else {
+			// 	avalon.router.redirect("home")
+			// }
+			avalon.router.redirect("/home")
 			avalon.history.start({
 			    hashPrefix: "",
 			    fireAnchor: false
 			})
+			avalon.router.errorback = function() {
+				avalon.router.redirect("computer")
+			}
 		}
 	}
 })

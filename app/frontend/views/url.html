@@ -1,10 +1,17 @@
 <ul id="addressbar" class="breadcrumb" 
 	ms-each-item="paths">
-    <li ms-if="!$last" 
-    	ms-data-path="item.path">
-        <a href="#">{{item.name}}</a><span class="divider">/</span>
+    <li class="bookmark" ms-if="$index==0">
+        <a href="#" title="存为常用" 
+           ms-click="bookmark($event)"><i class="icon-star"></i></a>
     </li>
-    <li ms-if="$last" ms-data-path="item.path" class="active">
-        <a href="#">{{item.name}}</a>
+    <li ms-if="$index!=paths.length-1">
+        <a href="#" 
+            ms-title="item.path" 
+        	ms-click="navigate($event, item.path, true, true)">{{item.name}}</a><span class="divider">/</span>
+    </li>
+    <li ms-if="$index==paths.length-1" class="active">
+        <a href="#" 
+            ms-title="item.path" 
+        	ms-click="navigate($event, item.path, 'reload', true)">{{item.name}}</a>
     </li>
 </ul>

@@ -2,91 +2,48 @@
 <html>
     <head>
         <meta http-equiv=Content-Type content="text/html;charset=utf-8">
-        <title>fekit</title>
+        <title>GUI</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="css/jsoneditor.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
-        <script type="text/javascript" src="app/frontend/avalon.js"></script><!--
-        <script type="text/javascript" src="js/avalon.draggable.js"></script>
-        <script type="text/javascript" src="js/avalon.resizable.js"></script>
-        <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
-        <script type="text/javascript" src="js/jsoneditor.js"></script>
-        <script type="text/javascript" src="js/jsl.format.js"></script> -->
+        <script type="text/javascript" src="app/frontend/avalon.js"></script>
+        <script src="http://127.0.0.1:3000/target/target-script-min.js#anonymous"></script>
         <script type="text/javascript">
+            var _define = define,
+                _require = require
             avalon.config({loader: false})
+            window.onerror = function(e) {
+                // var logger = window.$eventManager && $eventManager.$fire && 0 || alert && ,
+                //     msg = [].join.call(arguments, ",")
+                // logger == alert ? logger(msg) : logger({msg: msg})
+                console.log([].join.call(arguments, ","))
+            }
         </script>
-        <!-- <script type="text/javascript" src="js/main.js"></script> -->
-        <!-- <script type="text/javascript" src="main.kill.js"></script> -->
+        <script type="text/javascript" src="app/frontend/jquery-1.7.2.js"></script>
+        <script type="text/javascript" src="app/frontend/jsoneditor.js"></script>
+        <script type="text/javascript" src="app/frontend/jsl.format.js"></script>
     </head>
-    <body>
-        <div id="ct" ms-skip="" style="position: absolute; left: 10px; right: 10px; top: 10px; bottom: 10px;" ms-controller="fekit">
-            <div class="well" style="float: left; width: 160px; padding: 8px;">
-                <ul class="nav nav-list">
-                    <li class="nav-header">Favorites</li>
-                    <li ms-class="active:page=='home'" ms-click="view($event, 'home')"><a href="#"><i class="icon-home" ms-class="icon-white:page=='home'"></i> 我的电脑</a></li>
-                    <!-- <li><a href="#" ms-click="$destroyFunc"><i class="icon-refresh"></i> Reload</a></li> -->
-                </ul>
-            </div>
-            <div id="view" style="float: left; position: absolute; left: 210px; right: 0; top: 0; bottom: 50px;">
-                <div class="row">
-                    <ul id="addressbar" class="breadcrumb" ms-each-item="paths">
-                        <li ms-if="!$last" ms-data-path="item.path">
-                            <a href="#">{{item.name}}</a><span class="divider">/</span>
-                        </li>
-                        <li ms-if="$last" ms-data-path="item.path" class="active">
-                            <a href="#">{{item.name}}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="row" style="background: #FFF; -webkit-border-radius: 2px; margin: -5px 1px 0 -19px;    height: 100%; overflow: auto">
-                    <!--fekit cmd-->
-                    <div class="btn-group" ms-visible="page=='explore'&&isFekitModules">
-                        <button
-                        ms-attr-title="item.title"
-                        ms-data-cmd="item.cmd"
-                        ms-click="cmd($event,item.cmd)"
-                        ms-repeat-item="commands" class="btn">fekit {{item.text}}</button>
-                        <button title="帮助" ms-click="cmd($event, '')" class="btn">帮    助</button>
-                    </div>
-                    <!--file list-->
-                    <ul ms-visible="page=='explore'" style="margin: 5px;" id="files">
-                        <li class="file" ms-data-path="file.path" ms-repeat-file="files" ms-class="config:file.name=='fekit.config'">
-                            <div class="icon">
-                                <img src="about:blank" ms-attr-src="'icons/'+file._type+'.png'">
-                            </div>
-                            <div class="name" style="text-align:center;">{{file.name}}</div>
-                        </li>
-                    </ul>
-                    <!--disk list-->
-                    <ul ms-visible="page=='home'" style="margin: 5px;" id="diskes">
-                        <li class="file" ms-data-path="disk" ms-repeat-disk="diskes" ms-dblclick="navigate($event)">
-                            <div class="icon">
-                                <img src="about:blank" ms-attr-src="'icons/disk.png'">
-                            </div>
-                            <div class="name" style="text-align:center;">{{disk}}</div>
-                        </li>
-                    </ul>
-                    <!--json edit menu-->
-                    <div class="btn-group" ms-visible="page=='edit'">
-                        <button class="btn btn-warning"
-                        ms-class="disabled:saving"
-                        ms-click="save($event)">save change</button>
-                        <button class="btn btn-warning"
-                        ms-class="disabled:saving"
-                        ms-click="save($event, 'exitAfterSave')">save & exit</button>
-                        <button class="btn btn-warning"
-                        ms-class="disabled:saving"
-                        ms-click="save($event, 'exit')">abort changes</button>
-                    </div>
-                    <div ms-visible="page=='edit'" id="jsoneditor"></div>
-                </div>
-            </div>
+    <body 
+          ms-controller="tool"
+          ms-widget="loading, loading" data-loading-type="img" data-loading-src="images/loading_camel.gif">
+        <div id="ct" 
+            ms-skip="">
+            <div class="well" ms-view="menu"></div>
+            <div id="view" ms-view=""></div>
+                
+            <button class="btn clear-log" 
+                ms-click="clear($event)">clear</button>
+            
             <div id="log" ms-resizable data-resizable-handles="n"></div>
-            <button class="btn clear-log" ms-click="clear($event)">clear</button>
             <script type="text/javascript" >
-                    // editor.init()
-                    // backgroundInit()
+                _require(["loading/avalon.loading"], function() {
+                    avalon.scan(document.body)
+                })
+                _require(["app"], function() {
+                    document.getElementById("ct").removeAttribute("ms-skip")
+                    avalon.scan()
+                })
             </script>
         </div>
     </body>

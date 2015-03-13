@@ -1,7 +1,8 @@
 <div 
      ms-controller="computer">
 	<div class="row" ms-view="url"></div>
-	<div class="row">
-		<div ms-view="list"></div>
+	<div class="row" 
+	     ms-keydown="forKey($event)">
+		<div ms-view="list" class="list"></div>
 	</div>
 </div>
