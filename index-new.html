@@ -32,10 +32,16 @@
             <div class="well" ms-view="menu"></div>
             <div id="view" ms-view=""></div>
                 
-            <button class="btn clear-log" 
+            <button class="btn clear-log" title="clear log"
                 ms-click="clear($event)">clear</button>
-            
-            <div id="log" ms-resizable data-resizable-handles="n"></div>
+            <button class="btn clear-log run-command" 
+                ms-click="excute($event)">run</button>
+            <div class="log-par" 
+                ms-resizable data-resizable-handles="n">
+                <textarea name="command" id="command" cols="30"></textarea>
+                <div id="log">
+                </div>
+            </div>
             <script type="text/javascript" >
                 _require(["loading/avalon.loading"], function() {
                     avalon.scan(document.body)

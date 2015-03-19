@@ -53,7 +53,7 @@ body {
 [ms-controller] {
     display: none
 }
-#log {
+.log-par {
     position: fixed;
     right: 0;
     bottom: 0px;
@@ -64,28 +64,44 @@ body {
     width: 100%;
     display: block;
     overflow: auto;
-    width: 100%;
+    overflow-x:hidden; 
 }
-#log p {
+.log-par p {
     padding: 2px 10px;
     margin: 0 0 0 10px;
     line-height: 20px;
     font-size: 14px;
+    width: 100%;
 }
-#log .error {
+.log-par .error {
     color: red;
 }
-#log .log {
+.log-par .log {
     color: #1A8DFF;
 }
-#log .success {
+.log-par .success {
     color: green;
+}
+.log-par #command {
+    position: fixed;
+    width: auto;
+    min-width: 400px;
+    right: 0;
+    bottom: 24px;
+}
+#log {
+    min-height: 100px;
+    width: auto;
 }
 .clear-log {
     position: fixed;
     right: 20px;
+    width: 50px;
     bottom: 4px;
     z-index: 200;
+}
+.run-command {
+    right: 80px;
 }
 #ct {
     position: absolute;

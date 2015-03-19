@@ -39,7 +39,8 @@ _define(["mmRouter/-mmState-new",
 		onChange: function() {
 			if(diskes) return
 			// load diskes
-			$eventManager.$fire("getDisk", {
+			$eventManager.$fire("cmd", {
+				runner: "getDisk",
 				callback: function(result) {
 					if(!result.status) {
 						avalon.vmodels.computer.diskes = diskes = dataFilter.getDiskes(result.msg.join(""))
@@ -139,6 +140,29 @@ _define(["mmRouter/-mmState-new",
 			avalon.router.errorback = function() {
 				avalon.router.redirect("computer")
 			}
+			// load info
+			var checklist = ["node"]
+			function check() {
+				var cmd = checklist.pop()
+				if(!cmd) return
+				$eventManager.$fire("cmd", {
+					runner: cmd,
+					cmd: ["-v"],
+					callback: function(result) {
+						if(!result.status) {
+							var i = 0, msg = result.msg, len = msg.length
+							for(; i < len; i++) {
+								if(msg[i].match(/[0-9\.]+/g)) {
+									avalon.vmodels.tool.infos.push(cmd + "版本：" + msg[i].trim())
+									break
+								}
+							}
+						}
+						check()
+					}
+				})
+			}
+			check()
 		}
 	}
 })

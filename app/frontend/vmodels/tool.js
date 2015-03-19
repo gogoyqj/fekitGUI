@@ -3,10 +3,23 @@ _define([], function() {
 	var vmodel = avalon.define("tool", function(vm) {
 		vm.page = ""
 		vm.log = []
+		vm.infos = []
 
 		
 		vm.clear = function() {
-			document.getElementById("log").innerHTML = ""
+			$("#log p").remove()
+		}
+
+		vm.excute = function() {
+			var code = $("#command").val()
+			$eventManager.$fire("log", {
+				msg: "excute " + code + " from command line"
+			})
+			try {
+				eval(code)
+			} catch(e) {
+				alert(e)
+			}
 		}
 	})
 
