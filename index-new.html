@@ -31,6 +31,16 @@
             ms-skip="">
             <div class="well" ms-view="menu"></div>
             <div id="view" ms-view=""></div>
+            <div class="all-ui-tree" 
+                 ms-visible="page=='computer'">
+                 <select name="projecttype" id="projecttype" 
+                         ms-duplex="projecttype">
+                     <option ms-value="p.name" 
+                             ms-repeat-p="projecttypes">{{p.title}}</option>
+                 </select>
+                 <div 
+                      ms-widget="tree,$,$tree"></div>
+            </div>
                 
             <button class="btn clear-log" title="clear log"
                 ms-click="clear($event)">clear</button>

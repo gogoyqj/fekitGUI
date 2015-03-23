@@ -23,6 +23,13 @@ _define(["routes",
 		ec.$watch("data", function(data) {
 
 		})
+		ec.$watch("loadData", function(arg) {
+			var type = arg.type
+			// load 
+			if(type == "module") {
+
+			}
+		})
 		background && background.init()
 		routes.init()
 })

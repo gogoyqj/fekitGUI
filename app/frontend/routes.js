@@ -1,5 +1,7 @@
 _define(["mmRouter/-mmState-new", 
 	"vmodels/tool", 
+	"tree/avalon.tree.check",
+	"tree/avalon.tree.async",
 	"vmodels/computer", "storage"], function() {
 	function viewPath(name) {
 		return "app/frontend/views/" + name
@@ -111,6 +113,7 @@ _define(["mmRouter/-mmState-new",
 		},
 		onLoad: function(fromState, toState) {
 			var name = toState.stateName
+			avalon.vmodels.loading.toggle = false
 			// 交互
 			if(name.indexOf("computer") == 0) {
 				if(name == "computer") avalon.vmodels.computer.set("paths")
@@ -120,7 +123,6 @@ _define(["mmRouter/-mmState-new",
 				avalon.vmodels.tool.page = name
 				element = null
 			}
-			avalon.vmodels.loading.toggle = false
 		}
 	})
 	return {

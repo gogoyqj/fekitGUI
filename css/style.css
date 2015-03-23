@@ -2,11 +2,11 @@
     -webkit-user-select: none;
 }
 html {
-    min-height:100%;
+    min-height: 100%;
 }
 body {
     background-image: url('../images/htmlbg.png');
-    min-height:100%;
+    min-height: 100%;
 }
 .files {
     padding: 0;
@@ -64,7 +64,7 @@ body {
     width: 100%;
     display: block;
     overflow: auto;
-    overflow-x:hidden; 
+    overflow-x: hidden;
 }
 .log-par p {
     padding: 2px 10px;
@@ -144,4 +144,14 @@ body {
 }
 #projects li {
     list-style: none;
+}
+/*tree csss*/
+.all-ui-tree {
+    width: 220px;
+    background: #fff;
+    position: fixed;
+    z-index: 100;
+    right: 10px;
+    top: 39px;
+    border: 1px solid #ddd;
 }
