@@ -147,11 +147,28 @@ body {
 }
 /*tree csss*/
 .all-ui-tree {
-    width: 220px;
+    width: 320px;
     background: #fff;
     position: fixed;
     z-index: 100;
     right: 10px;
     top: 39px;
+    bottom: 120px;
+    overflow-y: scroll; 
     border: 1px solid #ddd;
+}
+.item label {
+    cursor: pointer;
+    display: inline;
+}
+.item select {
+    width: 80px;
+}
+.all-ui-tree .list {
+    float: left;
+    width: 140px;
+    min-height: 104px;
+}
+.all-ui-tree .menu {
+    margin-left: 144px;
 }

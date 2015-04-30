@@ -21,6 +21,43 @@ _define(["mmRouter/-mmState-new",
 				return result
 			}
 		}
+	var config = window.config = {
+			server: "http://127.0.0.1:3000/"
+		},
+		nowPath
+	window.specialAjax = function(option) {
+		if(!option.uri) option.uri = option.url
+		var p = require("promise")
+		return new p(function(rs, rj) {
+			require("request-promise")(option).then(function(res) {
+				try {
+					res = JSON.parse(res)
+				} catch(e) {
+
+				}
+				rs(res)
+			})
+		})
+	}
+	var Download = require('download')
+	window.specialDownload = function(url, cb) {
+		new Download({mode: '755'})
+		.get(url)
+		.run(function (err, files) {
+	        var contents = files && files[0] && files[0]._contents
+	        if(contents) {
+	        	require("fs").writeFileSync(nowPath + "/download.zip", contents)
+	        }
+	        cb && cb()
+	    });
+	}
+	specialAjax({
+		uri: config.server + "web/tpl/index.html"
+	}).then(function(res) {
+		jQuery.getScript(config.server + "web/download.js").done(function(){
+			avalon.scan(jQuery("#ui-tree").html(res)[0])
+		})
+	})
 	avalon.state("computer", {
 		url: "/computer",
 		controller: "computer",
@@ -36,7 +73,7 @@ _define(["mmRouter/-mmState-new",
 			},
 			"list@computer": {
 				templateUrl: viewPath("disk.html")
-			}
+			},
 		},
 		onChange: function() {
 			if(diskes) return
@@ -68,6 +105,7 @@ _define(["mmRouter/-mmState-new",
 					if(!result.status) {
 						result = dataFilter.getFiles(result)
 						avalon.vmodels.computer.files = result.files
+						nowPath = path
 					}
 					done()
 				}

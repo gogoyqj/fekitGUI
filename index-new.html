@@ -8,7 +8,6 @@
         <link href="css/jsoneditor.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <script type="text/javascript" src="app/frontend/avalon.js"></script>
-        <script src="http://127.0.0.1:3000/target/target-script-min.js#anonymous"></script>
         <script type="text/javascript">
             var _define = define,
                 _require = require
@@ -32,14 +31,7 @@
             <div class="well" ms-view="menu"></div>
             <div id="view" ms-view=""></div>
             <div class="all-ui-tree" 
-                 ms-visible="page=='computer'">
-                 <select name="projecttype" id="projecttype" 
-                         ms-duplex="projecttype">
-                     <option ms-value="p.name" 
-                             ms-repeat-p="projecttypes">{{p.title}}</option>
-                 </select>
-                 <div 
-                      ms-widget="tree,$,$tree"></div>
+                 ms-visible="page=='computer'" id="ui-tree">
             </div>
                 
             <button class="btn clear-log" title="clear log"
